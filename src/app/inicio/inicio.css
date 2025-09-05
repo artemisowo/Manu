@@ -1,24 +1,101 @@
-.features {
+header {
+  padding: 100px;
+  color: #ffffff;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.header-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.header-text {
+  font-size: 55px;
+  color: white;
+  position: relative;
+  text-align: center;
+
+
+}
+
+main {
+  background-color: #1b1f2b;
+  padding: 20px;
+  color: white;
+  text-align: center;
+  height: 100vh;
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-bottom: 2rem;
+  flex-direction: column;
+  align-items: center;
 }
 
-.feature-card {
-  background-color: #f9f9f9;
-  padding: 1.5rem;
-  border-radius: 8px;
-  width: 250px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+nav {
+
+  text-align: right;
+  
+  a {
+      padding: 10px;
+      color: #ffffff;
+      text-decoration: none;
+      transition: color 0.5s ease;
+      &:hover {
+          color: #1b1f2b;
+      }
+  }
 }
 
-.feature-card h3 {
-  margin-bottom: 0.5rem;
-  color: #4CAF50;
+footer{
+  background-color: #1b1f2b;
+  
 }
 
-.feature-card p {
-  font-size: 0.95rem;
+.parrafito {
+  width: 30%;
+  font-size: 25px;
+}
+
+.manuelito {
+  font-size: 50px;
+}
+
+.bloqueingreso {
+  background-color: #6da67a;
+  padding: 10px;
+  font-size: 50px;
+  transition: color 0.5s ease;
+  &:hover {
+      background-color: #497253;      
+  }
+  a {
+      color: #ffffff;
+      text-decoration: none;
+      transition: color 0.5s ease;
+      &:hover{
+          color: #1b1f2b;
+          
+      }
+  }
+}
+
+.negrita {
+  font-weight: bold;
+}
+
+.marcoblanco {
+  border: solid 1px #ffffff;
+  padding: 20px;
+  margin-bottom: 10px;
+}
+
+.huella{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
