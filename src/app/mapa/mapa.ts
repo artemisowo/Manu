@@ -15,6 +15,7 @@ export class Mapa implements OnInit {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((pos) => {
         this.userLocation = [pos.coords.longitude, pos.coords.latitude];
+        this.zoom = 14;
       });
     }
   }
