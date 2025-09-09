@@ -7,9 +7,18 @@
     </header>
     
     <main class="cuerpo">
-        
-        <div class="boton">
-            <span class="btn-menu-botones">+</span>
+        <mgl-map
+            [style]="'https://demotiles.maplibre.org/style.json'"
+            [zoom]="[zoom]"
+            [center]="userLocation"
+            >
+            <mgl-marker [lngLat]="userLocation">
+                <div class="user-marker"></div>
+            </mgl-marker>
+        </mgl-map>
+
+        <div class="btn-menu-botones">
+            <span class="boton">+</span>
         </div>
     </main>
 </div>
