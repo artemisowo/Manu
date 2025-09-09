@@ -12,7 +12,10 @@
 .titulo {
     color: #fff;
     font-size: 3em;
-    
+}
+
+.borde {
+    border-bottom: 2px solid white;
 }
 
 .bloque-registro {
@@ -32,7 +35,7 @@
     }
     label {
         margin: 1em;
-        font-size: 1.4em;
+        font-size: 1.3em;
         font-weight: bold;
     }
 }
@@ -41,12 +44,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    
     background-color: #6da67a;
     color: #fff;
     margin-top: 30px;
     padding: 20px;
-    font-size: 2em;
+    font-size: 1.8em;
     transition: all 0.3s ease;
     border-radius: 10px;
     cursor: pointer;
