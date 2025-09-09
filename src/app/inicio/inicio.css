@@ -33,6 +33,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 10em;
 }
 
 nav {
@@ -52,12 +53,17 @@ nav {
 
 footer{
   background-color: #1b1f2b;
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5em;
 }
 
 .parrafito {
+  background-color: #1b1f2b;
   width: 30%;
   font-size: 25px;
+  padding: 10px;
 }
 
 .manuelito {
@@ -67,9 +73,11 @@ footer{
 
 .bloqueingreso {
   background-color: #6da67a;
-  padding: 10px;
-  font-size: 50px;
+  margin: 10px;
+  padding: 40px;
+  font-size: 35px;
   transition: color 0.5s ease;
+  border-radius: 10px;
   &:hover {
       background-color: #497253;      
   }
@@ -91,11 +99,9 @@ footer{
 .marcoblanco {
   border: solid 1px #ffffff;
   padding: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 40px;
 }
 
-.huella{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.fondo {
+  background-color: #1b1f2b;
 }
