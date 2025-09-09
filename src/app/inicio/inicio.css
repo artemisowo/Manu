@@ -4,6 +4,7 @@ header {
   text-align: center;
   position: relative;
   overflow: hidden;
+  height: 230px;
 }
 
 .header-img {
