@@ -4,6 +4,7 @@ import { Contacto } from './contacto/contacto';
 import { Nosotros } from './nosotros/nosotros';
 import { Mapa } from './mapa/mapa';
 import { Registro } from './registro/registro';
+import { IniciarSesion } from './iniciar-sesion/iniciar-sesion';
 
 export const routes: Routes = [
     { path: '', component: Inicio },
@@ -12,6 +13,7 @@ export const routes: Routes = [
     { path: 'nosotros', component:Nosotros},
     { path: 'mapa', component: Mapa},
     { path: 'registro', component: Registro},
+    { path: 'iniciarsesion', component: IniciarSesion},
     //el resto de rutas añadir acá
 
 
