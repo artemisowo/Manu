@@ -15,10 +15,12 @@
             <span class="boton">+</span>
         </div>
 
-        <ng-container *ngFor="let icono of iconos">
+        <ng-container *ngFor="let icono of iconos; let i = index">
             <app-icono
                 class="icono"
-                [ngStyle]="{ top: icono.y + 'px', left: icono.x + 'px' }"
+                [ngStyle]="{ top: ((icono.y ?? 0) - 50) + 'px', left: ((icono.x ?? 0) - 25) + 'px' }"
+                [menuVisible]="menuOpenIndex === i"
+                (menuToggle)="menuOpenIndex = menuOpenIndex === i ? null : i"
             ></app-icono>
         </ng-container>
         

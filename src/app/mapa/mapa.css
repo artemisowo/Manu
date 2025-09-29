@@ -16,6 +16,7 @@ header {
     justify-content: space-around;
     align-items: center;
     height: 7em;
+    z-index: 999;
     a {
         text-align: center;
         background-color: #1B1F2B;

@@ -19,6 +19,7 @@ export class Mapa implements AfterViewInit {
     if (typeof window !== 'undefined') {
       import('leaflet').then(L => {
         const map = L.map('map').setView([40.4168, -3.7038], 13); // Ej: Madrid
+        this.mapInstance = map;
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '© OpenStreetMap contributors'
         }).addTo(map);
@@ -42,26 +43,46 @@ export class Mapa implements AfterViewInit {
               userMarker.setLatLng([lat, lng]);
             } else {
               userMarker = L.marker([lat, lng], { icon: userIcon }).addTo(map);
-              map.setView([lat, lng], 15);
+              map.setView([lat, lng], 30);
             }
+            // Añadir ícono en la posición del usuario
+            const point = map.latLngToContainerPoint([lat, lng]);
+            this.iconos = [{ lat, lng, x: point.x, y: point.y }];
           });
         }
+
+        map.on('move zoom', () => {
+          this.updateIconPositions();
+        });
       });
     }
   }
 
-  iconos: { x: number; y: number }[] = [];
+  iconos: { lat: number; lng: number; x?: number; y?: number }[] = [];
+  menuOpenIndex: number | null = null;
   userLat: number | null = null;
   userLng: number | null = null;
+  mapInstance: any = null;
 
+  // Función para agregar ícono
   agregarIcono() {
-    // Agregar icono en la ubicación actual del usuario
     if (this.userLat !== null && this.userLng !== null) {
-      this.iconos.push({ x: this.userLat, y: this.userLng });
-      console.log('Icono agregado en ubicación:', this.userLat, this.userLng);
+      // Agregar ícono en ubicación actual del usuario
+      this.iconos.push({ lat: this.userLat, lng: this.userLng });
+      this.updateIconPositions();
+      console.log('Icono agregado en lat/lng:', this.userLat, this.userLng);
     } else {
       console.warn('Ubicación del usuario no disponible');
     }
+  }
+  // Función para actualizar posiciones de íconos
+  updateIconPositions() {
+    if (!this.mapInstance) return;
+    this.iconos.forEach(icono => {
+      const point = this.mapInstance.latLngToContainerPoint([icono.lat, icono.lng]);
+      icono.x = point.x;
+      icono.y = point.y;
+    });
   }
 
 }
