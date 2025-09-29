@@ -22,20 +22,28 @@ export class Mapa implements AfterViewInit {
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '© OpenStreetMap contributors'
         }).addTo(map);
-        
-          // Obtener la ubicación del usuario
+
+        //ícono marcador de la ubicación del usuario personalizado
+        let userMarker: any = null;
+        const userIcon = L.icon({
+          iconUrl: 'https://i.ibb.co/N2LVThnZ/ezgif-5b8fbf84131954.gif',
+          iconSize: [200, 200],
+          iconAnchor: [100, 100]
+        });
+
+        // Obtener la ubicación del usuario y actualizar el marcador en tiempo real
         if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition((position) => {
+          navigator.geolocation.watchPosition((position) => {
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
-            // marcador con icono personalizado
-            const userIcon = L.icon({
-              iconUrl: 'https://i.ibb.co/ds5ZDWbB/Icono.png',
-              iconSize: [50, 50],
-              iconAnchor: [25, 50]
-            });
-            L.marker([lat, lng], { icon: userIcon }).addTo(map);
-            map.setView([lat, lng], 15);
+            this.userLat = lat;
+            this.userLng = lng;
+            if (userMarker) {
+              userMarker.setLatLng([lat, lng]);
+            } else {
+              userMarker = L.marker([lat, lng], { icon: userIcon }).addTo(map);
+              map.setView([lat, lng], 15);
+            }
           });
         }
       });
@@ -43,16 +51,17 @@ export class Mapa implements AfterViewInit {
   }
 
   iconos: { x: number; y: number }[] = [];
+  userLat: number | null = null;
+  userLng: number | null = null;
 
   agregarIcono() {
-    const contenedor = this.mapaContenedor.nativeElement;
-    const iconoSize = 50; // tamaño aproximado del icono
-    const maxX = contenedor.clientWidth - iconoSize;
-    const maxY = contenedor.clientHeight - iconoSize;
-    const x = Math.floor(Math.random() * maxX);
-    const y = Math.floor(Math.random() * maxY);
-    this.iconos.push({ x, y });
-    console.log('Iconos actuales:', this.iconos);
+    // Agregar icono en la ubicación actual del usuario
+    if (this.userLat !== null && this.userLng !== null) {
+      this.iconos.push({ x: this.userLat, y: this.userLng });
+      console.log('Icono agregado en ubicación:', this.userLat, this.userLng);
+    } else {
+      console.warn('Ubicación del usuario no disponible');
+    }
   }
 
 }
