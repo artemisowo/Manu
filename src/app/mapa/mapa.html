@@ -6,19 +6,21 @@
         </div>
     </header>
     
-    <main class="cuerpo">
-        <div class="btn-menu-botones">
+    <main class="cuerpo" #mapaContenedor>
+        <!-- Contenedor del mapa -->
+        <div id="map" style="height: 400px;"></div>
+
+        <!-- Botón para agregar iconos -->
+        <div class="btn-menu-botones" (click)="agregarIcono()">
             <span class="boton">+</span>
         </div>
-        <mgl-map
-            [style]="'https://demotiles.maplibre.org/style.json'"
-            [zoom]="[zoom]"
-            [center]="userLocation"
-            >
-            <mgl-marker [lngLat]="userLocation">
-                <div class="user-marker"></div>
-            </mgl-marker>
-        </mgl-map>
+
+        <ng-container *ngFor="let icono of iconos">
+            <app-icono
+                class="icono"
+                [ngStyle]="{ top: icono.y + 'px', left: icono.x + 'px' }"
+            ></app-icono>
+        </ng-container>
         
     </main>
 </div>
