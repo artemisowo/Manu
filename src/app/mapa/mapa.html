@@ -8,10 +8,11 @@
     
     <main class="cuerpo" #mapaContenedor>
         <!-- Contenedor del mapa -->
-        <div id="map" style="height: 400px;"></div>
+        <div id="map"></div>
 
         <!-- Botón para agregar iconos -->
-        <div class="btn-menu-botones" (click)="agregarIcono()">
+    <input type="file" #fileInput style="display:none" (change)="alSeleccionarArchivo($event)" />
+        <div class="btn-menu-botones" (click)="abrirExploradorArchivos(fileInput)">
             <span class="boton">+</span>
         </div>
 
@@ -20,6 +21,7 @@
                 class="icono"
                 [ngStyle]="{ top: ((icono.y ?? 0) - 50) + 'px', left: ((icono.x ?? 0) - 25) + 'px' }"
                 [menuVisible]="menuOpenIndex === i"
+                [imgUrl]="icono.imgUrl"
                 (menuToggle)="menuOpenIndex = menuOpenIndex === i ? null : i"
             ></app-icono>
         </ng-container>

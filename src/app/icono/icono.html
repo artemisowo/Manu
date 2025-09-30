@@ -2,5 +2,6 @@
     <img src="https://i.ibb.co/ds5ZDWbB/Icono.png" alt="Icono de animal">
     <div *ngIf="menuVisible" class="icono-menu">
       <h2 class="titulo-menu">Información de: <span class="nombre-animal" id="nombre-animal">Manuelito</span></h2>
+      <img *ngIf="imgUrl" [src]="imgUrl" alt="">
     </div>
 </div>
