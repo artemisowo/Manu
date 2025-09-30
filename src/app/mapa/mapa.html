@@ -22,9 +22,12 @@
                 [ngStyle]="{ top: ((icono.y ?? 0) - 50) + 'px', left: ((icono.x ?? 0) - 25) + 'px' }"
                 [menuVisible]="menuOpenIndex === i"
                 [imgUrl]="icono.imgUrl"
+                [datosAnimal]="icono.datosAnimal"
                 (menuToggle)="menuOpenIndex = menuOpenIndex === i ? null : i"
             ></app-icono>
         </ng-container>
+
+        <app-popup *ngIf="mostrarPopup" [imagenUrl]="imagenTemporal" (cerrar)="onCerrarPopup()" (ingresar)="onIngresarPopup($event)"></app-popup>
         
     </main>
 </div>

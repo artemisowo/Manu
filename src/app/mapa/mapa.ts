@@ -1,6 +1,7 @@
 
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Icono } from '../icono/icono';
+import { Popup } from '../popup/popup';
 import { CommonModule } from '@angular/common';
 
 // Datos de cada icono en el mapa
@@ -10,11 +11,12 @@ interface IconoData {
   x?: number;
   y?: number;
   imgUrl?: string;
+  datosAnimal?: any;
 }
 
 @Component({
   selector: 'app-mapa',
-  imports: [Icono, CommonModule],
+  imports: [Icono, Popup, CommonModule],
   templateUrl: './mapa.html',
   styleUrl: './mapa.css'
 })
@@ -27,6 +29,9 @@ export class Mapa implements AfterViewInit {
   private userLat: number | null = null;
   private userLng: number | null = null;
   private mapInstance: any = null;
+
+  mostrarPopup: boolean = false;
+  imagenTemporal: string | null = null;
 
   // Inicialización del mapa después de que la página se haya cargado
   ngAfterViewInit() {
@@ -79,18 +84,33 @@ export class Mapa implements AfterViewInit {
     if (input.files?.[0] && this.userLat !== null && this.userLng !== null) {
       const lector = new FileReader();
       lector.onload = (e: any) => {
-        const punto = this.mapInstance?.latLngToContainerPoint([this.userLat!, this.userLng!]);
-        this.iconos.push({
-          lat: this.userLat!,
-          lng: this.userLng!,
-          x: punto?.x,
-          y: punto?.y,
-          imgUrl: e.target.result
-        });
-        this.actualizarPosicionesIconos();
+        this.imagenTemporal = e.target.result;
+        this.mostrarPopup = true;
       };
       lector.readAsDataURL(input.files[0]);
     }
+  }
+
+  onCerrarPopup() {
+    this.mostrarPopup = false;
+    this.imagenTemporal = null;
+  }
+
+  onIngresarPopup(datos: any) {
+    if (this.userLat !== null && this.userLng !== null && this.imagenTemporal) {
+      const punto = this.mapInstance?.latLngToContainerPoint([this.userLat, this.userLng]);
+      this.iconos.push({
+        lat: this.userLat,
+        lng: this.userLng,
+        x: punto?.x,
+        y: punto?.y,
+        imgUrl: this.imagenTemporal,
+        datosAnimal: datos
+      });
+      this.actualizarPosicionesIconos();
+    }
+    this.mostrarPopup = false;
+    this.imagenTemporal = null;
   }
   // Actualizar posiciones de los iconos en el mapa
   private actualizarPosicionesIconos() {

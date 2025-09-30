@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 export class Icono {
   @Input() menuVisible = false;
   @Input() imgUrl?: string;
+  @Input() datosAnimal?: any;
   @Output() menuToggle = new EventEmitter<void>();
 
   onIconClick() {

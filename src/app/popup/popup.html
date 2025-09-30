@@ -1,0 +1,54 @@
+<div class="fondo">
+    <div class="borde">
+        <h1 class="titulo">Ingresa un nuevo animal</h1>
+    </div>
+    <div class="letra-chica">
+        <p>Esta información ayuda a las Fundaciones de Rescate animal
+            a conocer al animal antes de rescatarlo.
+        </p>
+        <p>* Puedes dejar campos vacíos en caso de desconocerlos</p>
+    </div>
+    <div class="imagen">
+        <img *ngIf="imagenUrl" [src]="imagenUrl" alt="Imagen seleccionada" style="max-width:200px;max-height:200px;" />
+    </div>
+    <div class="bloque-registro">
+        <form class="formulario" (submit)="onIngresar($event)">
+            <label for="name">Nombre del animal:</label>
+            <input type="text" placeholder="Desconocido" id="name" name="name" maxlength="30" minlength="2">
+
+            <label for="edad">Edad aproximada:</label>
+            <input type="number" name="edad" id="edad" placeholder="???">
+            
+            <label for="personalidad">Personalidad:</label>
+            <select name="personalidad" id="personalidad">
+                <option value="nulo" selected>Se desconoce</option>
+                <option value="docil">Dócil / Amable</option>
+                <option value="agresivo">Agresivo</option>
+                <option value="temeroso">Temeroso / Con miedo</option>
+            </select>
+
+
+            <label for="estado">Estado de salud:</label>
+            <select name="estado" id="estado" [(ngModel)]="estadoSeleccionado">
+                <option value="nulo" selected>Se desconoce</option>
+                <option value="saludable">Saludable</option>
+                <option value="enfermo">Signos de Enfermedades/Lesiones</option>
+            </select>
+
+            <div *ngIf="estadoSeleccionado === 'enfermo'">
+                <label for="lesiones">Presenta:</label>
+                <input type="checkbox" name="lesiones" id="" value="heridas">Heridas visibles
+                <input type="checkbox" name="lesiones" id="" value="cojera">Cojera
+                <input type="checkbox" name="lesiones" id="" value="desnutricion">Desnutrición
+                <input type="checkbox" name="lesiones" id="" value="paralisis">Parálisis
+                <input type="checkbox" name="lesiones" id="" value="vomitos">Vómitos
+                <input type="checkbox" name="lesiones" id="" value="parasitos">Parasitos (garrapatas, pulgas, etc)
+            </div>
+
+            <div class="botones">
+                <button type="submit" class="btn">Ingresar</button>
+                <button type="button" (click)="onCerrar()">Cerrar</button>
+            </div>
+        </form>
+    </div>
+</div>
