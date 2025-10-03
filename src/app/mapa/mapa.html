@@ -11,7 +11,7 @@
         <div id="map"></div>
 
         <!-- Botón para agregar iconos -->
-    <input type="file" #fileInput style="display:none" (change)="alSeleccionarArchivo($event)" />
+    <input type="file" accept=".jpeg,.jpg,.png" #fileInput style="display:none" (change)="alSeleccionarArchivo($event)" />
         <div class="btn-menu-botones" (click)="abrirExploradorArchivos(fileInput)">
             <span class="boton">+</span>
         </div>

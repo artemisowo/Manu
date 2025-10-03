@@ -33,3 +33,11 @@
     color: #70d487;
     font-weight: bold;
 }
+
+.imagen-animal {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 1em;
+}

@@ -2,11 +2,11 @@
     <img src="https://i.ibb.co/ds5ZDWbB/Icono.png" alt="Icono de animal">
     <div *ngIf="menuVisible" class="icono-menu">
       <h2 class="titulo-menu">Información de: <span class="nombre-animal" id="nombre-animal">{{ datosAnimal?.name || 'Desconocido' }}</span></h2>
-      <img *ngIf="imgUrl" [src]="imgUrl" alt="">
+      <img *ngIf="imgUrl" [src]="imgUrl" alt="" class="imagen-animal">
       <div *ngIf="datosAnimal">
-        <p><b>Edad:</b> {{ datosAnimal.edad || 'Desconocida' }}</p>
-        <p><b>Personalidad:</b> {{ datosAnimal.personalidad || 'Se desconoce' }}</p>
-        <p><b>Estado de salud:</b> {{ datosAnimal.estado || 'Se desconoce' }}</p>
+        <p><b>Edad:</b> {{ datosAnimal.edad || 'Desconocido' }}</p>
+        <p><b>Personalidad:</b> {{ datosAnimal.personalidad || 'Desconocido' }}</p>
+        <p><b>Estado de salud:</b> {{ datosAnimal.estado || 'Desconocido' }}</p>
         <p *ngIf="datosAnimal.lesiones"><b>Lesiones:</b> <span *ngIf="datosAnimal.lesiones instanceof Array; else single">{{ datosAnimal.lesiones.join(', ') }}</span><ng-template #single>{{ datosAnimal.lesiones }}</ng-template></p>
       </div>
     </div>
