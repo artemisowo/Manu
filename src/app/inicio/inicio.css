@@ -36,6 +36,13 @@ header {
       align-items: center;
     }
   }
+
+  @media screen and (max-width: 460px){
+    & {
+        font-size: smaller;
+        padding-bottom: 0;
+    }
+  }
 }
 
 .header-text {
@@ -67,14 +74,21 @@ main {
   padding: clamp(1em, 2vw, 1.25em);
   margin-bottom: clamp(1.8em, 2vw, 2.5em);
   max-width: 300px;
+  max-height: 300px;
+  img {
+      width: 100%;
+      height: 100%;
+    }
   @media screen and (max-width: 768px){
     & {
         width: 65%;
-        height: 65%;
+        height: fit-content;
     }
-    img {
-      width: 100%;
-      height: 100%;
+  }
+  @media screen and (max-width: 460px){
+    & {
+        width: 50%;
+        height: fit-content;
     }
   }
 }
@@ -88,10 +102,10 @@ main {
 .bloqueingreso {
   background-color: #6da67a;
   margin: 10px;
-  padding: 1.3em clamp(1.4em, 1vw, 1.4em);
+  padding: 1.3em clamp(1.3em, 4vw, 1.4em);
   width: 16vw;
   max-width: 150px;
-  font-size: clamp(1.3em, 2vw, 2em);
+  font-size: clamp(1em, 2vw, 2em);
   transition: all 0.5s ease;
   border-radius: 10px;
   color: #ffffff;
@@ -107,7 +121,7 @@ main {
   background-color: #1b1f2b;
   max-width: 400px;
   width: 80%;
-  font-size: 25px;
+  font-size: clamp(1.4em, 1vw, 1.56em);
   padding: 10px;
 }
 
