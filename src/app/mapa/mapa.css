@@ -15,25 +15,33 @@ header {
 }
 
 .menu-nav-mapa {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 7em;
-    z-index: 999;
-    a {
-        text-align: center;
-        background-color: #1B1F2B;
-        color: #FFFFFF;
-        text-decoration: none;
-        font-size: 1.4em;
-        display: block;
-        padding: 1em;
-        width: 10em;
-        transition: ease all 0.3s;
-        &:hover {
-            background-color: #292e3d;
-        }
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 7em;
+  z-index: 999;
+  a {
+    text-align: center;
+    background-color: #1B1F2B;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: clamp(1em, 3vw, 1.4em);
+    display: block;
+    padding: 1em;
+    width: 10em;
+    transition: ease all 0.3s;
+    &:hover {
+      background-color: #292e3d;
     }
+  }
+  @media screen and (max-width: 460px){
+    & {
+        font-size: 0.9em;
+    }
+    a {
+      padding: 1em clamp(0em, 0.6vw, 0.6em);
+    }
+  }
 }
 
 .cuerpo {
@@ -59,7 +67,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 8em;
+    font-size: clamp(4em, 25vw, 8em);
     font-weight: bold;
 }
 
@@ -71,8 +79,8 @@ header {
   left: 50%;
   bottom: 20vh;
   transform: translateX(-50%);
-  height: 10em;
-  width: 10em;
+  height: clamp(6em, 30vw, 10em);
+  width: clamp(6em, 30vw, 10em);
   border: none;
   background-color: #6DA67A;
   cursor: pointer;
