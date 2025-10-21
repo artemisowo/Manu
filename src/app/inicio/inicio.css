@@ -1,28 +1,53 @@
 header {
-  padding: 100px;
+  padding: 7em 6.25em 5em 6.25em;
   color: #ffffff;
   text-align: center;
   position: relative;
   overflow: hidden;
   height: 230px;
-}
+  background-image: url('https://i.postimg.cc/BQwbtWsZ/foto-1-Picsart-Ai-Image-Enhancer.png');
+  background-position: center;
+  background-size: cover;
+  nav {
+    text-align: right;
+    font-size: 20px;
+    margin-top: -50px;
+    a {
+        padding: 10px;
+        color: #ffffff;
+        text-decoration: none;
+        transition: color 0.5s ease;
+        &:hover {
+            color: #1b1f2b;
+        }
+    }
+  }
 
-.header-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
+  @media screen and (max-width: 1000px){
+    & {
+      padding-bottom: 2em;
+    }
+  }
+
+  @media screen and (max-width: 768px){
+    & {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
 }
 
 .header-text {
-  font-size: 55px;
+  font-size: clamp(3em, 5vw, 3.44em);
   color: white;
   position: relative;
   text-align: center;
+}
 
+.manuelito {
+  font-size: clamp(2em, 10vw, 2.4em);
+  text-align: center;
 }
 
 main {
@@ -37,19 +62,53 @@ main {
   margin-bottom: 10em;
 }
 
-nav {
-  text-align: right;
-  font-size: 20px;
-  margin-top: -80px;
-  a {
-      padding: 10px;
-      color: #ffffff;
-      text-decoration: none;
-      transition: color 0.5s ease;
-      &:hover {
-          color: #1b1f2b;
-      }
+.marcoblanco {
+  border: solid 1px #ffffff;
+  padding: clamp(1em, 2vw, 1.25em);
+  margin-bottom: clamp(1.8em, 2vw, 2.5em);
+  max-width: 300px;
+  @media screen and (max-width: 768px){
+    & {
+        width: 65%;
+        height: 65%;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
+}
+
+.botones {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bloqueingreso {
+  background-color: #6da67a;
+  margin: 10px;
+  padding: 1.3em clamp(1.4em, 1vw, 1.4em);
+  width: 16vw;
+  max-width: 150px;
+  font-size: clamp(1.3em, 2vw, 2em);
+  transition: all 0.5s ease;
+  border-radius: 10px;
+  color: #ffffff;
+  text-decoration: none;
+  text-align: center;
+  &:hover {
+      background-color: #497253;
+      color: #1b1f2b;      
+  }
+}
+
+.parrafito {
+  background-color: #1b1f2b;
+  max-width: 400px;
+  width: 80%;
+  font-size: 25px;
+  padding: 10px;
 }
 
 footer{
@@ -57,44 +116,11 @@ footer{
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 5em;
-}
-
-.parrafito {
-  background-color: #1b1f2b;
-  width: 30%;
-  font-size: 25px;
-  padding: 10px;
-}
-
-.manuelito {
-  font-size: 50px;
-  margin-top: -60px;
-}
-
-.bloqueingreso {
-  background-color: #6da67a;
-  margin: 10px;
-  padding: 40px;
-  font-size: 35px;
-  transition: all 0.5s ease;
-  border-radius: 10px;
-  color: #ffffff;
-  text-decoration: none;
-  &:hover {
-      background-color: #497253;
-      color: #1b1f2b;      
-  }
+  padding: 3em 0;
 }
 
 .negrita {
   font-weight: bold;
-}
-
-.marcoblanco {
-  border: solid 1px #ffffff;
-  padding: 20px;
-  margin-bottom: 40px;
 }
 
 .fondo {
