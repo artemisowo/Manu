@@ -1,0 +1,38 @@
+<div class="fondo">
+    <div class="borde">
+        <h1 class="titulo">Regístrate</h1>
+    </div>
+    <div class="bloque-registro">
+        <form action="" class="formulario">
+            <label for="email">Correo electrónico:</label>
+            <input type="email" name="email" id="email" placeholder="ejemplo@correo.com">
+
+            <label for="numero">Número: (+56)</label>
+            <input type="text" id="numero" name="numero" maxlength="9" minlength="9" placeholder="9 1234 5678" oninput="this.value = this.value.replace(/\D/g,'')">
+            
+            <label for="user">Nombre de usuario:</label>
+            <input type="text" placeholder="usuario_ejemplo123" id="user" name="user" maxlength="30" minlength="3">
+            
+            <label for="contraseña">Contraseña:</label>
+            <input type="password" id="contraseña" name="contraseña" placeholder="********" minlength="8">
+            
+            <label for="sector">Sector de vivienda:</label>
+            <input list="sectores" id="sector" name="sector">
+            <datalist id="sectores">
+                <option value="Miraflores">
+                <option value="Forestal">
+                <option value="Viña centro">
+                <option value="Reñaca">
+                <option value="Glorias Navales">
+                <option value="Gómez Carreño">
+                <option value="Chorrillos">
+            </datalist>
+
+            <div class="botones">
+                <button type="submit" class="btn">Ingresar</button>
+                <a href="/iniciarsesion"><button type="button" class="btn">Iniciar Sesión</button></a>
+                <a href="/inicio"><button type="button" class="btn">Volver a Inicio</button></a>
+            </div>
+        </form>
+    </div>
+</div>

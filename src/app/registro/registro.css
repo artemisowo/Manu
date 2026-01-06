@@ -1,0 +1,87 @@
+.fondo {
+    height: 100vh;
+    background-color: #1B1F2B;
+    z-index: -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+}
+
+.titulo {
+    color: #fff;
+    font-size: clamp(1.5em, 5vw, 3em);
+    
+}
+
+.borde {
+    border-bottom: 2px solid white;
+}
+
+.bloque-registro {
+    width: 50vw;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.formulario {
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    input {
+        padding: clamp(0.8em, 3vw, 1.5em);
+        width: 100%;
+        max-width: 600px;
+    }
+    label {
+        margin: clamp(0.5em, 3vw, 1em);
+        font-size: clamp(1.1em, 3vw, 1.3em);
+        font-weight: bold;
+    }
+    @media screen and (max-width: 750px){
+        & {
+            text-align: center;
+        }
+    }
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #6da67a;
+    color: #fff;
+    margin-top: 30px;
+    padding: 20px;
+    font-size: clamp(1em, 2.5vw, 1.6em);
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+    width: 6em;
+    height: clamp(5em, 5vw, 6em);
+    &:hover {
+        background-color: #497253;  
+        color: gray;    
+    }
+    @media screen and (max-width: 403px){
+        width: clamp(10em, 1vw, 12em);
+        height: 4em;
+    }
+}
+
+.botones {
+    display: flex;
+    width: 50vw;
+    max-width: 650px;
+    column-gap: 10px;
+    row-gap: 0x;
+    a {
+        text-decoration: none;
+    }
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+}

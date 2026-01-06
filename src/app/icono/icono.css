@@ -1,0 +1,43 @@
+.icono {
+    cursor: pointer;
+}
+
+/* Menú con los datos del animal */
+.icono-menu {
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+    min-width: 400px;
+    max-width: 400px;
+    background: #1B1F2B;
+    color: white;
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.2);
+    border-radius: 10px;
+    padding: 1em;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* estilos texto menu */
+.titulo-menu{
+    text-align: center;
+    font-size: 1.4em;
+    margin-bottom: 0.5em;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+.nombre-animal {
+    color: #70d487;
+    font-weight: bold;
+}
+
+.imagen-animal {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 1em;
+}
