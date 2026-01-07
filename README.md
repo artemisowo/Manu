@@ -1,59 +1,40 @@
-# ProyectoPrueba
+Readme Técnico
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.4.
+# 1. Descripción técnica del proyecto
 
-## Development server
+MANU es una aplicación orientada a la reducción de animales en situación de calle, facilitando la conexión entre la comunidad, organizaciones y procesos de ayuda animal.
+El sistema centraliza información relacionada con animales abandonados, promueve acciones responsables y apoya la gestión de rescates, adopciones y seguimiento.
 
-To start a local development server, run:
+El proyecto está diseñado para ser escalable, modular y adaptable a distintos contextos territoriales.
 
-```bash
-ng serve
-```
+# 2. Objetivos del Sistema
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Reducir la cantidad de animales callejeros.
 
-## Code scaffolding
+Facilitar la visibilidad de animales en situación de abandono.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Apoyar procesos de rescate, adopción y cuidado responsable.
 
-```bash
-ng generate component component-name
-```
+Centralizar información relevante para usuarios y colaboradores.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+# 3. Arquitectura del sistema
 
-```bash
-ng generate --help
-```
+La aplicación sigue una arquitectura cliente-servidor, separando claramente la lógica de presentación, negocio y datos.
 
-## Building
+Componentes principales:
 
-To build the project run:
+Cliente: Interfaz de usuario para interacción con el sistema.
 
-```bash
-ng build
-```
+Servidor: API que gestiona la lógica del negocio.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Base de datos: Persistencia de información de usuarios, animales y acciones.
 
-## Running unit tests
+# 4. Tecnologías y herramientas
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Frontend: Aplicación móvil / web
+Backend: API REST
+Base de datos: Relacional / NoSQL
+Autenticación: Tokens / sesiones
+Hosting: Servidor en la nube
 
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+# 5. Lenguajes 
