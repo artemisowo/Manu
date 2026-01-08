@@ -1,34 +1,31 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.fondo {
+    background-color: #1b1f2b;
+    min-height: 100vh;
+}
+
 header {
-    padding: 100px;
+    padding: 12em 6.25em;
     color: #ffffff;
     text-align: center;
     position: relative;
     overflow: hidden;
     height: 230px;
-  }
-  
-.header-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-  }
-  
-.header-text {
-    font-size: 70px;
-    color: white;
-    position: relative;
-    text-align: center;
-    padding: 10%;
+    background-image: url('https://i.postimg.cc/BQwbtWsZ/foto-1-Picsart-Ai-Image-Enhancer.png');
+    background-size: cover;
+    background-position: center;
 }
-  
+
 nav {
     text-align: right;
     font-size: 20px;
-    margin-top: -80px;
+    margin-top: -160px;
+    margin-bottom: 40px;
     a {
         padding: 10px;
         color: #ffffff;
@@ -38,12 +35,26 @@ nav {
             color: #1b1f2b;
         }
     }
+}  
+
+.header-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
+.titulo {
+    font-size: 70px;
+    color: white;
+    position: relative;
+    text-align: center;
+    padding: 10px;
+}
+  
 .contactito {
-    font-size: 15px;
-    margin-top: -100px;
-    
+    padding: 20px;
+    font-size: 30px;
 }
 
 main {
@@ -51,38 +62,32 @@ main {
     padding: 20px;
     color: white;
     text-align: center;
-    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .bloqueredes {
-    margin: 5%;
+    display: inline-block;
+    margin: 20px;
     background-color: #6da67a;
+    color: #ffffff;
     padding: 10px;
-    font-size: 50px;
-    transition: color 0.5s ease;
-    border-radius: 30px;  
-    &:hover {
-        background-color: #497253;      
-    }
-    a {
-        font-size: 50px;
-        color: #ffffff;
-        text-decoration: none;
-        transition: color 0.5s ease;
-        display: flex;
-        align-items: center;
-        gap: 8px;      
-        &:hover{
-            color: #1b1f2b;
-            
-        }
-    }
-}
+    font-size: 24px;
+    border-radius: 20px;
+    max-width: fit-content; 
+    gap: 8px;  
+    text-decoration: none;
+    transition: all 0.5s ease;
+    display: flex;
+    align-items: center;
 
-.bloqueredes a .icono {
-    height: 1.5em;
-    width: auto;
+    &:hover {
+        background-color: #497253;   
+        color: #1b1f2b;   
+    }
+
+    .icono {
+        width: 50px;
+    }
 }
