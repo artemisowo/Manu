@@ -19,6 +19,14 @@ header {
     background-image: url('https://i.postimg.cc/BQwbtWsZ/foto-1-Picsart-Ai-Image-Enhancer.png');
     background-size: cover;
     background-position: center;
+    @media screen and (max-width: 535px) {
+        & {
+            padding: 10em 6.25em;
+            nav {
+                margin-top: -130px;
+            }
+        }
+    }
 }
 
 nav {
@@ -42,6 +50,7 @@ nav {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
 }
 
 .titulo {
@@ -50,11 +59,22 @@ nav {
     position: relative;
     text-align: center;
     padding: 10px;
+    @media screen and (max-width: 535px) {
+        & {
+            font-size: 60px;
+        }
+    }
 }
   
 .contactito {
     padding: 20px;
     font-size: 30px;
+    @media screen and (max-width: 535px) {
+        & {
+            font-size: 24px;
+            padding: 20px 0 30px 0;
+        }
+    }
 }
 
 main {
@@ -73,7 +93,7 @@ main {
     background-color: #6da67a;
     color: #ffffff;
     padding: 10px;
-    font-size: 24px;
+    font-size: 30px;
     border-radius: 20px;
     max-width: fit-content; 
     gap: 8px;  
@@ -89,5 +109,15 @@ main {
 
     .icono {
         width: 50px;
+    }
+
+    @media screen and (max-width: 535px) {
+        & {
+            font-size: 20px;
+            padding: 8px;
+            .icono {
+                width: 40px;
+            }
+        }
     }
 }
