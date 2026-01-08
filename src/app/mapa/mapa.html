@@ -1,35 +1,25 @@
 <div class="fondo">
-    <header>
-        <div class="menu-nav-mapa" id="menu-nav-mapa">
-            <a href="/registro">Regístrate</a>
-            <a href="/inicio">Volver al Inicio</a>
-        </div>
-    </header>
-    
-    <main class="cuerpo" #mapaContenedor>
-        <!-- Contenedor del mapa -->
-        <div id="map"></div>
+  <header>
+    <div class="menu-nav-mapa" id="menu-nav-mapa">
+      <a href="/registro">Regístrate</a>
+      <a href="/inicio">Volver al Inicio</a>
+    </div>
+  </header>
 
-        <!-- Botón para agregar iconos -->
-    <input type="file" accept=".jpeg,.jpg,.png" #fileInput style="display:none" (change)="alSeleccionarArchivo($event)" />
-        <div class="btn-menu-botones" (click)="abrirExploradorArchivos(fileInput)">
-            <span class="boton">+</span>
-        </div>
+  <main class="cuerpo">
+    <div id="map"></div>
 
-        <ng-container *ngFor="let icono of iconos; let i = index">
-            <app-icono
-                class="icono"
-                [ngStyle]="{ top: ((icono.y ?? 0) - 50) + 'px', left: ((icono.x ?? 0) - 25) + 'px' }"
-                [menuVisible]="menuOpenIndex === i"
-                [imgUrl]="icono.imgUrl"
-                [datosAnimal]="icono.datosAnimal"
-                (menuToggle)="menuOpenIndex = menuOpenIndex === i ? null : i"
-            ></app-icono>
-        </ng-container>
+    <!-- Botón + -->
+    <div class="btn-menu-botones" (click)="abrirPopup()">
+      <span class="boton">+</span>
+    </div>
 
-        <app-popup *ngIf="mostrarPopup" [imagenUrl]="imagenTemporal" (cerrar)="onCerrarPopup()" (ingresar)="onIngresarPopup($event)"></app-popup>
-        
-    </main>
+    <!-- Popup -->
+<app-popup
+  *ngIf="mostrarPopup"
+  (cerrar)="cerrarPopup()"
+  (ingresar)="guardarAnimal($event)">
+</app-popup>
+
+  </main>
 </div>
-
-
