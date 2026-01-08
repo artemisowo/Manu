@@ -3,7 +3,7 @@ Readme Técnico
 # 1. Descripción técnica del proyecto
 
 MANU es una aplicación orientada a la reducción de animales en situación de calle, facilitando la conexión entre la comunidad, organizaciones y procesos de ayuda animal.
-El sistema centraliza información relacionada con animales abandonados, promueve acciones responsables y apoya la gestión de rescates, adopciones y seguimiento.
+El sistema centraliza información relacionada con animales abandonados, promueve acciones responsables y apoya la gestión de rescates, adopciones y seguimiento. El mapa se utilizaría para localizar la ubicación de cada animal callejero, facilitando su busqueda.
 
 El proyecto está diseñado para ser escalable, modular y adaptable a distintos contextos territoriales.
 
@@ -31,10 +31,14 @@ Base de datos: Persistencia de información de usuarios, animales y acciones.
 
 # 4. Tecnologías y herramientas
 
-Frontend: Aplicación móvil / web
-Backend: API REST
-Base de datos: Relacional / NoSQL
-Autenticación: Tokens / sesiones
-Hosting: Servidor en la nube
+Frontend: Angular
+Backend: 
+Base de datos: Firebase
+Autenticación: 
+Hosting: * Aún no existe *
 
 # 5. Lenguajes 
+
+Frontend: Html, CSS, Typescript
+Backend:
+Base de datos:
