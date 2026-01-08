@@ -10,11 +10,11 @@ import { FormsModule } from '@angular/forms';
 })
 export class Popup {
   @Input() imagenUrl: string | null = null;
+
   @Output() cerrar = new EventEmitter<void>();
   @Output() ingresar = new EventEmitter<any>();
 
-  datosAnimal: any = {};
-  estadoSeleccionado: string = 'nulo';
+  estadoSeleccionado: string = 'Desconocido';
 
   onCerrar() {
     this.cerrar.emit();
@@ -22,8 +22,10 @@ export class Popup {
 
   onIngresar(event: Event) {
     event.preventDefault();
+
     const form = event.target as HTMLFormElement;
     const formData = new FormData(form);
+
     const datos: any = {};
     formData.forEach((valor, clave) => {
       if (datos[clave]) {
@@ -33,6 +35,10 @@ export class Popup {
         datos[clave] = valor;
       }
     });
+
+    // aseguro que el estado se guarde
+    datos.estado = this.estadoSeleccionado;
+
     this.ingresar.emit(datos);
   }
 }

@@ -1,124 +1,204 @@
-
-import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { Icono } from '../icono/icono';
-import { Popup } from '../popup/popup';
+import { Component, AfterViewInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 
-// Datos de cada icono en el mapa
-interface IconoData {
-  lat: number;
-  lng: number;
-  x?: number;
-  y?: number;
-  imgUrl?: string;
-  datosAnimal?: any;
-}
+import { Popup } from '../popup/popup';
+import { ServicioAnimal, Animal } from '../servicio/servicioanimal';
 
 @Component({
   selector: 'app-mapa',
-  imports: [Icono, Popup, CommonModule],
+  standalone: true,
+  imports: [CommonModule, Popup],
   templateUrl: './mapa.html',
-  styleUrl: './mapa.css'
+  styleUrl: './mapa.css',
+  providers: [ServicioAnimal],
 })
-export class Mapa implements AfterViewInit {
-  // Se accede al contenedor del mapa en el HTML
-  @ViewChild('mapaContenedor', { static: true }) mapaContenedor!: ElementRef;
+export class mapa implements AfterViewInit, OnDestroy {
+  private animalService = inject(ServicioAnimal);
 
-  iconos: IconoData[] = [];
-  menuOpenIndex: number | null = null;
+  private map: any;
+
   private userLat: number | null = null;
   private userLng: number | null = null;
-  private mapInstance: any = null;
 
-  mostrarPopup: boolean = false;
-  imagenTemporal: string | null = null;
+  private selectedLat: number | null = null;
+  private selectedLng: number | null = null;
 
-  // Inicialización del mapa después de que la página se haya cargado
-  ngAfterViewInit() {
+  mostrarPopup = false;
+
+  private markerSeleccion: any = null;
+  private markersAnimales = new Map<string, any>();
+  private subAnimales?: Subscription;
+
+  ngAfterViewInit(): void {
     if (typeof window === 'undefined') return;
 
-    // Importar y configurar el mapa
-    import('leaflet').then(L => {
-      const map = L.map('map');
-      this.mapInstance = map;
+    import('leaflet').then((L) => {
+      this.map = L.map('map', { zoomControl: true, attributionControl: true });
+
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-      }).addTo(map);
+        attribution: '© OpenStreetMap',
+      }).addTo(this.map);
 
-      // Ícono personalizado para la ubicación del usuario
-      let userMarker: any = null;
-      const userIcon = L.icon({
-        iconUrl: 'https://i.ibb.co/N2LVThnZ/ezgif-5b8fbf84131954.gif',
-        iconSize: [200, 200],
-        iconAnchor: [100, 100]
-      });
+      // centro inicial fijo
+      this.map.setView([-33.45, -70.66], 13);
 
-      // Obtener y actualizar la ubicación del usuario en tiempo real
+      // ubicación del usuario
       if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(position => {
-          this.userLat = position.coords.latitude;
-          this.userLng = position.coords.longitude;
-          if (userMarker) {
-            userMarker.setLatLng([this.userLat, this.userLng]);
-          } else {
-            userMarker = L.marker([this.userLat, this.userLng], { icon: userIcon }).addTo(map);
-            map.setView([this.userLat, this.userLng], 30);
-          }
-        });
+        navigator.geolocation.watchPosition(
+          (position) => {
+            this.userLat = position.coords.latitude;
+            this.userLng = position.coords.longitude;
+
+            // Solo centra si aún no se eligió ubicación manual
+            if (this.selectedLat === null && this.selectedLng === null) {
+              const lat = this.userLat;
+              const lng = this.userLng;
+              if (lat !== null && lng !== null) {
+                this.map.setView([lat, lng], 17);
+              }
+            }
+          },
+          (err: GeolocationPositionError) => console.error('Error geolocalización:', err),
+          { enableHighAccuracy: true }
+        );
       }
 
-  // Actualizar posiciones de iconos al mover o hacer zoom en el mapa
-  map.on('move zoom', () => this.actualizarPosicionesIconos());
-    });
-  }
+      // Click para elegir ubicación
+      this.map.on('click', (e: any) => {
+        this.selectedLat = e.latlng.lat;
+        this.selectedLng = e.latlng.lng;
 
-  // Abrir explorador de archivos
-  abrirExploradorArchivos(fileInput: HTMLInputElement) {
-    fileInput.value = '';
-    fileInput.click();
-  }
+        const lat = this.selectedLat;
+        const lng = this.selectedLng;
+        if (lat === null || lng === null) return;
 
-  // Manejar selección de archivo y agregar icono al mapa
-  alSeleccionarArchivo(evento: Event) {
-    const input = evento.target as HTMLInputElement;
-    if (input.files?.[0] && this.userLat !== null && this.userLng !== null) {
-      const lector = new FileReader();
-      lector.onload = (e: any) => {
-        this.imagenTemporal = e.target.result;
-        this.mostrarPopup = true;
-      };
-      lector.readAsDataURL(input.files[0]);
-    }
-  }
+        if (!this.markerSeleccion) {
+          this.markerSeleccion = L.marker([lat, lng], { draggable: true }).addTo(this.map);
 
-  onCerrarPopup() {
-    this.mostrarPopup = false;
-    this.imagenTemporal = null;
-  }
-
-  onIngresarPopup(datos: any) {
-    if (this.userLat !== null && this.userLng !== null && this.imagenTemporal) {
-      const punto = this.mapInstance?.latLngToContainerPoint([this.userLat, this.userLng]);
-      this.iconos.push({
-        lat: this.userLat,
-        lng: this.userLng,
-        x: punto?.x,
-        y: punto?.y,
-        imgUrl: this.imagenTemporal,
-        datosAnimal: datos
+          this.markerSeleccion.on('dragend', () => {
+            const pos = this.markerSeleccion.getLatLng();
+            this.selectedLat = pos.lat;
+            this.selectedLng = pos.lng;
+          });
+        } else {
+          this.markerSeleccion.setLatLng([lat, lng]);
+        }
       });
-      this.actualizarPosicionesIconos();
-    }
-    this.mostrarPopup = false;
-    this.imagenTemporal = null;
-  }
-  // Actualizar posiciones de los iconos en el mapa
-  private actualizarPosicionesIconos() {
-    if (!this.mapInstance) return;
-    this.iconos.forEach(icono => {
-      const punto = this.mapInstance.latLngToContainerPoint([icono.lat, icono.lng]);
-      icono.x = punto.x;
-      icono.y = punto.y;
+
+      // escuchar animales (Animal[])
+      this.subAnimales = this.animalService.obtenerAnimales().subscribe({
+        next: (animales: Animal[]) => this.pintarAnimales(L, animales),
+        error: (error: unknown) => console.error('Error leyendo animales:', error),
+      });
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subAnimales?.unsubscribe();
+  }
+
+  abrirPopup(): void {
+    // si no hay selección, intenta usar la ubicación del usuario
+    if (
+      (this.selectedLat === null || this.selectedLng === null) &&
+      this.userLat !== null &&
+      this.userLng !== null
+    ) {
+      this.selectedLat = this.userLat;
+      this.selectedLng = this.userLng;
+    }
+
+    const lat = this.selectedLat;
+    const lng = this.selectedLng;
+
+    if (lat === null || lng === null) {
+      alert('Primero selecciona en el mapa el lugar donde viste al animal (clic en el mapa).');
+      return;
+    }
+
+    this.mostrarPopup = true;
+  }
+
+  cerrarPopup(): void {
+    this.mostrarPopup = false;
+  }
+
+  async guardarAnimal(datos: any): Promise<void> {
+  const lat = this.selectedLat;
+  const lng = this.selectedLng;
+
+  if (lat === null || lng === null) return;
+
+  try {
+    const animal = {
+      ...datos,
+      lat,
+      lng,
+    };
+
+    await this.animalService.agregarAnimal(animal); // ✅ ahora solo 1 argumento
+    this.mostrarPopup = false;
+  } catch (error: unknown) {
+    console.error('Error guardando animal:', error);
+    alert('No se pudo guardar. Revisa reglas de Firestore o conexión.');
+  }
+}
+
+
+  private pintarAnimales(L: any, animales: Animal[]): void {
+    if (!this.map) return;
+
+    // limpiar marcadores eliminados
+    const idsActuales = new Set(animales.map((a) => a.id).filter(Boolean) as string[]);
+    for (const [id, marker] of this.markersAnimales.entries()) {
+      if (!idsActuales.has(id)) {
+        marker.remove();
+        this.markersAnimales.delete(id);
+      }
+    }
+
+    // dibujar / actualizar
+    for (const animal of animales) {
+      if (!animal.id) continue;
+
+      const html = this.armarHtmlAnimal(animal);
+
+      if (this.markersAnimales.has(animal.id)) {
+        const m = this.markersAnimales.get(animal.id);
+        m.setLatLng([animal.lat, animal.lng]);
+        m.setPopupContent(html);
+      } else {
+        const m = L.marker([animal.lat, animal.lng]).addTo(this.map);
+        m.bindPopup(html);
+        this.markersAnimales.set(animal.id, m);
+      }
+    }
+  }
+
+  private armarHtmlAnimal(animal: Animal): string {
+    // Evito "caracteristicas" porque no sabemos si existe en tu interfaz
+    const nombre = (animal as any).nombre ?? (animal as any).name ?? 'Desconocido';
+    const edad = (animal as any).edad ?? '???';
+    const personalidad = (animal as any).personalidad ?? 'Se desconoce';
+    const estado = (animal as any).estado ?? 'Se desconoce';
+
+    return `
+      <div style="min-width:200px">
+        <h3 style="margin:0 0 8px 0">Animal: ${this.esc(String(nombre))}</h3>
+        <div><b>Edad:</b> ${this.esc(String(edad))}</div>
+        <div><b>Personalidad:</b> ${this.esc(String(personalidad))}</div>
+        <div><b>Estado de salud:</b> ${this.esc(String(estado))}</div>
+      </div>
+    `;
+  }
+
+  private esc(texto: string): string {
+    return texto
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
   }
 }
