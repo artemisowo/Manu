@@ -67,7 +67,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: clamp(4em, 25vw, 8em);
+    font-size: clamp(4em, 20vw, 8em);
     font-weight: bold;
 }
 
@@ -79,8 +79,8 @@ header {
   left: 50%;
   bottom: 20vh;
   transform: translateX(-50%);
-  height: clamp(6em, 30vw, 10em);
-  width: clamp(6em, 30vw, 10em);
+  height: clamp(6em, 20vw, 8em);
+  width: clamp(6em, 20vw, 8em);
   border: none;
   background-color: #6DA67A;
   cursor: pointer;
