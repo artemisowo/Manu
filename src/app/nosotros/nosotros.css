@@ -1,49 +1,30 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.fondo {
+    background-color: #1b1f2b;
+    height: 100%;
+}
+
 header {
-    padding: 100px;
+    padding: 13em 6.25em;
     color: #ffffff;
     text-align: center;
     position: relative;
-    overflow: hidden;
     height: 230px;
+    background-image: url('https://i.postimg.cc/BQwbtWsZ/foto-1-Picsart-Ai-Image-Enhancer.png');
+    background-position: center;
+    background-size: cover;
 } 
-.header-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-}  
-.header-text {
-    font-size: 80px;
-    color: white;
-    position: relative;
-    text-align: center;  
-    padding: 10px;
-}
-
-.subtitulito {
-    margin-top: -50px;
-    font-size: 18px;
-}
-
-main {
-    background-color: #1b1f2b;
-    padding: 20px;
-    color: white;
-    text-align: center;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 10em;
-}
 
 nav {
     text-align: right;
     font-size: 20px;
-    margin-top: -80px;
+    margin-top: -160px;
+    margin-bottom: 40px;
     a {
         padding: 10px;
         color: #ffffff;
@@ -53,10 +34,32 @@ nav {
             color: #1b1f2b;
         }
     }
-  }
+}
 
-footer {
-    background-color: #1b1f2b;
+.header-text {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
+
+.titulo {
+    font-size: 80px;
+    color: white;
+    position: relative;
+    text-align: center;  
+    padding: 10px;
+}
+
+.subtitulito {
+    font-size: 30px;
+}
+
+main {
+    padding: 20px;
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
