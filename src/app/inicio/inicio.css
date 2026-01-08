@@ -1,5 +1,11 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 header {
-  padding: 7em 6.25em 5em 6.25em;
+  padding: 7em 6.25em 20em 6.25em;
   color: #ffffff;
   text-align: center;
   position: relative;
@@ -25,7 +31,7 @@ header {
 
   @media screen and (max-width: 1000px){
     & {
-      padding-bottom: 2em;
+      padding-bottom: 15em;
     }
   }
 
@@ -39,8 +45,13 @@ header {
 
   @media screen and (max-width: 460px){
     & {
-        font-size: smaller;
-        padding-bottom: 0;
+      padding-bottom: 2em;
+      a {
+        font-size: 14px;
+      }
+      h1 {
+        font-size: 2em;
+      } 
     }
   }
 }
@@ -102,9 +113,9 @@ main {
 .bloqueingreso {
   background-color: #6da67a;
   margin: 10px;
-  padding: 1.3em clamp(1.3em, 4vw, 1.4em);
+  padding: 1.3em 0;
   width: 16vw;
-  max-width: 150px;
+  max-width: 160px;
   font-size: clamp(1em, 2vw, 2em);
   transition: all 0.5s ease;
   border-radius: 10px;
@@ -122,7 +133,7 @@ main {
   max-width: 400px;
   width: 80%;
   font-size: clamp(1.4em, 1vw, 1.56em);
-  padding: 10px;
+  padding: 50px 0;
 }
 
 footer{
