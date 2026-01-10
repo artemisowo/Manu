@@ -12,7 +12,7 @@
       <p>* Puedes dejar campos vacíos en caso de desconocerlos</p>
     </div>
 
-    <!-- Preview de la foto (la entrega el mapa como imagenUrl) -->
+    <!-- Preview de la foto -->
     <div class="imagen" *ngIf="imagenUrl">
       <img
         [src]="imagenUrl"
@@ -47,9 +47,12 @@
 
       <div *ngIf="estadoSeleccionado === 'Signos de Enfermedades/Lesiones'" class="lesiones">
         <label for="lesiones">Presenta:</label>
-        <input type="text" name="lesiones" >
-       
+        <input type="text" name="lesiones">
       </div>
+
+      <!-- ✅ FOTO dentro del popup (para que se vea “como popup real”) -->
+      <label>Foto:</label>
+      <input type="file" accept="image/*" (change)="onFotoSeleccionada($event)" />
 
       <div class="botones">
         <button type="submit" class="btn">Ingresar</button>

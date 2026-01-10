@@ -26,7 +26,10 @@ export class mapa implements AfterViewInit, OnDestroy {
   private markerSeleccion: any = null;
   private subAnimales?: Subscription;
 
+  // evita que click en marker dispare click del mapa
   private ignorarSiguienteClickMapa = false;
+
+  // markers de animales por ID
   private markersAnimales = new Map<string, any>();
 
   constructor(private animalService: ServicioAnimal, private zone: NgZone) {}
@@ -36,12 +39,14 @@ export class mapa implements AfterViewInit, OnDestroy {
 
     import('leaflet').then((L) => {
       this.map = L.map('map');
+
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap',
       }).addTo(this.map);
 
       this.map.setView([-33.45, -70.66], 13);
 
+      // geolocalización
       if (navigator.geolocation) {
         navigator.geolocation.watchPosition(
           (pos) => {
@@ -53,6 +58,7 @@ export class mapa implements AfterViewInit, OnDestroy {
         );
       }
 
+      // click mapa -> seleccionar punto
       this.map.on('click', (e: any) => {
         if (this.ignorarSiguienteClickMapa) {
           this.ignorarSiguienteClickMapa = false;
@@ -68,6 +74,7 @@ export class mapa implements AfterViewInit, OnDestroy {
 
         if (!this.markerSeleccion) {
           this.markerSeleccion = L.marker([lat, lng], { draggable: true }).addTo(this.map);
+
           this.markerSeleccion.on('dragend', () => {
             const p = this.markerSeleccion.getLatLng();
             this.selectedLat = p.lat;
@@ -78,6 +85,7 @@ export class mapa implements AfterViewInit, OnDestroy {
         }
       });
 
+      // escuchar animales firestore
       this.subAnimales = this.animalService.obtenerAnimales().subscribe({
         next: (animales: Animal[]) => this.pintarAnimales(L, animales),
         error: (err) => console.error('Error leyendo animales:', err),
@@ -99,8 +107,11 @@ export class mapa implements AfterViewInit, OnDestroy {
       this.selectedLng = this.userLng;
     }
 
-    if (this.selectedLat === null || this.selectedLng === null) {
-      alert('Selecciona un punto en el mapa.');
+    const lat = this.selectedLat;
+    const lng = this.selectedLng;
+
+    if (lat === null || lng === null) {
+      alert('Selecciona un punto en el mapa antes de ingresar un animal.');
       return;
     }
 
@@ -111,26 +122,37 @@ export class mapa implements AfterViewInit, OnDestroy {
     this.mostrarPopup = false;
   }
 
-async guardarAnimal(datos: any): Promise<void> {
-  const lat = this.selectedLat;
-  const lng = this.selectedLng;
-  if (lat === null || lng === null) return;
+  // ✅ recibe datos + foto (desde Popup)
+  async guardarAnimal(payload: { datos: any; foto: File | null }): Promise<void> {
+    const lat = this.selectedLat;
+    const lng = this.selectedLng;
+    if (lat === null || lng === null) return;
 
-  this.zone.run(() => (this.mostrarPopup = false)); // cierra popup al ingresar
+    // ✅ CERRAR al instante
+    this.zone.run(() => (this.mostrarPopup = false));
 
-  try {
-    await this.animalService.agregarAnimal({
-      ...datos,
-      lat,
-      lng,
-    });
-  } catch (error) {
-    console.error('Error al guardar animal', error);
-    alert('No se pudo guardar el animal. Revisa reglas o conexión.');
-    this.zone.run(() => (this.mostrarPopup = true));
+    try {
+      let imagenUrl: string | null = null;
+
+      if (payload.foto) {
+        imagenUrl = await this.animalService.subirImagenCloudinary(payload.foto);
+      }
+
+      const animal: Animal = {
+        ...payload.datos,
+        lat,
+        lng,
+        imagenUrl,
+      };
+
+      await this.animalService.agregarAnimal(animal);
+    } catch (error) {
+      console.error('Error guardando animal:', error);
+      alert('No se pudo guardar el animal.');
+      // si falla, reabrimos
+      this.zone.run(() => (this.mostrarPopup = true));
+    }
   }
-}
-
 
   private pintarAnimales(L: any, animales: Animal[]): void {
     if (!this.map) return;
@@ -138,32 +160,25 @@ async guardarAnimal(datos: any): Promise<void> {
     const idsActuales = new Set<string>();
 
     for (const a of animales) {
-      const id = (a as any).id as string | undefined;
+      const id = a.id;
       if (!id) continue;
+
       if (typeof a.lat !== 'number' || typeof a.lng !== 'number') continue;
 
       idsActuales.add(id);
 
-      const nombre = (a as any).nombre ?? (a as any).name ?? 'Animal';
       const contenido = this.armarHtmlAnimal(a);
 
       if (this.markersAnimales.has(id)) {
         const marker = this.markersAnimales.get(id);
         marker.setLatLng([a.lat, a.lng]);
         marker.setPopupContent(contenido);
-
-        // actualizar tooltip por si cambió el nombre
-        if (marker.getTooltip()) marker.setTooltipContent(nombre);
-        else marker.bindTooltip(nombre, { permanent: false, direction: 'top', offset: [0, -30] });
-
-        // actualizar title por si cambió el nombre
-        if (marker.getElement()) marker.getElement().setAttribute('title', nombre);
-
         continue;
       }
 
-      // 🔥 Si Leaflet falla al cargar el icono, muestra el ALT.
-      // Así que lo ponemos con el nombre del animal (no "Mark").
+      const nombre = (a.nombre ?? 'Animal').toString();
+
+      // ✅ Icono con rutas correctas a tu proyecto
       const iconoAnimal = L.icon({
         iconUrl: 'assets/img/marker-icon.png',
         iconRetinaUrl: 'assets/img/marker-icon-2x.png',
@@ -172,21 +187,22 @@ async guardarAnimal(datos: any): Promise<void> {
         iconAnchor: [12, 41],
         popupAnchor: [1, -34],
         shadowSize: [41, 41],
-        alt: nombre, // ✅ esto reemplaza el "Mark" del fallback
       });
 
       const marker = L.marker([a.lat, a.lng], {
         icon: iconoAnimal,
-        title: nombre, // ✅ ayuda también
+        title: nombre, // tooltip al pasar mouse
       }).addTo(this.map);
 
-      marker.bindPopup(contenido);
-
+      // ✅ tooltip permanente con el nombre (esto quita el “Mark” y pone el nombre real)
       marker.bindTooltip(nombre, {
-        permanent: false,
+        permanent: true,
         direction: 'top',
-        offset: [0, -30],
+        offset: [0, -35],
+        opacity: 1,
       });
+
+      marker.bindPopup(contenido);
 
       marker.on('click', () => {
         this.ignorarSiguienteClickMapa = true;
@@ -195,6 +211,7 @@ async guardarAnimal(datos: any): Promise<void> {
       this.markersAnimales.set(id, marker);
     }
 
+    // eliminar markers que ya no existen
     for (const [id, marker] of this.markersAnimales.entries()) {
       if (!idsActuales.has(id)) {
         marker.remove();
@@ -203,21 +220,54 @@ async guardarAnimal(datos: any): Promise<void> {
     }
   }
 
-  private armarHtmlAnimal(a: Animal): string {
-    const nombre = (a as any).nombre ?? (a as any).name ?? 'Desconocido';
-    const edad = (a as any).edad ?? '—';
-    const personalidad = (a as any).personalidad ?? '—';
-    const estado = (a as any).estado ?? '—';
+private armarHtmlAnimal(a: any): string {
+  // soporta name / nombre / caracteristicas.name / caracteristicas.nombre
+  const nombre =
+    a?.nombre ??
+    a?.name ??
+    a?.caracteristicas?.nombre ??
+    a?.caracteristicas?.name ??
+    'Desconocido';
 
-    return `
-      <div style="min-width:200px">
-        <h3 style="margin:0 0 8px 0">${this.esc(String(nombre))}</h3>
-        <div><b>Edad:</b> ${this.esc(String(edad))}</div>
-        <div><b>Personalidad:</b> ${this.esc(String(personalidad))}</div>
-        <div><b>Estado:</b> ${this.esc(String(estado))}</div>
-      </div>
-    `;
-  }
+  const edad =
+    a?.edad ??
+    a?.caracteristicas?.edad ??
+    '—';
+
+  const personalidad =
+    a?.personalidad ??
+    a?.caracteristicas?.personalidad ??
+    '—';
+
+  const estado =
+    a?.estado ??
+    a?.caracteristicas?.estado ??
+    '—';
+
+  const fotoUrl =
+    a?.fotoUrl ??
+    a?.imagenUrl ??
+    a?.caracteristicas?.fotoUrl ??
+    a?.caracteristicas?.imagenUrl ??
+    '';
+
+  return `
+    <div style="min-width:220px;max-width:260px">
+      <h3 style="margin:0 0 8px 0">${this.esc(String(nombre))}</h3>
+
+      ${fotoUrl ? `
+        <img src="${this.esc(String(fotoUrl))}"
+             style="width:100%;border-radius:10px;margin:6px 0 10px 0;object-fit:cover;"
+        />
+      ` : ''}
+
+      <div><b>Edad:</b> ${this.esc(String(edad))}</div>
+      <div><b>Personalidad:</b> ${this.esc(String(personalidad))}</div>
+      <div><b>Estado:</b> ${this.esc(String(estado))}</div>
+    </div>
+  `;
+}
+
 
   private esc(texto: string): string {
     return texto

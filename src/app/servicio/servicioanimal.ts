@@ -1,37 +1,71 @@
-import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, addDoc, collectionData, doc, updateDoc } from '@angular/fire/firestore';
+import { Injectable } from '@angular/core';
+import {
+  Firestore,
+  collection,
+  addDoc,
+  collectionData,
+  docData,
+  CollectionReference,
+  DocumentData,
+} from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 export interface Animal {
   id?: string;
-  nombre: string;
-  edad?: string | number;
-  personalidad?: string;
-  estado?: string;
+
+  // ubicación
   lat: number;
   lng: number;
-  // si quieres más campos, agrégalos aquí
+
+  // datos del animal
+  nombre?: string;
+  edad?: number | string;
+  personalidad?: string;
+  estado?: string;
+
+  // url imagen (Cloudinary)
+  imagenUrl?: string | null;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class ServicioAnimal {
-  private firestore = inject(Firestore);
-  private colRef = collection(this.firestore, 'animales'); // 👈 colección
+  private colRef: CollectionReference<DocumentData>;
+
+  constructor(private firestore: Firestore) {
+    this.colRef = collection(this.firestore, 'animales');
+  }
 
   obtenerAnimales(): Observable<Animal[]> {
     return collectionData(this.colRef, { idField: 'id' }) as Observable<Animal[]>;
   }
 
-  agregarAnimal(datos: any): Promise<void> {
-    const animal: Animal = {
-      nombre: datos?.nombre ?? datos?.name ?? 'Sin nombre',
-      edad: datos?.edad ?? '',
-      personalidad: datos?.personalidad ?? '',
-      estado: datos?.estado ?? '',
-      lat: Number(datos.lat),
-      lng: Number(datos.lng),
-    };
+  async agregarAnimal(animal: Animal): Promise<void> {
+    await addDoc(this.colRef, animal);
+  }
 
-    return addDoc(this.colRef, animal).then(() => {});
+  // ✅ Cloudinary (sin backend) - devuelve URL pública
+  async subirImagenCloudinary(archivo: File): Promise<string> {
+    const formData = new FormData();
+    formData.append('file', archivo);
+    formData.append('upload_preset', 'Manu_Animales');
+
+    const res = await fetch('https://api.cloudinary.com/v1_1/doqwqe2l2/image/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!res.ok) {
+      const texto = await res.text();
+      throw new Error('Cloudinary error: ' + texto);
+    }
+
+    const data = await res.json();
+    if (!data?.secure_url) {
+      throw new Error('Cloudinary no devolvió secure_url');
+    }
+
+    return data.secure_url as string;
   }
 }
