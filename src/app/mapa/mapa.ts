@@ -1,5 +1,5 @@
-import { Component, AfterViewInit, OnDestroy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, AfterViewInit, OnDestroy, NgZone } from '@angular/core';
+import { CommonModule, NgIf } from '@angular/common';
 import { Subscription } from 'rxjs';
 
 import { Popup } from '../popup/popup';
@@ -8,14 +8,11 @@ import { ServicioAnimal, Animal } from '../servicio/servicioanimal';
 @Component({
   selector: 'app-mapa',
   standalone: true,
-  imports: [CommonModule, Popup],
+  imports: [CommonModule, NgIf, Popup],
   templateUrl: './mapa.html',
   styleUrl: './mapa.css',
-  providers: [ServicioAnimal],
 })
 export class mapa implements AfterViewInit, OnDestroy {
-  private animalService = inject(ServicioAnimal);
-
   private map: any;
 
   private userLat: number | null = null;
@@ -27,45 +24,41 @@ export class mapa implements AfterViewInit, OnDestroy {
   mostrarPopup = false;
 
   private markerSeleccion: any = null;
-  private markersAnimales = new Map<string, any>();
   private subAnimales?: Subscription;
+
+  private ignorarSiguienteClickMapa = false;
+  private markersAnimales = new Map<string, any>();
+
+  constructor(private animalService: ServicioAnimal, private zone: NgZone) {}
 
   ngAfterViewInit(): void {
     if (typeof window === 'undefined') return;
 
     import('leaflet').then((L) => {
-      this.map = L.map('map', { zoomControl: true, attributionControl: true });
-
+      this.map = L.map('map');
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap',
       }).addTo(this.map);
 
-      // centro inicial fijo
       this.map.setView([-33.45, -70.66], 13);
 
-      // ubicación del usuario
       if (navigator.geolocation) {
         navigator.geolocation.watchPosition(
-          (position) => {
-            this.userLat = position.coords.latitude;
-            this.userLng = position.coords.longitude;
-
-            // Solo centra si aún no se eligió ubicación manual
-            if (this.selectedLat === null && this.selectedLng === null) {
-              const lat = this.userLat;
-              const lng = this.userLng;
-              if (lat !== null && lng !== null) {
-                this.map.setView([lat, lng], 17);
-              }
-            }
+          (pos) => {
+            this.userLat = pos.coords.latitude;
+            this.userLng = pos.coords.longitude;
           },
-          (err: GeolocationPositionError) => console.error('Error geolocalización:', err),
+          (err) => console.error('Geolocalización:', err),
           { enableHighAccuracy: true }
         );
       }
 
-      // Click para elegir ubicación
       this.map.on('click', (e: any) => {
+        if (this.ignorarSiguienteClickMapa) {
+          this.ignorarSiguienteClickMapa = false;
+          return;
+        }
+
         this.selectedLat = e.latlng.lat;
         this.selectedLng = e.latlng.lng;
 
@@ -75,21 +68,19 @@ export class mapa implements AfterViewInit, OnDestroy {
 
         if (!this.markerSeleccion) {
           this.markerSeleccion = L.marker([lat, lng], { draggable: true }).addTo(this.map);
-
           this.markerSeleccion.on('dragend', () => {
-            const pos = this.markerSeleccion.getLatLng();
-            this.selectedLat = pos.lat;
-            this.selectedLng = pos.lng;
+            const p = this.markerSeleccion.getLatLng();
+            this.selectedLat = p.lat;
+            this.selectedLng = p.lng;
           });
         } else {
           this.markerSeleccion.setLatLng([lat, lng]);
         }
       });
 
-      // escuchar animales (Animal[])
       this.subAnimales = this.animalService.obtenerAnimales().subscribe({
         next: (animales: Animal[]) => this.pintarAnimales(L, animales),
-        error: (error: unknown) => console.error('Error leyendo animales:', error),
+        error: (err) => console.error('Error leyendo animales:', err),
       });
     });
   }
@@ -99,7 +90,6 @@ export class mapa implements AfterViewInit, OnDestroy {
   }
 
   abrirPopup(): void {
-    // si no hay selección, intenta usar la ubicación del usuario
     if (
       (this.selectedLat === null || this.selectedLng === null) &&
       this.userLat !== null &&
@@ -109,11 +99,8 @@ export class mapa implements AfterViewInit, OnDestroy {
       this.selectedLng = this.userLng;
     }
 
-    const lat = this.selectedLat;
-    const lng = this.selectedLng;
-
-    if (lat === null || lng === null) {
-      alert('Primero selecciona en el mapa el lugar donde viste al animal (clic en el mapa).');
+    if (this.selectedLat === null || this.selectedLng === null) {
+      alert('Selecciona un punto en el mapa.');
       return;
     }
 
@@ -124,24 +111,23 @@ export class mapa implements AfterViewInit, OnDestroy {
     this.mostrarPopup = false;
   }
 
-  async guardarAnimal(datos: any): Promise<void> {
+async guardarAnimal(datos: any): Promise<void> {
   const lat = this.selectedLat;
   const lng = this.selectedLng;
-
   if (lat === null || lng === null) return;
 
+  this.zone.run(() => (this.mostrarPopup = false)); // cierra popup al ingresar
+
   try {
-    const animal = {
+    await this.animalService.agregarAnimal({
       ...datos,
       lat,
       lng,
-    };
-
-    await this.animalService.agregarAnimal(animal); // ✅ ahora solo 1 argumento
-    this.mostrarPopup = false;
-  } catch (error: unknown) {
-    console.error('Error guardando animal:', error);
-    alert('No se pudo guardar. Revisa reglas de Firestore o conexión.');
+    });
+  } catch (error) {
+    console.error('Error al guardar animal', error);
+    alert('No se pudo guardar el animal. Revisa reglas o conexión.');
+    this.zone.run(() => (this.mostrarPopup = true));
   }
 }
 
@@ -149,46 +135,86 @@ export class mapa implements AfterViewInit, OnDestroy {
   private pintarAnimales(L: any, animales: Animal[]): void {
     if (!this.map) return;
 
-    // limpiar marcadores eliminados
-    const idsActuales = new Set(animales.map((a) => a.id).filter(Boolean) as string[]);
+    const idsActuales = new Set<string>();
+
+    for (const a of animales) {
+      const id = (a as any).id as string | undefined;
+      if (!id) continue;
+      if (typeof a.lat !== 'number' || typeof a.lng !== 'number') continue;
+
+      idsActuales.add(id);
+
+      const nombre = (a as any).nombre ?? (a as any).name ?? 'Animal';
+      const contenido = this.armarHtmlAnimal(a);
+
+      if (this.markersAnimales.has(id)) {
+        const marker = this.markersAnimales.get(id);
+        marker.setLatLng([a.lat, a.lng]);
+        marker.setPopupContent(contenido);
+
+        // actualizar tooltip por si cambió el nombre
+        if (marker.getTooltip()) marker.setTooltipContent(nombre);
+        else marker.bindTooltip(nombre, { permanent: false, direction: 'top', offset: [0, -30] });
+
+        // actualizar title por si cambió el nombre
+        if (marker.getElement()) marker.getElement().setAttribute('title', nombre);
+
+        continue;
+      }
+
+      // 🔥 Si Leaflet falla al cargar el icono, muestra el ALT.
+      // Así que lo ponemos con el nombre del animal (no "Mark").
+      const iconoAnimal = L.icon({
+        iconUrl: 'assets/img/marker-icon.png',
+        iconRetinaUrl: 'assets/img/marker-icon-2x.png',
+        shadowUrl: 'assets/img/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41],
+        alt: nombre, // ✅ esto reemplaza el "Mark" del fallback
+      });
+
+      const marker = L.marker([a.lat, a.lng], {
+        icon: iconoAnimal,
+        title: nombre, // ✅ ayuda también
+      }).addTo(this.map);
+
+      marker.bindPopup(contenido);
+
+      marker.bindTooltip(nombre, {
+        permanent: false,
+        direction: 'top',
+        offset: [0, -30],
+      });
+
+      marker.on('click', () => {
+        this.ignorarSiguienteClickMapa = true;
+      });
+
+      this.markersAnimales.set(id, marker);
+    }
+
     for (const [id, marker] of this.markersAnimales.entries()) {
       if (!idsActuales.has(id)) {
         marker.remove();
         this.markersAnimales.delete(id);
       }
     }
-
-    // dibujar / actualizar
-    for (const animal of animales) {
-      if (!animal.id) continue;
-
-      const html = this.armarHtmlAnimal(animal);
-
-      if (this.markersAnimales.has(animal.id)) {
-        const m = this.markersAnimales.get(animal.id);
-        m.setLatLng([animal.lat, animal.lng]);
-        m.setPopupContent(html);
-      } else {
-        const m = L.marker([animal.lat, animal.lng]).addTo(this.map);
-        m.bindPopup(html);
-        this.markersAnimales.set(animal.id, m);
-      }
-    }
   }
 
-  private armarHtmlAnimal(animal: Animal): string {
-    // Evito "caracteristicas" porque no sabemos si existe en tu interfaz
-    const nombre = (animal as any).nombre ?? (animal as any).name ?? 'Desconocido';
-    const edad = (animal as any).edad ?? '???';
-    const personalidad = (animal as any).personalidad ?? 'Se desconoce';
-    const estado = (animal as any).estado ?? 'Se desconoce';
+  private armarHtmlAnimal(a: Animal): string {
+    const nombre = (a as any).nombre ?? (a as any).name ?? 'Desconocido';
+    const edad = (a as any).edad ?? '—';
+    const personalidad = (a as any).personalidad ?? '—';
+    const estado = (a as any).estado ?? '—';
 
     return `
       <div style="min-width:200px">
-        <h3 style="margin:0 0 8px 0">Animal: ${this.esc(String(nombre))}</h3>
+        <h3 style="margin:0 0 8px 0">${this.esc(String(nombre))}</h3>
         <div><b>Edad:</b> ${this.esc(String(edad))}</div>
         <div><b>Personalidad:</b> ${this.esc(String(personalidad))}</div>
-        <div><b>Estado de salud:</b> ${this.esc(String(estado))}</div>
+        <div><b>Estado:</b> ${this.esc(String(estado))}</div>
       </div>
     `;
   }
