@@ -40,5 +40,5 @@ Hosting: * Aún no existe *
 # 5. Lenguajes 
 
 Frontend: Html, CSS, Typescript
-Backend:
-Base de datos:
+Backend: TypeScript
+Base de datos: Firebase
