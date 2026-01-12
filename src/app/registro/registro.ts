@@ -30,7 +30,6 @@ export class Registro {
     this.cargando = true;
     try {
       await this.auth.registrar(this.email, this.password, this.usuario, this.numero, this.sector);
-      // después de registrar -> mapa (puedes cambiarlo)
       await this.router.navigate(['/mapa']);
     } catch (e: any) {
       this.error = e?.code ?? 'Error al registrar';

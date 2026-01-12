@@ -1,19 +1,23 @@
 import { Component, AfterViewInit, OnDestroy, NgZone } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
-
+import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 import { Popup } from '../popup/popup';
 import { ServicioAnimal, Animal } from '../servicio/servicioanimal';
 
 @Component({
   selector: 'app-mapa',
   standalone: true,
-  imports: [CommonModule, NgIf, Popup],
+  imports: [CommonModule, RouterLink, NgIf, Popup],
   templateUrl: './mapa.html',
   styleUrl: './mapa.css',
 })
 export class mapa implements AfterViewInit, OnDestroy {
   private map: any;
+
+  // ✅ para cambiar Regístrate -> Perfil
+  logueado = false;
 
   private userLat: number | null = null;
   private userLng: number | null = null;
@@ -32,7 +36,16 @@ export class mapa implements AfterViewInit, OnDestroy {
   // markers de animales por ID
   private markersAnimales = new Map<string, any>();
 
-  constructor(private animalService: ServicioAnimal, private zone: NgZone) {}
+  constructor(
+    private animalService: ServicioAnimal,
+    private zone: NgZone,
+    private auth: Auth
+  ) {
+    // ✅ escuchar sesión (se actualiza solo)
+    onAuthStateChanged(this.auth, (user) => {
+      this.logueado = !!user;
+    });
+  }
 
   ngAfterViewInit(): void {
     if (typeof window === 'undefined') return;
@@ -191,10 +204,9 @@ export class mapa implements AfterViewInit, OnDestroy {
 
       const marker = L.marker([a.lat, a.lng], {
         icon: iconoAnimal,
-        title: nombre, // tooltip al pasar mouse
+        title: nombre,
       }).addTo(this.map);
 
-      // ✅ tooltip permanente con el nombre (esto quita el “Mark” y pone el nombre real)
       marker.bindTooltip(nombre, {
         permanent: true,
         direction: 'top',
@@ -220,54 +232,47 @@ export class mapa implements AfterViewInit, OnDestroy {
     }
   }
 
-private armarHtmlAnimal(a: any): string {
-  // soporta name / nombre / caracteristicas.name / caracteristicas.nombre
-  const nombre =
-    a?.nombre ??
-    a?.name ??
-    a?.caracteristicas?.nombre ??
-    a?.caracteristicas?.name ??
-    'Desconocido';
+  private armarHtmlAnimal(a: any): string {
+    const nombre =
+      a?.nombre ??
+      a?.name ??
+      a?.caracteristicas?.nombre ??
+      a?.caracteristicas?.name ??
+      'Desconocido';
 
-  const edad =
-    a?.edad ??
-    a?.caracteristicas?.edad ??
-    '—';
+    const edad = a?.edad ?? a?.caracteristicas?.edad ?? '—';
 
-  const personalidad =
-    a?.personalidad ??
-    a?.caracteristicas?.personalidad ??
-    '—';
+    const personalidad = a?.personalidad ?? a?.caracteristicas?.personalidad ?? '—';
 
-  const estado =
-    a?.estado ??
-    a?.caracteristicas?.estado ??
-    '—';
+    const estado = a?.estado ?? a?.caracteristicas?.estado ?? '—';
 
-  const fotoUrl =
-    a?.fotoUrl ??
-    a?.imagenUrl ??
-    a?.caracteristicas?.fotoUrl ??
-    a?.caracteristicas?.imagenUrl ??
-    '';
+    const fotoUrl =
+      a?.fotoUrl ??
+      a?.imagenUrl ??
+      a?.caracteristicas?.fotoUrl ??
+      a?.caracteristicas?.imagenUrl ??
+      '';
 
-  return `
-    <div style="min-width:220px;max-width:260px">
-      <h3 style="margin:0 0 8px 0">${this.esc(String(nombre))}</h3>
+    return `
+      <div style="min-width:220px;max-width:260px">
+        <h3 style="margin:0 0 8px 0">${this.esc(String(nombre))}</h3>
 
-      ${fotoUrl ? `
-        <img src="${this.esc(String(fotoUrl))}"
-             style="width:100%;border-radius:10px;margin:6px 0 10px 0;object-fit:cover;"
-        />
-      ` : ''}
+        ${
+          fotoUrl
+            ? `
+          <img src="${this.esc(String(fotoUrl))}"
+               style="width:100%;border-radius:10px;margin:6px 0 10px 0;object-fit:cover;"
+          />
+        `
+            : ''
+        }
 
-      <div><b>Edad:</b> ${this.esc(String(edad))}</div>
-      <div><b>Personalidad:</b> ${this.esc(String(personalidad))}</div>
-      <div><b>Estado:</b> ${this.esc(String(estado))}</div>
-    </div>
-  `;
-}
-
+        <div><b>Edad:</b> ${this.esc(String(edad))}</div>
+        <div><b>Personalidad:</b> ${this.esc(String(personalidad))}</div>
+        <div><b>Estado:</b> ${this.esc(String(estado))}</div>
+      </div>
+    `;
+  }
 
   private esc(texto: string): string {
     return texto
