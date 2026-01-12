@@ -1,266 +1,299 @@
+/* Estilos fondo y tamaño del componente */
+
 .fondo {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
   width: 70vw;
   max-width: 1800px;
-
   max-height: 85vh;
-
   background-color: #1B1F2B;
   z-index: 2000;
-
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-
   box-shadow: 0 0 20px 10px rgba(169, 169, 172, 0.667);
   border-radius: 16px;
-
   padding: 1.5em;
   gap: 2em;
-}
 
-.titulo {
-  color: #fff;
-  font-size: 2em;
-}
-
-.letra-chica {
-  color: #fff;
-  font-size: 1.1em;
-  font-weight: 500;
-  margin-bottom: 1em;
-  text-align: center;
-  width: 80%;
-}
-
-.borde {
-  border-bottom: 2px solid white;
-}
-
-.bloque-titulo {
-  text-align: center;
-  margin-bottom: 1em;
-  padding: 1em;
-  width: 50%;
-  max-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: hidden;
-}
-
-.bloque-registro {
-  width: 50%;
-  max-width: 600px;
-  max-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  scrollbar-color: #6da67a transparent;
-  scrollbar-width: thin;
-  scrollbar-gutter: stable;
-}
-
-.formulario {
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-}
-
-.formulario input {
-  padding: 1em;
-  width: 80%;
-  font-size: 0.7em;
-}
-
-.formulario label {
-  margin: 1em;
-  font-size: 1.1em;
-  font-weight: bold;
-}
-
-.formulario select {
-  padding: 1em;
-  width: 88%;
-  font-size: 0.7em;
-}
-
-.btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #6da67a;
-  color: #fff;
-  margin-top: 30px;
-  padding: 24px;
-  font-size: 1.1em;
-  transition: all 0.3s ease;
-  border-radius: 10px;
-  cursor: pointer;
-  border: none;
-  width: 100px;
-  height: 60px;
-}
-
-.btn:hover {
-  background-color: #497253;
-  color: gray;
-}
-
-.botones {
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  margin-bottom: 2em;
-}
-
-.botones a {
-  text-decoration: none;
-}
-
-.imagen {
-  height: 100%;
-  width: 80%;
-  display: flex;
-  justify-content: center;
-  padding-top: 1em
-}
-
-.imagen img {
-  width: 100%;
-  height: auto;
-  object-fit: fill;
-}
-
-.seleccionar-img {
-  display: inline-block;
-  padding: 1em;
-  color: #fff;
-  font-weight: 700;
-  border-radius: 5px;
-  cursor: pointer;
-  border: 2px solid #6da67a;
-  width: fit-content;
-  margin: 0 !important;
-  transition: all 0.3s ease;
-  font-size: 0.7em;
-
-  &:hover {
-    border-color: #497253;
-    background-color: #497253;
-    color: #e2e2e2;
-  }
-}
-
-.input-img {
-  display: none;
-}
-
-@media screen and (max-width: 768px) {
-  .fondo {
-    flex-direction: column;
-    width: 60vw;
-    max-height: 80vh;
+  /* Bloque título y subtítulo del componente */
+  .bloque-titulo {
+    text-align: center;
+    margin-bottom: 1em;
     padding: 1em;
-    gap: 1em;
-  }
+    width: 50%;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
 
-  .bloque-titulo,
-  .bloque-registro {
-    width: 100%;
-    max-width: none;
-    min-height: 30vh;
-    
-    padding: 0.8em;
+    /* Borde inferior del título */
+    .borde {
+      border-bottom: 2px solid white;
 
-    &.bloque-titulo {
-      min-height: 25vh;
-      overflow-y: hidden;
+      /* Título del componente */
+      .titulo {
+        color: #fff;
+        font-size: 2em;
+      }
     }
 
-    &.bloque-registro {
-      max-height: 60vh;
-      padding: 0 0.8em;
-    }
-
-    .titulo {
-      font-size: 1.5em;
-    }
-
+    /* Subtítulo */
     .letra-chica {
-      font-size: 1em;
-      width: 90%;
-    }
-
-    .formulario {
-      width: 100%;
+      color: #fff;
+      font-size: 1.1em;
+      font-weight: 500;
+      margin-bottom: 1em;
       text-align: center;
-      align-items: center;
-      label {
-        font-size: 1em;
-      }
+      width: 80%;
     }
   }
-}
 
-@media screen and (max-width: 425px) {
-  .fondo {
-    width: 80vw;
-    padding: 0.5em;
+  /* Bloque formulario del componente */
+  .bloque-registro {
+    width: 50%;
+    max-width: 600px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    scrollbar-color: #6da67a transparent;
+    scrollbar-width: thin;
+    scrollbar-gutter: stable;
 
-    .titulo{
-      font-size: 1.2em;
-    }
-
-    .letra-chica {
-      font-size: 0.9em;
-      line-height: 1em;
-    }
-
+    /* Estilos del formulario */
     .formulario {
-      label {
-        font-size: 0.9em;
-      }
+      color: #fff;
+      display: flex;
+      flex-direction: column;
 
+      /* Elementos del formulario (Input, label, select)*/
       input {
-        font-size: 0.6em;
+        padding: 1em;
+        width: 80%;
+        font-size: 0.7em;
       }
 
-      .btn {
-        font-size: 0.9em;
-        padding: 16px;
-        width: 80px;
-        height: 50px;
+      label {
+        margin: 1em;
+        font-size: 1.1em;
+        font-weight: bold;
+      }
+
+      select {
+        padding: 1em;
+        width: 88%;
+        font-size: 0.7em;
+      }
+
+      /* Botón (label) de selección de imagen para ingresar */
+      .seleccionar-img {
+        display: inline-block;
+        padding: 1em;
+        color: #fff;
+        font-weight: 700;
+        border-radius: 5px;
+        cursor: pointer;
+        border: 2px solid #6da67a;
+        width: fit-content;
+        margin: 0 !important;
+        transition: all 0.3s ease;
+        font-size: 0.7em;
+
+        &:hover {
+          border-color: #497253;
+          background-color: #497253;
+          color: #e2e2e2;
+        }
+      }
+      
+      /* Input selector de imagen predeterminado oculto */
+      .input-img {
+        display: none;
+      }
+
+      /* Contenedor de la imagen ingresada por el usuario */
+      .imagen {
+        height: 100%;
+        width: 80%;
+        display: flex;
+        justify-content: center;
+        padding-top: 1em;
+
+        img {
+          width: 100%;
+          height: auto;
+          object-fit: fill;
+        }
+      }
+
+      /* Contenedor de los botones */
+      .botones {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        margin-bottom: 2em;
+
+        /* Estilos botones */
+        .btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #6da67a;
+          color: #fff;
+          margin-top: 30px;
+          padding: 24px;
+          font-size: 1.1em;
+          transition: all 0.3s ease;
+          border-radius: 10px;
+          cursor: pointer;
+          border: none;
+          width: 100px;
+          height: 60px;
+
+          &:hover {
+            background-color: #497253;
+            color: gray;
+          }
+        }
+      }
+    }
+  }
+
+  /* Estilos responsivos medida escritorio grande */
+  @media screen and (min-width: 1440px) {
+
+    /* Responsividad fondo */
+    & {
+
+      /* Responsividad bloque Título y subtítulo */
+      .bloque-titulo {
+        .titulo {
+          font-size: 2.5em;
+        }
+
+        .letra-chica {
+          font-size: 1.3em;
+        }
+      }
+      
+      /* Responsividad bloque registro */
+      .bloque-registro {
+        .formulario {
+          label {
+            font-size: 1.2em;
+          }
+
+          input {
+            font-size: 0.9em;
+          }
+
+          select {
+            font-size: 0.9em;
+          }
+        }
+      }
+    }
+  }
+
+  /* Estilos responsivos medida Tablet */
+  @media screen and (max-width: 768px) {
+
+    /* Estilos responsivos fondo */
+    & {
+      flex-direction: column;
+      width: 60vw;
+      max-height: 80vh;
+      padding: 1em;
+      gap: 1em;
+
+      /* Responsividad bloques título y registro */
+      .bloque-titulo,
+      .bloque-registro {
+        width: 100%;
+        max-width: none;
+        min-height: 30vh;
+        padding: 0.8em;
+
+        /* Responsividad elementos bloque título y subtítulo */
+        &.bloque-titulo {
+          min-height: 25vh;
+          overflow-y: hidden;
+
+          .titulo {
+            font-size: 1.5em;
+          }
+
+          .letra-chica {
+            font-size: 1em;
+            width: 90%;
+          }
+        }
+
+        /* Responsividad elementos bloque formulario */
+        &.bloque-registro {
+          max-height: 60vh;
+          padding: 0 0.8em;
+
+          .formulario {
+            width: 100%;
+            text-align: center;
+            align-items: center;
+
+            label {
+              font-size: 1em;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* Estilos responsivos medida móvil */
+  @media screen and (max-width: 425px) {
+
+    /* Responsividad fondo */
+    & {
+      width: 80vw;
+      padding: 0.5em;
+
+      /* Responsividad bloque título y subtitulo */
+
+      .bloque-titulo {
+        .titulo{
+          font-size: 1.2em;
+        }
+
+        .letra-chica {
+          font-size: 0.9em;
+          line-height: 1em;
+        }
+      }
+      
+      /* Responsividad bloque formulario */
+      .bloque-registro {
+        .formulario {
+          label {
+            font-size: 0.9em;
+          }
+
+          input {
+            font-size: 0.6em;
+          }
+
+          .btn {
+            font-size: 0.9em;
+            padding: 16px;
+            width: 80px;
+            height: 50px;
+          }
+        }
       }
     }
   }
 }
 
-@media screen and (min-width: 1440px) {
-  .titulo {
-    font-size: 2.5em;
-  }
-
-  .letra-chica {
-    font-size: 1.3em;
-  }
-
-  .formulario {
-    label {
-      font-size: 1.2em;
-    }
-
-    input {
-      font-size: 0.9em;
-    }
-
-    select {
-      font-size: 0.9em;
-    }
-  }
-}
