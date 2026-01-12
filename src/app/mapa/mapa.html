@@ -1,8 +1,13 @@
 <div class="fondo">
   <header>
     <div class="menu-nav-mapa" id="menu-nav-mapa">
-      <a href="/registro">Regístrate</a>
-      <a href="/inicio">Volver al Inicio</a>
+      <!-- NO logueado -->
+      <a *ngIf="!logueado" routerLink="/registro">Regístrate</a>
+
+      <!-- Logueado -->
+      <a *ngIf="logueado" routerLink="/perfil">Perfil</a>
+
+      <a routerLink="/inicio">Volver al Inicio</a>
     </div>
   </header>
 
@@ -20,6 +25,5 @@
       (cerrar)="cerrarPopup()"
       (ingresar)="guardarAnimal($event)">
     </app-popup>
-
   </main>
 </div>
