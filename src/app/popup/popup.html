@@ -53,7 +53,7 @@
       <!-- Ingresar manualmente lesiones del animal -->
       <div *ngIf="estadoSeleccionado === 'Signos de Enfermedades/Lesiones'" class="lesiones">
         <label for="lesiones">Presenta:</label>
-        <input type="text" name="lesiones">
+        <input type="text" name="lesiones" maxlength="60" minlength="3" placeholder="Lesiones o signos de enfermedades" id="lesiones">
       </div>
 
       <!-- Seleccionar foto del animal -->

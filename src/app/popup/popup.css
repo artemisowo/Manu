@@ -1,5 +1,4 @@
 /* Estilos fondo y tamaño del componente */
-
 .fondo {
   position: fixed;
   top: 50%;
@@ -25,6 +24,7 @@
     margin-bottom: 1em;
     padding: 1em;
     width: 50%;
+    max-width: 700px;
     max-height: 80vh;
     display: flex;
     flex-direction: column;
@@ -56,7 +56,6 @@
   /* Bloque formulario del componente */
   .bloque-registro {
     width: 50%;
-    max-width: 600px;
     max-height: 85vh;
     display: flex;
     flex-direction: column;
@@ -90,6 +89,19 @@
         font-size: 0.7em;
       }
 
+      /* Contenedor de label e input de lesiones */
+      .lesiones {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        input {
+          padding: 1em;
+          width: 80%;
+          font-size: 0.7em;
+        }
+      }
+
       /* Botón (label) de selección de imagen para ingresar */
       .seleccionar-img {
         display: inline-block;
@@ -102,7 +114,7 @@
         width: fit-content;
         margin: 0 !important;
         transition: all 0.3s ease;
-        font-size: 0.7em;
+        font-size: 1em;
 
         &:hover {
           border-color: #497253;
@@ -172,10 +184,14 @@
 
       /* Responsividad bloque Título y subtítulo */
       .bloque-titulo {
-        .titulo {
-          font-size: 2.5em;
-        }
 
+        /* Bloque título + borde inferior */
+        .borde {
+          .titulo {
+            font-size: 2.5em;
+          }
+        }
+        
         .letra-chica {
           font-size: 1.3em;
         }
@@ -195,6 +211,12 @@
           select {
             font-size: 0.9em;
           }
+
+          .lesiones {
+            input {
+              font-size: 0.9em;
+            }
+          }
         }
       }
     }
@@ -202,7 +224,6 @@
 
   /* Estilos responsivos medida Tablet */
   @media screen and (max-width: 768px) {
-
     /* Estilos responsivos fondo */
     & {
       flex-direction: column;
@@ -224,10 +245,14 @@
           min-height: 25vh;
           overflow-y: hidden;
 
-          .titulo {
-            font-size: 1.5em;
+          /* Bloque título + borde inferior */
+          .borde {
+            .titulo {
+              font-size: 1.5em;
+            }
           }
-
+          
+          
           .letra-chica {
             font-size: 1em;
             width: 90%;
@@ -247,6 +272,10 @@
             label {
               font-size: 1em;
             }
+
+            .lesiones {
+              align-items: center;
+            }
           }
         }
       }
@@ -255,17 +284,19 @@
 
   /* Estilos responsivos medida móvil */
   @media screen and (max-width: 425px) {
-
     /* Responsividad fondo */
     & {
       width: 80vw;
       padding: 0.5em;
 
       /* Responsividad bloque título y subtitulo */
-
       .bloque-titulo {
-        .titulo{
-          font-size: 1.2em;
+
+        /* Bloque de título + borde inferior */
+        .borde {
+          .titulo{
+            font-size: 1.2em;
+          }
         }
 
         .letra-chica {
