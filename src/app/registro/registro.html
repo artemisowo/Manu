@@ -1,43 +1,60 @@
 <div class="fondo">
-    <div class="borde">
-        <h1 class="titulo">Regístrate</h1>
-    </div>
-    <div class="bloque-registro">
-        <form action="" class="formulario">
-            <label for="email">Correo electrónico:</label>
-            <input type="email" name="email" id="email" placeholder="ejemplo@correo.com">
+  <div class="borde">
+    <h1 class="titulo">Regístrate</h1>
+  </div>
 
-            <label for="numero">Número: (+56)</label>
-            <input type="text" id="numero" name="numero" maxlength="9" minlength="9" placeholder="9 1234 5678" oninput="this.value = this.value.replace(/\D/g,'')">
-            
-            <label for="user">Nombre de usuario:</label>
-            <input type="text" placeholder="usuario_ejemplo123" id="user" name="user" maxlength="30" minlength="3">
-            
-            <label for="contraseña">Contraseña:</label>
-            <input type="password" id="contraseña" name="contraseña" placeholder="********" minlength="8">
-            
-            <label for="sector">Sector de vivienda:</label>
-            <input list="sectores" id="sector" name="sector">
-            <datalist id="sectores">
-                <option value="Achupallas">
-                <option value="Chorrillos">
-                <option value="Forestal">
-                <option value="Glorias Navales">
-                <option value="Gómez Carreño">
-                <option value="Miraflores">
-                <option value="Nueva Aurora">
-                <option value="Recreo">
-                <option value="Reñaca">
-                <option value="Reñaca Alto">
-                <option value="Santa Ines">
-                <option value="Viña centro">
-            </datalist>
+  <div class="bloque-registro">
+    <form class="formulario" (ngSubmit)="registrar()">
+      <label for="email">Correo electrónico:</label>
+      <input type="email" id="email" name="email" placeholder="ejemplo@correo.com"
+             [(ngModel)]="email" required>
 
-            <div class="botones">
-                <button type="submit" class="btn">Ingresar</button>
-                <a href="/iniciarsesion"><button type="button" class="btn">Iniciar Sesión</button></a>
-                <a href="/inicio"><button type="button" class="btn">Volver a Inicio</button></a>
-            </div>
-        </form>
-    </div>
+      <label for="numero">Número: (+56)</label>
+      <input type="text" id="numero" name="numero" maxlength="9" minlength="9"
+             placeholder="9 1234 5678"
+             [(ngModel)]="numero"
+             (input)="soloNumeros()"
+             required>
+
+      <label for="user">Nombre de usuario:</label>
+      <input type="text" placeholder="usuario_ejemplo123" id="user" name="user"
+             maxlength="30" minlength="3"
+             [(ngModel)]="usuario" required>
+
+      <label for="contraseña">Contraseña:</label>
+      <input type="password" id="contraseña" name="contraseña" placeholder="********"
+             minlength="8"
+             [(ngModel)]="password" required>
+
+      <label for="sector">Sector de vivienda:</label>
+      <input list="sectores" id="sector" name="sector"
+             [(ngModel)]="sector" required>
+
+      <datalist id="sectores">
+        <option value="Achupallas"></option>
+        <option value="Chorrillos"></option>
+        <option value="Forestal"></option>
+        <option value="Glorias Navales"></option>
+        <option value="Gómez Carreño"></option>
+        <option value="Miraflores"></option>
+        <option value="Nueva Aurora"></option>
+        <option value="Recreo"></option>
+        <option value="Reñaca"></option>
+        <option value="Reñaca Alto"></option>
+        <option value="Santa Ines"></option>
+        <option value="Viña centro"></option>
+      </datalist>
+
+      <p *ngIf="error" style="margin-top:10px;">{{ error }}</p>
+
+      <div class="botones">
+        <button type="submit" class="btn" [disabled]="cargando">
+          {{ cargando ? 'Cargando...' : 'Ingresar' }}
+        </button>
+
+        <a routerLink="/iniciarsesion"><button type="button" class="btn">Iniciar Sesión</button></a>
+        <a routerLink="/inicio"><button type="button" class="btn">Volver a Inicio</button></a>
+      </div>
+    </form>
+  </div>
 </div>
