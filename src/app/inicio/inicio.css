@@ -1,9 +1,11 @@
+/* ESTILOS GENERALES */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* ESTILOS PARA EL HEADER */
 header {
   padding: 7em 6.25em 20em 6.25em;
   color: #ffffff;
@@ -11,10 +13,10 @@ header {
   position: relative;
   overflow: hidden;
   height: 230px;
-  background-image: url('https://i.postimg.cc/BQwbtWsZ/foto-1-Picsart-Ai-Image-Enhancer.png');
+  background-image: url('https://i.postimg.cc/BQwbtWsZ/foto-1-Picsart-Ai-Image-Enhancer.png'); /*Imagen de fondo del header*/
   background-position: center;
   background-size: cover;
-  nav {
+  nav {                 /* Estilos para la navegación del header*/
     text-align: right;
     font-size: 20px;
     margin-top: -50px;
@@ -29,13 +31,13 @@ header {
     }
   }
 
-  @media screen and (max-width: 1000px){
+  @media screen and (max-width: 1000px){  /* Estilos para el header en pantallas pequeñas */
     & {
       padding-bottom: 15em;
     }
   }
 
-  @media screen and (max-width: 768px){
+  @media screen and (max-width: 768px){  /* Estilos para el header en pantallas muy pequeñas */
     & {
       display: flex;
       flex-direction: column;
@@ -43,7 +45,7 @@ header {
     }
   }
 
-  @media screen and (max-width: 460px){
+  @media screen and (max-width: 460px){  /* Estilos para el header en pantallas muy muypequeñas */
     & {
       padding-bottom: 2em;
       a {
@@ -56,12 +58,14 @@ header {
   }
 }
 
+/* Estilos para el texto del header */
 .header-text {
   font-size: clamp(3em, 5vw, 3.44em);
   color: white;
   position: relative;
   text-align: center;
 }
+
 
 .manuelito {
   font-size: clamp(2em, 10vw, 2.4em);
