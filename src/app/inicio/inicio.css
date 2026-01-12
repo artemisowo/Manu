@@ -16,7 +16,9 @@ header {
   background-image: url('https://i.postimg.cc/BQwbtWsZ/foto-1-Picsart-Ai-Image-Enhancer.png'); /*Imagen de fondo del header*/
   background-position: center;
   background-size: cover;
-  nav {                 /* Estilos para la navegación del header*/
+
+  /* Estilos para la navegación del header*/
+  nav {           
     text-align: right;
     font-size: 20px;
     margin-top: -50px;
@@ -28,8 +30,21 @@ header {
         &:hover {
             color: #1b1f2b;
         }
+      }
     }
-  }
+
+  /* Estilos para el texto del header */
+  .header-text {
+    font-size: clamp(3em, 5vw, 3.44em);
+    color: white;
+    position: relative;
+    text-align: center;
+
+    .manuelito { /*Estilo para nombre MANU*/
+      font-size: clamp(2em, 10vw, 2.4em);
+      text-align: center;
+      }
+    }  
 
   @media screen and (max-width: 1000px){  /* Estilos para el header en pantallas pequeñas */
     & {
@@ -58,100 +73,91 @@ header {
   }
 }
 
-/* Estilos para el texto del header */
-.header-text {
-  font-size: clamp(3em, 5vw, 3.44em);
-  color: white;
-  position: relative;
-  text-align: center;
-}
-
-
-.manuelito {
-  font-size: clamp(2em, 10vw, 2.4em);
-  text-align: center;
-}
-
-main {
+/*ESTILOS PARA EL FONDO*/
+.fondo {
   background-color: #1b1f2b;
-  padding: 20px;
-  color: white;
-  text-align: center;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 10em;
-}
 
-.marcoblanco {
-  border: solid 1px #ffffff;
-  padding: clamp(1em, 2vw, 1.25em);
-  margin-bottom: clamp(1.8em, 2vw, 2.5em);
-  max-width: 300px;
-  max-height: 300px;
-  img {
-      width: 100%;
-      height: 100%;
+  main {      /*Estilos para el main*/
+    background-color: #1b1f2b;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10em;
+
+    .marcoblanco {    /* Estilo para el marco blanco de la imagen */
+      border: solid 1px #ffffff;
+      padding: clamp(1em, 2vw, 1.25em);
+      margin-bottom: clamp(1.8em, 2vw, 2.5em);
+      max-width: 300px;
+      max-height: 300px;
+      img {
+          width: 100%;
+          height: 100%;
+        }
+
+      @media screen and (max-width: 768px){ /* Estilos para el marco blanco en pantallas pequeñas */
+        & {
+            width: 65%;
+            height: fit-content;
+        }
+      }
+      @media screen and (max-width: 460px){ /* Estilos para el marco blanco en pantallas muy pequeñas */
+        & {
+            width: 50%;
+            height: fit-content;
+        }
+      }
     }
-  @media screen and (max-width: 768px){
-    & {
-        width: 65%;
-        height: fit-content;
+
+    .botones {    /* Estilos para los botones */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .bloqueingreso {    /* Estilo para los bloques */
+        background-color: #6da67a;
+        margin: 10px;
+        padding: 1.3em 0;
+        width: 16vw;
+        max-width: 160px;
+        font-size: clamp(1em, 2vw, 2em);
+        transition: all 0.5s ease;
+        border-radius: 10px;
+        color: #ffffff;
+        text-decoration: none;
+        text-align: center;
+        &:hover {   /* Estilos para los bloques al pasar el cursor */
+            background-color: #497253;
+            color: #1b1f2b;      
+        }
+      }
     }
-  }
-  @media screen and (max-width: 460px){
-    & {
-        width: 50%;
-        height: fit-content;
+
+    .parrafito {   /* Estilo para el párrafo */
+      background-color: #1b1f2b;
+      max-width: 400px;
+      width: 80%;
+      font-size: clamp(1.4em, 1vw, 1.56em);
+      padding: 50px 0;
     }
+
   }
+
 }
 
-.botones {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.negrita { /* Estilo para texto en negrita */
+  font-weight: bold;
 }
 
-.bloqueingreso {
-  background-color: #6da67a;
-  margin: 10px;
-  padding: 1.3em 0;
-  width: 16vw;
-  max-width: 160px;
-  font-size: clamp(1em, 2vw, 2em);
-  transition: all 0.5s ease;
-  border-radius: 10px;
-  color: #ffffff;
-  text-decoration: none;
-  text-align: center;
-  &:hover {
-      background-color: #497253;
-      color: #1b1f2b;      
-  }
-}
-
-.parrafito {
-  background-color: #1b1f2b;
-  max-width: 400px;
-  width: 80%;
-  font-size: clamp(1.4em, 1vw, 1.56em);
-  padding: 50px 0;
-}
-
-footer{
+/* ESTILOS PARA EL FOOTER */
+footer{ 
   background-color: #1b1f2b;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 3em 0;
-}
-
-.negrita {
-  font-weight: bold;
-}
-
-.fondo {
-  background-color: #1b1f2b;
 }
