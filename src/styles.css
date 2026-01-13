@@ -1,3 +1,124 @@
 /* You can add global styles to this file, and also import other style files */
 @import "leaflet/dist/leaflet.css";
+:host {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  pointer-events: none;
+}
+
+.icono {
+  cursor: pointer;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  pointer-events: auto;
+}
+
+.icono-menu {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 400px;
+  max-width: 400px;
+  background: #1B1F2B;
+  color: white;
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.2);
+  border-radius: 10px;
+  padding: 1em;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  pointer-events: auto;
+}
+
+.titulo-menu {
+  text-align: center;
+  font-size: 1.4em;
+  margin-bottom: 0.5em;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.nombre-animal {
+  color: #70d487;
+  font-weight: bold;
+}
+
+.imagen-animal {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 1em;
+}
+
+.icono-foto-animal-mini-32 {
+  background: transparent;
+  border: none;
+}
+
+.icono-foto-mini {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+}
+.popup-animal {
+  min-width: 220px;
+  max-width: 260px;
+}
+
+.popup-animal-titulo {
+  margin: 0 0 8px 0;
+}
+
+.popup-animal-img {
+  width: 100%;
+  border-radius: 10px;
+  margin: 6px 0 10px 0;
+  object-fit: cover;
+  display: block;
+}
+
+.popup-animal-linea {
+  margin: 2px 0;
+}
+
+.popup-animal-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.popup-animal-btn-editar {
+  background: #2d7dd2;
+}
+
+.popup-animal-btn-eliminar {
+  background: #c0392b;
+}
+.icono-foto-animal-mini-32 {
+  width: 24px !important;
+  height: 24px !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.icono-foto-mini {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+}
+
+
 

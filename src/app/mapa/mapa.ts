@@ -343,89 +343,80 @@ export class mapa implements AfterViewInit, OnDestroy {
     }
   }
 
-  private crearIconoFoto(L: any, fotoUrl: string): any {
-    const url = this.esc(fotoUrl);
+private crearIconoFoto(L: any, fotoUrl: string): any {
+  const url = this.esc(fotoUrl);
 
-    return L.divIcon({
-      className: 'icono-foto-animal-mini-32',
-      html: `<img src="${url}"
-              style="width:32px;height:32px;object-fit:cover;border-radius:6px;display:block;" />`,
-      iconSize: [32, 32],
-      iconAnchor: [16, 16],
-      popupAnchor: [0, -18],
-    });
-  }
+  return L.divIcon({
+    className: 'icono-foto-animal-mini-32',
+    html: `<img src="${url}" class="icono-foto-mini" />`,
+    iconSize: [24, 24],
+    iconAnchor: [12, 12],
+    popupAnchor: [0, -14],
+  });
+}
 
-  private armarHtmlAnimal(a: any): string {
-    const nombre =
-      a?.nombre ??
-      a?.name ??
-      a?.caracteristicas?.nombre ??
-      a?.caracteristicas?.name ??
-      'Desconocido';
 
-    const edad = a?.edad ?? '—';
-    const personalidad = a?.personalidad ?? '—';
 
-    const descripcionRaw =
-      a?.descripcion ??
-      a?.lesiones ??
-      a?.caracteristicas?.descripcion ??
-      a?.caracteristicas?.lesiones ??
-      '';
+private armarHtmlAnimal(a: any): string {
+  const nombre =
+    a?.nombre ??
+    a?.name ??
+    a?.caracteristicas?.nombre ??
+    a?.caracteristicas?.name ??
+    'Desconocido';
 
-    const descripcion = String(descripcionRaw).trim() || '—';
+  const edad = a?.edad ?? '—';
+  const personalidad = a?.personalidad ?? '—';
 
-    const fotoUrl =
-      a?.imagenUrl ??
-      a?.fotoUrl ??
-      a?.caracteristicas?.imagenUrl ??
-      a?.caracteristicas?.fotoUrl ??
-      '';
+  const descripcionRaw =
+    a?.descripcion ??
+    a?.lesiones ??
+    a?.caracteristicas?.descripcion ??
+    a?.caracteristicas?.lesiones ??
+    '';
 
-    const esDuenio = this.uidActual && a?.uidCreador === this.uidActual;
+  const descripcion = String(descripcionRaw).trim() || '—';
 
-    return `
-      <div style="min-width:220px;max-width:260px">
-        <h3 style="margin:0 0 8px 0">${this.esc(String(nombre))}</h3>
+  const fotoUrl =
+    a?.imagenUrl ??
+    a?.fotoUrl ??
+    a?.caracteristicas?.imagenUrl ??
+    a?.caracteristicas?.fotoUrl ??
+    '';
 
-        ${
-          fotoUrl
-            ? `<img src="${this.esc(String(fotoUrl))}"
-                 style="width:100%;border-radius:10px;margin:6px 0 10px 0;object-fit:cover;" />`
-            : ''
-        }
+  const esDuenio = this.uidActual && a?.uidCreador === this.uidActual;
 
-        <div><b>Edad:</b> ${this.esc(String(edad))}</div>
-        <div><b>Personalidad:</b> ${this.esc(String(personalidad))}</div>
-        <div><b>Enfermedad/Lesión:</b> ${this.esc(String(descripcion))}</div>
+  return `
+    <div class="popup-animal">
+      <h3 class="popup-animal-titulo">${this.esc(String(nombre))}</h3>
 
-        ${
-          esDuenio
-            ? `
-          <button
-            style="margin-top:10px;width:100%;padding:8px;border:none;
-                   border-radius:8px;background:#2d7dd2;color:white;
-                   font-weight:bold;cursor:pointer;"
-            onclick="window.editarAnimal('${a.id}')"
-          >
-            EDITAR
-          </button>
+      ${
+        fotoUrl
+          ? `<img src="${this.esc(String(fotoUrl))}" class="popup-animal-img" />`
+          : ''
+      }
 
-          <button
-            style="margin-top:10px;width:100%;padding:8px;border:none;
-                   border-radius:8px;background:#c0392b;color:white;
-                   font-weight:bold;cursor:pointer;"
-            onclick="window.eliminarAnimal('${a.id}')"
-          >
-            ELIMINAR
-          </button>
-        `
-            : ''
-        }
-      </div>
-    `;
-  }
+      <div class="popup-animal-linea"><b>Edad:</b> ${this.esc(String(edad))}</div>
+      <div class="popup-animal-linea"><b>Personalidad:</b> ${this.esc(String(personalidad))}</div>
+      <div class="popup-animal-linea"><b>Enfermedad/Lesión:</b> ${this.esc(String(descripcion))}</div>
+
+      ${
+        esDuenio
+          ? `
+        <button class="popup-animal-btn popup-animal-btn-editar" onclick="window.editarAnimal('${a.id}')">
+          EDITAR
+        </button>
+
+        <button class="popup-animal-btn popup-animal-btn-eliminar" onclick="window.eliminarAnimal('${a.id}')">
+          ELIMINAR
+        </button>
+      `
+          : ''
+      }
+    </div>
+  `;
+}
+
 
   async eliminarAnimal(id: string) {
     try {
