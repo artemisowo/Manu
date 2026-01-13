@@ -3,34 +3,48 @@ import { CommonModule, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Auth, onAuthStateChanged } from '@angular/fire/auth';
+import { FormsModule } from '@angular/forms';
+
 import { Popup } from '../popup/popup';
 import { ServicioAnimal, Animal } from '../servicio/servicioanimal';
 
 @Component({
   selector: 'app-mapa',
   standalone: true,
-  imports: [CommonModule, RouterLink, NgIf, Popup],
+  imports: [CommonModule, RouterLink, NgIf, Popup, FormsModule],
   templateUrl: './mapa.html',
   styleUrl: './mapa.css',
 })
 export class mapa implements AfterViewInit, OnDestroy {
   private map: any;
+  private Lref: any;
+  private subAnimales?: Subscription;
+  private markersAnimales = new Map<string, any>();
+
+  animalesCache: Animal[] = [];
 
   logueado = false;
+  uidActual: string | null = null;
 
   private userLat: number | null = null;
   private userLng: number | null = null;
 
-  private selectedLat: number | null = null;
-  private selectedLng: number | null = null;
+  selectedLat: number | null = null;
+  selectedLng: number | null = null;
 
   mostrarPopup = false;
-
   private markerSeleccion: any = null;
-  private subAnimales?: Subscription;
 
-  private ignorarSiguienteClickMapa = false;
-  private markersAnimales = new Map<string, any>();
+  modopopup: 'crear' | 'editar' = 'crear';
+  animalparaeditar: any = null;
+
+  mostrarFiltros = false;
+
+  filtroEdadMin: number | null = null;
+  filtroEdadMax: number | null = null;
+  filtroSoloMios = false;
+  filtroSalud: 'TODOS' | 'ENFERMO' | 'SALUDABLE' = 'TODOS';
+  filtroPersonalidad: string = 'TODOS';
 
   constructor(
     private animalService: ServicioAnimal,
@@ -39,6 +53,8 @@ export class mapa implements AfterViewInit, OnDestroy {
   ) {
     onAuthStateChanged(this.auth, (user) => {
       this.logueado = !!user;
+      this.uidActual = user?.uid ?? null;
+      this.refrescarVista();
     });
   }
 
@@ -46,6 +62,7 @@ export class mapa implements AfterViewInit, OnDestroy {
     if (typeof window === 'undefined') return;
 
     import('leaflet').then((L) => {
+      this.Lref = L;
       this.map = L.map('map');
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -53,6 +70,14 @@ export class mapa implements AfterViewInit, OnDestroy {
       }).addTo(this.map);
 
       this.map.setView([-33.45, -70.66], 13);
+
+      (window as any).eliminarAnimal = (id: string) => {
+        this.zone.run(() => this.eliminarAnimal(id));
+      };
+
+      (window as any).editarAnimal = (id: string) => {
+        this.zone.run(() => this.editarDesdePopup(id));
+      };
 
       if (navigator.geolocation) {
         navigator.geolocation.watchPosition(
@@ -66,20 +91,13 @@ export class mapa implements AfterViewInit, OnDestroy {
       }
 
       this.map.on('click', (e: any) => {
-        if (this.ignorarSiguienteClickMapa) {
-          this.ignorarSiguienteClickMapa = false;
-          return;
-        }
-
         this.selectedLat = e.latlng.lat;
         this.selectedLng = e.latlng.lng;
 
-        const lat = this.selectedLat;
-        const lng = this.selectedLng;
-        if (lat === null || lng === null) return;
-
         if (!this.markerSeleccion) {
-          this.markerSeleccion = L.marker([lat, lng], { draggable: true }).addTo(this.map);
+          this.markerSeleccion = L.marker([e.latlng.lat, e.latlng.lng], {
+            draggable: true,
+          }).addTo(this.map);
 
           this.markerSeleccion.on('dragend', () => {
             const p = this.markerSeleccion.getLatLng();
@@ -87,12 +105,15 @@ export class mapa implements AfterViewInit, OnDestroy {
             this.selectedLng = p.lng;
           });
         } else {
-          this.markerSeleccion.setLatLng([lat, lng]);
+          this.markerSeleccion.setLatLng([e.latlng.lat, e.latlng.lng]);
         }
       });
 
       this.subAnimales = this.animalService.obtenerAnimales().subscribe({
-        next: (animales: Animal[]) => this.pintarAnimales(L, animales),
+        next: (animales: Animal[]) => {
+          this.animalesCache = animales;
+          this.refrescarVista();
+        },
         error: (err) => console.error('Error leyendo animales:', err),
       });
     });
@@ -100,6 +121,74 @@ export class mapa implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subAnimales?.unsubscribe();
+  }
+
+  onCambiarFiltros(): void {
+    this.refrescarVista();
+  }
+
+  limpiarFiltros(): void {
+    this.filtroEdadMin = null;
+    this.filtroEdadMax = null;
+    this.filtroSoloMios = false;
+    this.filtroSalud = 'TODOS';
+    this.filtroPersonalidad = 'TODOS';
+    this.refrescarVista();
+  }
+
+  private refrescarVista(): void {
+    if (!this.Lref) return;
+    const lista = this.filtrarAnimales(this.animalesCache);
+    this.pintarAnimales(this.Lref, lista);
+  }
+
+  private filtrarAnimales(animales: Animal[]): Animal[] {
+    let lista = [...animales];
+
+    if (this.filtroSoloMios) {
+      if (!this.uidActual) return [];
+      lista = lista.filter((a: any) => a?.uidCreador === this.uidActual);
+    }
+
+    const min = this.filtroEdadMin !== null && this.filtroEdadMin !== undefined ? Number(this.filtroEdadMin) : null;
+    const max = this.filtroEdadMax !== null && this.filtroEdadMax !== undefined ? Number(this.filtroEdadMax) : null;
+
+    if (min !== null && !Number.isNaN(min)) {
+      lista = lista.filter((a: any) => {
+        const e = this.obtenerEdadNumero(a?.edad);
+        return e === null ? false : e >= min;
+      });
+    }
+
+    if (max !== null && !Number.isNaN(max)) {
+      lista = lista.filter((a: any) => {
+        const e = this.obtenerEdadNumero(a?.edad);
+        return e === null ? false : e <= max;
+      });
+    }
+
+    if (this.filtroSalud !== 'TODOS') {
+      lista = lista.filter((a: any) => {
+        const desc = String(a?.descripcion ?? a?.lesiones ?? '').trim();
+        const esEnfermo = desc.length > 0;
+        return this.filtroSalud === 'ENFERMO' ? esEnfermo : !esEnfermo;
+      });
+    }
+
+    if (this.filtroPersonalidad !== 'TODOS') {
+      lista = lista.filter((a: any) => String(a?.personalidad ?? '') === this.filtroPersonalidad);
+    }
+
+    return lista;
+  }
+
+  private obtenerEdadNumero(edad: any): number | null {
+    if (edad === null || edad === undefined) return null;
+    if (typeof edad === 'number') return Number.isFinite(edad) ? edad : null;
+    const t = String(edad).trim();
+    if (!t) return null;
+    const n = Number(t);
+    return Number.isNaN(n) ? null : n;
   }
 
   abrirPopup(): void {
@@ -110,16 +199,19 @@ export class mapa implements AfterViewInit, OnDestroy {
     ) {
       this.selectedLat = this.userLat;
       this.selectedLng = this.userLng;
+
+      if (this.markerSeleccion && this.Lref) {
+        this.markerSeleccion.setLatLng([this.selectedLat, this.selectedLng]);
+      }
     }
 
-    const lat = this.selectedLat;
-    const lng = this.selectedLng;
-
-    if (lat === null || lng === null) {
+    if (this.selectedLat === null || this.selectedLng === null) {
       alert('Selecciona un punto en el mapa antes de ingresar un animal.');
       return;
     }
 
+    this.modopopup = 'crear';
+    this.animalparaeditar = null;
     this.mostrarPopup = true;
   }
 
@@ -127,31 +219,79 @@ export class mapa implements AfterViewInit, OnDestroy {
     this.mostrarPopup = false;
   }
 
-  async guardarAnimal(payload: { datos: any; foto: File | null }): Promise<void> {
+  private editarDesdePopup(id: string): void {
+    const marker = this.markersAnimales.get(id);
+    if (marker) marker.closePopup();
+
+    const a = this.animalesCache.find((x) => x.id === id);
+
+    this.modopopup = 'editar';
+    this.animalparaeditar = a ? { ...a } : { id };
+
+    if (a?.lat != null && a?.lng != null) {
+      this.selectedLat = a.lat;
+      this.selectedLng = a.lng;
+
+      if (this.markerSeleccion && this.Lref) {
+        this.markerSeleccion.setLatLng([this.selectedLat, this.selectedLng]);
+      }
+    }
+
+    this.mostrarPopup = true;
+  }
+
+  async guardarAnimal(payload: { datos: any; foto: File | null; id?: string }): Promise<void> {
+    const id = payload.id;
+
+    if (id) {
+      this.zone.run(() => (this.mostrarPopup = false));
+
+      try {
+        const datosEdit: any = {
+          ...payload.datos,
+          descripcion: (payload.datos?.descripcion ?? payload.datos?.lesiones ?? '').toString().trim(),
+        };
+
+        if (payload.foto) {
+          const imagenUrl = await this.animalService.subirImagenCloudinary(payload.foto);
+          datosEdit.imagenUrl = imagenUrl;
+        }
+
+        await this.animalService.editarAnimal(id, datosEdit);
+      } catch {
+        alert('No se pudo editar el animal');
+        this.zone.run(() => (this.mostrarPopup = true));
+      }
+
+      return;
+    }
+
     const lat = this.selectedLat;
     const lng = this.selectedLng;
     if (lat === null || lng === null) return;
 
+    if (!payload.foto) {
+      alert('LA FOTO ES OBLIGATORIA');
+      this.zone.run(() => (this.mostrarPopup = true));
+      return;
+    }
+
     this.zone.run(() => (this.mostrarPopup = false));
 
     try {
-      let imagenUrl: string | null = null;
-
-      if (payload.foto) {
-        imagenUrl = await this.animalService.subirImagenCloudinary(payload.foto);
-      }
+      const imagenUrl = await this.animalService.subirImagenCloudinary(payload.foto);
 
       const animal: Animal = {
         ...payload.datos,
+        descripcion: (payload.datos?.descripcion ?? payload.datos?.lesiones ?? '').toString().trim(),
         lat,
         lng,
         imagenUrl,
       };
 
       await this.animalService.agregarAnimal(animal);
-    } catch (error) {
-      console.error('Error guardando animal:', error);
-      alert('No se pudo guardar el animal.');
+    } catch {
+      alert('No se pudo guardar el animal');
       this.zone.run(() => (this.mostrarPopup = true));
     }
   }
@@ -162,53 +302,37 @@ export class mapa implements AfterViewInit, OnDestroy {
     const idsActuales = new Set<string>();
 
     for (const a of animales) {
-      const id = a.id;
-      if (!id) continue;
+      if (!a.id || typeof (a as any).lat !== 'number' || typeof (a as any).lng !== 'number') continue;
+      idsActuales.add(a.id);
 
-      if (typeof a.lat !== 'number' || typeof a.lng !== 'number') continue;
+      const contenidoPopup = this.armarHtmlAnimal(a);
 
-      idsActuales.add(id);
+      const fotoUrl =
+        (a as any)?.imagenUrl ??
+        (a as any)?.fotoUrl ??
+        (a as any)?.caracteristicas?.imagenUrl ??
+        (a as any)?.caracteristicas?.fotoUrl ??
+        '';
 
-      const contenido = this.armarHtmlAnimal(a);
+      if (this.markersAnimales.has(a.id)) {
+        const m = this.markersAnimales.get(a.id);
+        m.setLatLng([(a as any).lat, (a as any).lng]);
+        m.setPopupContent(contenidoPopup);
 
-      if (this.markersAnimales.has(id)) {
-        const marker = this.markersAnimales.get(id);
-        marker.setLatLng([a.lat, a.lng]);
-        marker.setPopupContent(contenido);
+        if (fotoUrl) {
+          const nuevoIcono = this.crearIconoFoto(L, String(fotoUrl));
+          m.setIcon(nuevoIcono);
+        }
+
         continue;
       }
 
-      const nombre = (a.nombre ?? 'Animal').toString();
-
-      const iconoAnimal = L.icon({
-        iconUrl: 'assets/img/marker-icon.png',
-        iconRetinaUrl: 'assets/img/marker-icon-2x.png',
-        shadowUrl: 'assets/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41],
-      });
-
-      const marker = L.marker([a.lat, a.lng], {
-        icon: iconoAnimal,
-        title: nombre,
+      const marker = L.marker([(a as any).lat, (a as any).lng], {
+        icon: fotoUrl ? this.crearIconoFoto(L, String(fotoUrl)) : undefined,
       }).addTo(this.map);
 
-      marker.bindTooltip(nombre, {
-        permanent: true,
-        direction: 'top',
-        offset: [0, -35],
-        opacity: 1,
-      });
-
-      marker.bindPopup(contenido);
-
-      marker.on('click', () => {
-        this.ignorarSiguienteClickMapa = true;
-      });
-
-      this.markersAnimales.set(id, marker);
+      marker.bindPopup(contenidoPopup);
+      this.markersAnimales.set(a.id, marker);
     }
 
     for (const [id, marker] of this.markersAnimales.entries()) {
@@ -219,6 +343,19 @@ export class mapa implements AfterViewInit, OnDestroy {
     }
   }
 
+  private crearIconoFoto(L: any, fotoUrl: string): any {
+    const url = this.esc(fotoUrl);
+
+    return L.divIcon({
+      className: 'icono-foto-animal-mini-32',
+      html: `<img src="${url}"
+              style="width:32px;height:32px;object-fit:cover;border-radius:6px;display:block;" />`,
+      iconSize: [32, 32],
+      iconAnchor: [16, 16],
+      popupAnchor: [0, -18],
+    });
+  }
+
   private armarHtmlAnimal(a: any): string {
     const nombre =
       a?.nombre ??
@@ -227,16 +364,26 @@ export class mapa implements AfterViewInit, OnDestroy {
       a?.caracteristicas?.name ??
       'Desconocido';
 
-    const edad = a?.edad ?? a?.caracteristicas?.edad ?? '—';
-    const personalidad = a?.personalidad ?? a?.caracteristicas?.personalidad ?? '—';
-    const estado = a?.estado ?? a?.caracteristicas?.estado ?? '—';
+    const edad = a?.edad ?? '—';
+    const personalidad = a?.personalidad ?? '—';
+
+    const descripcionRaw =
+      a?.descripcion ??
+      a?.lesiones ??
+      a?.caracteristicas?.descripcion ??
+      a?.caracteristicas?.lesiones ??
+      '';
+
+    const descripcion = String(descripcionRaw).trim() || '—';
 
     const fotoUrl =
-      a?.fotoUrl ??
       a?.imagenUrl ??
-      a?.caracteristicas?.fotoUrl ??
+      a?.fotoUrl ??
       a?.caracteristicas?.imagenUrl ??
+      a?.caracteristicas?.fotoUrl ??
       '';
+
+    const esDuenio = this.uidActual && a?.uidCreador === this.uidActual;
 
     return `
       <div style="min-width:220px;max-width:260px">
@@ -244,27 +391,61 @@ export class mapa implements AfterViewInit, OnDestroy {
 
         ${
           fotoUrl
-            ? `
-          <img src="${this.esc(String(fotoUrl))}"
-               style="width:100%;border-radius:10px;margin:6px 0 10px 0;object-fit:cover;"
-          />
-        `
+            ? `<img src="${this.esc(String(fotoUrl))}"
+                 style="width:100%;border-radius:10px;margin:6px 0 10px 0;object-fit:cover;" />`
             : ''
         }
 
         <div><b>Edad:</b> ${this.esc(String(edad))}</div>
         <div><b>Personalidad:</b> ${this.esc(String(personalidad))}</div>
-        <div><b>Estado:</b> ${this.esc(String(estado))}</div>
+        <div><b>Enfermedad/Lesión:</b> ${this.esc(String(descripcion))}</div>
+
+        ${
+          esDuenio
+            ? `
+          <button
+            style="margin-top:10px;width:100%;padding:8px;border:none;
+                   border-radius:8px;background:#2d7dd2;color:white;
+                   font-weight:bold;cursor:pointer;"
+            onclick="window.editarAnimal('${a.id}')"
+          >
+            EDITAR
+          </button>
+
+          <button
+            style="margin-top:10px;width:100%;padding:8px;border:none;
+                   border-radius:8px;background:#c0392b;color:white;
+                   font-weight:bold;cursor:pointer;"
+            onclick="window.eliminarAnimal('${a.id}')"
+          >
+            ELIMINAR
+          </button>
+        `
+            : ''
+        }
       </div>
     `;
   }
 
-  private esc(texto: string): string {
-    return texto
-      .replaceAll('&', '&amp;')
-      .replaceAll('<', '&lt;')
-      .replaceAll('>', '&gt;')
-      .replaceAll('"', '&quot;')
-      .replaceAll("'", '&#039;');
+  async eliminarAnimal(id: string) {
+    try {
+      await this.animalService.eliminarAnimal(id);
+      const marker = this.markersAnimales.get(id);
+      if (marker) {
+        marker.remove();
+        this.markersAnimales.delete(id);
+      }
+    } catch {
+      alert('No se pudo eliminar el animal');
+    }
+  }
+
+  private esc(t: string): string {
+    return t
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
   }
 }

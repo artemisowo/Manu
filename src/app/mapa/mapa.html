@@ -3,23 +3,101 @@
     <div class="menu-nav-mapa" id="menu-nav-mapa">
       <a *ngIf="!logueado" routerLink="/registro">Regístrate</a>
       <a *ngIf="logueado" routerLink="/perfil">Perfil</a>
+
+      <button
+        type="button"
+        class="btn-filtrar-header"
+        (click)="mostrarFiltros = !mostrarFiltros"
+      >
+        Filtrar
+      </button>
+
       <a routerLink="/inicio">Volver al Inicio</a>
     </div>
   </header>
 
+  <!-- PANEL DE FILTROS FLOTANTE -->
+  <div class="filtros-dropdown" *ngIf="mostrarFiltros">
+
+    <div class="campo-filtro">
+      <label>Edad mín</label>
+      <input
+        type="number"
+        [(ngModel)]="filtroEdadMin"
+        (ngModelChange)="onCambiarFiltros()"
+      />
+    </div>
+
+    <div class="campo-filtro">
+      <label>Edad máx</label>
+      <input
+        type="number"
+        [(ngModel)]="filtroEdadMax"
+        (ngModelChange)="onCambiarFiltros()"
+      />
+    </div>
+
+    <div class="campo-filtro">
+      <label>Salud</label>
+      <select
+        [(ngModel)]="filtroSalud"
+        (ngModelChange)="onCambiarFiltros()"
+      >
+        <option value="TODOS">TODOS</option>
+        <option value="ENFERMO">Enfermo</option>
+        <option value="SALUDABLE">Saludable</option>
+      </select>
+    </div>
+
+    <div class="campo-filtro">
+      <label>Personalidad</label>
+      <select
+        [(ngModel)]="filtroPersonalidad"
+        (ngModelChange)="onCambiarFiltros()"
+      >
+        <option value="TODOS">TODOS</option>
+        <option value="Se desconoce">Se desconoce</option>
+        <option value="Dócil / Amable">Dócil / Amable</option>
+        <option value="Agresivo">Agresivo</option>
+        <option value="Temeroso / Con miedo">Temeroso / Con miedo</option>
+      </select>
+    </div>
+
+    <label class="checkbox">
+      <input
+        type="checkbox"
+        [(ngModel)]="filtroSoloMios"
+        (change)="onCambiarFiltros()"
+      />
+      Subido por mi
+    </label>
+
+    <button
+      type="button"
+      class="btn-limpiar"
+      (click)="limpiarFiltros()"
+    >
+      LIMPIAR
+    </button>
+
+  </div>
+
   <main class="cuerpo">
     <div id="map"></div>
 
-    <!-- Botón + -->
     <div class="btn-menu-botones" (click)="abrirPopup()">
       <span class="boton">+</span>
     </div>
 
-    <!-- Popup -->
     <app-popup
       *ngIf="mostrarPopup"
+      [visible]="mostrarPopup"
+      [modo]="modopopup"
+      [animal]="animalparaeditar"
+      [ubicacion]="{ lat: selectedLat, lng: selectedLng }"
       (cerrar)="cerrarPopup()"
-      (ingresar)="guardarAnimal($event)">
+      (ingresar)="guardarAnimal($event)"
+    >
     </app-popup>
   </main>
 </div>

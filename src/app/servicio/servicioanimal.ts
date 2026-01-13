@@ -4,36 +4,42 @@ import {
   collection,
   addDoc,
   collectionData,
-  docData,
   CollectionReference,
   DocumentData,
+  doc,
+  updateDoc,
+  deleteDoc,
+  serverTimestamp,
 } from '@angular/fire/firestore';
+import { Auth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 
 export interface Animal {
   id?: string;
 
-  // ubicación
   lat: number;
   lng: number;
 
-  // datos del animal
   nombre?: string;
   edad?: number | string;
   personalidad?: string;
   estado?: string;
 
-  // url imagen (Cloudinary)
+  descripcion?: string;
+
+  uidCreador?: string;
+  correoCreador?: string;
+
+  creado?: any;
+
   imagenUrl?: string | null;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class ServicioAnimal {
   private colRef: CollectionReference<DocumentData>;
 
-  constructor(private firestore: Firestore) {
+  constructor(private firestore: Firestore, private auth: Auth) {
     this.colRef = collection(this.firestore, 'animales');
   }
 
@@ -42,10 +48,39 @@ export class ServicioAnimal {
   }
 
   async agregarAnimal(animal: Animal): Promise<void> {
-    await addDoc(this.colRef, animal);
+    const user = this.auth.currentUser;
+
+    if (!user) throw new Error('NO_AUTH');
+    if (!user.emailVerified) throw new Error('NO_VERIFIED');
+
+    await addDoc(this.colRef, {
+      ...animal,
+      descripcion: (animal.descripcion ?? '').trim(),
+      uidCreador: user.uid,
+      correoCreador: user.email ?? '',
+      creado: serverTimestamp(),
+    });
   }
 
-  // ✅ Cloudinary (sin backend) - devuelve URL pública
+
+  async editarAnimal(id: string, data: Partial<Animal>): Promise<void> {
+    const user = this.auth.currentUser;
+
+    if (!user) throw new Error('NO_AUTH');
+    if (!user.emailVerified) throw new Error('NO_VERIFIED');
+
+    const ref = doc(this.firestore, 'animales', id);
+
+    await updateDoc(ref, {
+      ...data,
+      ...(data.descripcion !== undefined ? { descripcion: (data.descripcion ?? '').trim() } : {}),
+    } as any);
+  }
+
+  async eliminarAnimal(id: string): Promise<void> {
+    await deleteDoc(doc(this.firestore, 'animales', id));
+  }
+
   async subirImagenCloudinary(archivo: File): Promise<string> {
     const formData = new FormData();
     formData.append('file', archivo);

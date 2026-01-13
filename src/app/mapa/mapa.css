@@ -61,7 +61,6 @@ header {
   z-index: 900;
 }
 
-/* estilos botón menú */
 
 .boton {
     display: flex;
@@ -94,7 +93,6 @@ header {
   }
 }
 
-/* ESTILOS MAPA */
 
 #map {
   
@@ -102,9 +100,73 @@ header {
   overflow: hidden;
 }
 
-/* estilos iconos de animales */
   
-.icono {
-  position: absolute;
-  z-index: 900;
+.icono-foto-animal-mini{
+  background: transparent !important;
+  border: none !important;
 }
+.btn-filtrar-header {
+  background: #1f2a44;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  font-size: 18px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn-filtrar-header:hover {
+  background: #2c3a5f;
+}
+
+.filtros-dropdown {
+  position: absolute;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(160px, 1fr));
+  gap: 12px;
+  max-width: 420px;
+}
+
+.filtros-dropdown .campo-filtro {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filtros-dropdown label {
+  font-weight: bold;
+}
+
+.filtros-dropdown input,
+.filtros-dropdown select {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.filtros-dropdown .checkbox {
+  grid-column: span 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filtros-dropdown .btn-limpiar {
+  grid-column: span 2;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #444;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+

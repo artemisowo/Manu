@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -9,20 +9,68 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './popup.html',
   styleUrl: './popup.css',
 })
-export class Popup {
-  @Output() cerrar = new EventEmitter<void>();
+export class Popup implements OnChanges {
 
-  // ✅ ahora enviamos datos + foto
-  @Output() ingresar = new EventEmitter<{ datos: any; foto: File | null }>();
+  @Input() visible = false;
+  @Input() modo: 'crear' | 'editar' = 'crear';
+  @Input() animal: any = null;
+  @Input() ubicacion: any = null;
+
+  @Output() cerrar = new EventEmitter<void>();
+  @Output() ingresar = new EventEmitter<{ datos: any; foto: File | null; id?: string }>();
 
   fotoSeleccionada: File | null = null;
   nombreFoto = '';
 
-  // ✅ para el ngModel del select estado
   estadoSeleccionado = 'Desconocido';
 
-  // ✅ preview (si quieres mostrarla como antes)
   imagenUrl: string | null = null;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['visible'] && this.visible) {
+      if (this.modo === 'editar' && this.animal) {
+        this.precargarEditar(this.animal);
+      } else {
+        this.prepararCrear(this.ubicacion);
+      }
+    }
+
+    if (this.visible && (changes['animal'] || changes['modo'])) {
+      if (this.modo === 'editar' && this.animal) this.precargarEditar(this.animal);
+      if (this.modo === 'crear') this.prepararCrear(this.ubicacion);
+    }
+  }
+
+  prepararCrear(ubicacion: any): void {
+    this.fotoSeleccionada = null;
+    this.nombreFoto = '';
+    this.imagenUrl = null;
+
+    this.estadoSeleccionado = 'Desconocido';
+
+    const form = document.querySelector('form');
+    if (form) form.reset();
+  }
+
+  precargarEditar(animal: any): void {
+    this.fotoSeleccionada = null;
+    this.nombreFoto = '';
+    this.imagenUrl = animal.imagenUrl ?? null;
+
+    this.estadoSeleccionado = animal.estado ?? 'Desconocido';
+
+    setTimeout(() => {
+      const form = document.querySelector('form') as HTMLFormElement | null;
+      if (!form) return;
+
+      Object.keys(animal).forEach(k => {
+        const input = form.querySelector(`[name="${k}"]`) as HTMLInputElement | null;
+        if (input && animal[k] !== undefined && animal[k] !== null) {
+          input.value = animal[k];
+        }
+      });
+    });
+  }
 
   onCerrar(): void {
     this.cerrar.emit();
@@ -38,18 +86,17 @@ export class Popup {
     if (input.files && input.files.length > 0) {
       this.fotoSeleccionada = input.files[0];
       this.nombreFoto = this.fotoSeleccionada.name;
-
-      // preview
       this.imagenUrl = URL.createObjectURL(this.fotoSeleccionada);
     } else {
       this.fotoSeleccionada = null;
       this.nombreFoto = '';
-      this.imagenUrl = null;
     }
   }
 
   onIngresar(event: Event): void {
     event.preventDefault();
+
+    if (this.modo === 'crear' && !this.fotoSeleccionada) return;
 
     const form = event.target as HTMLFormElement;
     const fd = new FormData(form);
@@ -59,22 +106,25 @@ export class Popup {
       datos[clave] = valor;
     });
 
-    // ✅ asegurar que estado venga del ngModel aunque no lo tome el FormData como esperas
     datos.estado = this.estadoSeleccionado;
 
-    // normalizar edad
     if (typeof datos.edad === 'string' && datos.edad.trim() !== '') {
       const n = Number(datos.edad);
       datos.edad = Number.isNaN(n) ? datos.edad : n;
     }
 
+    if (this.ubicacion) {
+      datos.lat = this.ubicacion.lat;
+      datos.lng = this.ubicacion.lng;
+    }
+
     this.ingresar.emit({
       datos,
       foto: this.fotoSeleccionada,
+      id: this.modo === 'editar' ? this.animal?.id : undefined,
     });
   }
 
-  // (por si aún llamas al método nuevo desde otro HTML)
   enviarFormulario(event: Event): void {
     this.onIngresar(event);
   }
