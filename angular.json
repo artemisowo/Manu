@@ -92,7 +92,10 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/app/icono/icono.css"
+
+              
             ]
           }
         }
