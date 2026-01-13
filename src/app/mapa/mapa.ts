@@ -16,7 +16,6 @@ import { ServicioAnimal, Animal } from '../servicio/servicioanimal';
 export class mapa implements AfterViewInit, OnDestroy {
   private map: any;
 
-  // ✅ para cambiar Regístrate -> Perfil
   logueado = false;
 
   private userLat: number | null = null;
@@ -30,10 +29,7 @@ export class mapa implements AfterViewInit, OnDestroy {
   private markerSeleccion: any = null;
   private subAnimales?: Subscription;
 
-  // evita que click en marker dispare click del mapa
   private ignorarSiguienteClickMapa = false;
-
-  // markers de animales por ID
   private markersAnimales = new Map<string, any>();
 
   constructor(
@@ -41,7 +37,6 @@ export class mapa implements AfterViewInit, OnDestroy {
     private zone: NgZone,
     private auth: Auth
   ) {
-    // ✅ escuchar sesión (se actualiza solo)
     onAuthStateChanged(this.auth, (user) => {
       this.logueado = !!user;
     });
@@ -59,7 +54,6 @@ export class mapa implements AfterViewInit, OnDestroy {
 
       this.map.setView([-33.45, -70.66], 13);
 
-      // geolocalización
       if (navigator.geolocation) {
         navigator.geolocation.watchPosition(
           (pos) => {
@@ -71,7 +65,6 @@ export class mapa implements AfterViewInit, OnDestroy {
         );
       }
 
-      // click mapa -> seleccionar punto
       this.map.on('click', (e: any) => {
         if (this.ignorarSiguienteClickMapa) {
           this.ignorarSiguienteClickMapa = false;
@@ -98,7 +91,6 @@ export class mapa implements AfterViewInit, OnDestroy {
         }
       });
 
-      // escuchar animales firestore
       this.subAnimales = this.animalService.obtenerAnimales().subscribe({
         next: (animales: Animal[]) => this.pintarAnimales(L, animales),
         error: (err) => console.error('Error leyendo animales:', err),
@@ -135,13 +127,11 @@ export class mapa implements AfterViewInit, OnDestroy {
     this.mostrarPopup = false;
   }
 
-  // ✅ recibe datos + foto (desde Popup)
   async guardarAnimal(payload: { datos: any; foto: File | null }): Promise<void> {
     const lat = this.selectedLat;
     const lng = this.selectedLng;
     if (lat === null || lng === null) return;
 
-    // ✅ CERRAR al instante
     this.zone.run(() => (this.mostrarPopup = false));
 
     try {
@@ -162,7 +152,6 @@ export class mapa implements AfterViewInit, OnDestroy {
     } catch (error) {
       console.error('Error guardando animal:', error);
       alert('No se pudo guardar el animal.');
-      // si falla, reabrimos
       this.zone.run(() => (this.mostrarPopup = true));
     }
   }
@@ -191,7 +180,6 @@ export class mapa implements AfterViewInit, OnDestroy {
 
       const nombre = (a.nombre ?? 'Animal').toString();
 
-      // ✅ Icono con rutas correctas a tu proyecto
       const iconoAnimal = L.icon({
         iconUrl: 'assets/img/marker-icon.png',
         iconRetinaUrl: 'assets/img/marker-icon-2x.png',
@@ -223,7 +211,6 @@ export class mapa implements AfterViewInit, OnDestroy {
       this.markersAnimales.set(id, marker);
     }
 
-    // eliminar markers que ya no existen
     for (const [id, marker] of this.markersAnimales.entries()) {
       if (!idsActuales.has(id)) {
         marker.remove();
@@ -241,9 +228,7 @@ export class mapa implements AfterViewInit, OnDestroy {
       'Desconocido';
 
     const edad = a?.edad ?? a?.caracteristicas?.edad ?? '—';
-
     const personalidad = a?.personalidad ?? a?.caracteristicas?.personalidad ?? '—';
-
     const estado = a?.estado ?? a?.caracteristicas?.estado ?? '—';
 
     const fotoUrl =

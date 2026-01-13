@@ -4,57 +4,135 @@
   </div>
 
   <div class="bloque-registro">
-    <form class="formulario" (ngSubmit)="registrar()" novalidate>
-      <label for="email">Correo electrónico:</label>
-      <input type="email" id="email" name="email" placeholder="ejemplo@correo.com"
-             [(ngModel)]="email" required>
 
-      <label for="numero">Número: (+56)</label>
-      <input type="text" id="numero" name="numero" maxlength="9" minlength="9"
-             placeholder="9 1234 5678"
-             [(ngModel)]="numero"
-             (input)="soloNumeros()"
-             required>
+    <!-- ✅ Pantalla: Revisa tu correo -->
+    <div *ngIf="esperandoverificacion; else formularioregistro" class="formulario">
+      <p style="margin-top: 10px;">{{ aviso }}</p>
 
-      <label for="user">Nombre de usuario:</label>
-      <input type="text" placeholder="usuario_ejemplo123" id="user" name="user"
-             maxlength="30" minlength="3"
-             [(ngModel)]="usuario" required>
+      <p *ngIf="error" style="margin-top: 10px;">{{ error }}</p>
 
-      <label for="contraseña">Contraseña:</label>
-      <input type="password" id="contraseña" name="contraseña" placeholder="********"
-             minlength="8"
-             [(ngModel)]="password" required>
-
-      <label for="sector">Sector de vivienda:</label>
-      <input list="sectores" id="sector" name="sector"
-             [(ngModel)]="sector" required>
-
-      <datalist id="sectores">
-        <option value="Achupallas"></option>
-        <option value="Chorrillos"></option>
-        <option value="Forestal"></option>
-        <option value="Glorias Navales"></option>
-        <option value="Gómez Carreño"></option>
-        <option value="Miraflores"></option>
-        <option value="Nueva Aurora"></option>
-        <option value="Recreo"></option>
-        <option value="Reñaca"></option>
-        <option value="Reñaca Alto"></option>
-        <option value="Santa Ines"></option>
-        <option value="Viña centro"></option>
-      </datalist>
-
-      <p *ngIf="error" style="margin-top:10px;">{{ error }}</p>
-
-      <div class="botones">
-        <button type="submit" class="btn" [disabled]="cargando">
-          {{ cargando ? 'Cargando...' : 'Ingresar' }}
+      <div class="botones" style="margin-top: 16px;">
+        <button
+          type="button"
+          class="btn"
+          (click)="yaverifique()"
+          [disabled]="cargando">
+          Ya verifiqué, Revisar
         </button>
 
-        <a routerLink="/iniciarsesion"><button type="button" class="btn">Iniciar Sesión</button></a>
-        <a routerLink="/inicio"><button type="button" class="btn">Volver a Inicio</button></a>
+        <button
+          type="button"
+          class="btn"
+          (click)="reenviarcorreo()"
+          [disabled]="cargando">
+          Reenviar Correo
+        </button>
+
+        <a routerLink="/inicio">
+          <button type="button" class="btn">Volver a Inicio</button>
+        </a>
       </div>
-    </form>
+
+      <p style="margin-top: 12px;">
+        Cuando verifiques tu correo, te enviaremos automáticamente al Mapa.
+      </p>
+    </div>
+
+    <!-- ✅ Formulario de registro -->
+    <ng-template #formularioregistro>
+      <form class="formulario" (ngSubmit)="registrar()">
+
+        <label for="email">Correo electrónico:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="ejemplo@correo.com"
+          [(ngModel)]="email"
+          required
+        />
+
+        <label for="numero">Número: (+56)</label>
+        <input
+          type="text"
+          id="numero"
+          name="numero"
+          maxlength="9"
+          minlength="9"
+          placeholder="9 1234 5678"
+          [(ngModel)]="numero"
+          (input)="solonumeros()"
+          required
+        />
+
+        <label for="user">Nombre de Usuario:</label>
+        <input
+          type="text"
+          id="user"
+          name="user"
+          placeholder="usuario_ejemplo123"
+          maxlength="30"
+          minlength="3"
+          [(ngModel)]="usuario"
+          required
+        />
+
+        <label for="contraseña">Contraseña:</label>
+        <input
+          type="password"
+          id="contraseña"
+          name="contraseña"
+          placeholder="********"
+          minlength="8"
+          [(ngModel)]="password"
+          required
+        />
+
+        <p *ngIf="password && mensajepassword(password)" style="margin-top: 8px;">
+          {{ mensajepassword(password) }}
+        </p>
+
+        <label for="sector">Sector de vivienda:</label>
+        <input
+          list="sectores"
+          id="sector"
+          name="sector"
+          [(ngModel)]="sector"
+          required
+        />
+
+        <datalist id="sectores">
+          <option value="Achupallas"></option>
+          <option value="Chorrillos"></option>
+          <option value="Forestal"></option>
+          <option value="Glorias Navales"></option>
+          <option value="Gómez Carreño"></option>
+          <option value="Miraflores"></option>
+          <option value="Nueva Aurora"></option>
+          <option value="Recreo"></option>
+          <option value="Reñaca"></option>
+          <option value="Reñaca Alto"></option>
+          <option value="Santa Ines"></option>
+          <option value="Viña centro"></option>
+        </datalist>
+
+        <p *ngIf="error" style="margin-top: 10px;">{{ error }}</p>
+
+        <div class="botones">
+          <button type="submit" class="btn" [disabled]="cargando">
+            {{ cargando ? 'Cargando...' : 'Registrarse' }}
+          </button>
+
+          <a routerLink="/iniciarsesion">
+            <button type="button" class="btn">Iniciar Sesión</button>
+          </a>
+
+          <a routerLink="/inicio">
+            <button type="button" class="btn">Volver a Inicio</button>
+          </a>
+        </div>
+      </form>
+    </ng-template>
+
   </div>
 </div>

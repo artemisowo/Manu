@@ -1,1 +1,22 @@
-<p>perfil works!</p>
+<div class="fondo">
+  <div class="borde">
+    <h1 class="titulo">perfil</h1>
+  </div>
+
+  <div class="bloque-registro">
+    <p *ngIf="cargando">cargando...</p>
+    <p *ngIf="error">{{ error }}</p>
+
+    <div *ngIf="!cargando && datos">
+      <p><strong>correo:</strong> {{ datos.email }}</p>
+      <p><strong>usuario:</strong> {{ datos.usuario }}</p>
+      <p><strong>número:</strong> +56 {{ datos.numero }}</p>
+      <p><strong>sector:</strong> {{ datos.sector }}</p>
+
+      <div class="botones" style="margin-top: 16px;">
+        <button type="button" class="btn" (click)="cerrarsesion()">cerrar sesión</button>
+        <a routerLink="/mapa"><button type="button" class="btn">volver al mapa</button></a>
+      </div>
+    </div>
+  </div>
+</div>

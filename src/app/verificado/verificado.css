@@ -1,0 +1,17 @@
+.fondo {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.borde {
+  margin-top: 20px;
+}
+
+.bloque-registro {
+  margin-top: 20px;
+  width: 90%;
+  max-width: 420px;
+}

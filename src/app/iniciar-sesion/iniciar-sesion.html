@@ -4,14 +4,29 @@
   </div>
 
   <div class="bloque-registro">
-    <form class="formulario" (ngSubmit)="iniciar()">
+
+    <!-- Pantalla normal -->
+    <form class="formulario" *ngIf="!mostrarverificacion" (ngSubmit)="iniciar()">
+
       <label for="email">Correo electrónico:</label>
-      <input type="email" placeholder="ejemplo@correo.com" id="email" name="email"
-             [(ngModel)]="email" required>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="ejemplo@correo.com"
+        [(ngModel)]="email"
+        required
+      />
 
       <label for="contraseña">Contraseña:</label>
-      <input type="password" id="contraseña" name="contraseña" placeholder="********"
-             [(ngModel)]="password" required minlength="8">
+      <input
+        type="password"
+        id="contraseña"
+        name="contraseña"
+        placeholder="********"
+        [(ngModel)]="password"
+        required
+      />
 
       <p *ngIf="error" style="margin-top:10px;">{{ error }}</p>
 
@@ -24,5 +39,24 @@
         <a routerLink="/inicio"><button type="button" class="btn">Volver a Inicio</button></a>
       </div>
     </form>
+
+    <!-- Pantalla: Revisa tu correo -->
+    <div class="formulario" *ngIf="mostrarverificacion">
+      <p style="margin-top:10px;">{{ aviso }}</p>
+      <p *ngIf="error" style="margin-top:10px;">{{ error }}</p>
+
+      <div class="botones" style="margin-top:16px;">
+        <button type="button" class="btn" (click)="ya_verifique()" [disabled]="cargando">
+          Ya verifiqué, Revisar
+        </button>
+
+        <button type="button" class="btn" (click)="reenviar()" [disabled]="cargando">
+          Reenviar Correo
+        </button>
+
+        <a routerLink="/inicio"><button type="button" class="btn">Volver a Inicio</button></a>
+      </div>
+    </div>
+
   </div>
 </div>

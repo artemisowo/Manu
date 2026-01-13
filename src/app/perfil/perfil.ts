@@ -1,46 +1,46 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { NgIf } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
 import { Auth, onAuthStateChanged } from '@angular/fire/auth';
-import { servicioauth, PerfilUsuario } from '../servicio/servicioauth';
+import { servicioauth, perfilusuario } from '../servicio/servicioauth';
 
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgIf, RouterLink],
   templateUrl: './perfil.html',
   styleUrl: './perfil.css'
 })
 export class perfil {
   cargando = true;
   error = '';
-  perfil: PerfilUsuario | null = null;
+  datos: perfilusuario | null = null;
 
   constructor(
-    private authFirebase: Auth,
-    private authService: servicioauth,
+    private authfirebase: Auth,
+    private authservice: servicioauth,
     private router: Router
   ) {}
 
   ngOnInit() {
-    onAuthStateChanged(this.authFirebase, async (user) => {
+    onAuthStateChanged(this.authfirebase, async (user) => {
       if (!user) {
         this.router.navigate(['/iniciarsesion']);
         return;
       }
 
       try {
-        this.perfil = await this.authService.obtenerPerfil(user.uid);
+        this.datos = await this.authservice.obtenerperfil(user.uid);
       } catch (e: any) {
-        this.error = e?.message ?? 'No fue posible cargar el perfil';
+        this.error = e?.message ?? 'no se pudo cargar el perfil';
       } finally {
         this.cargando = false;
       }
     });
   }
 
-  async cerrarSesion() {
-    await this.authService.cerrarSesion();
+  async cerrarsesion() {
+    await this.authservice.cerrarsesion();
     await this.router.navigate(['/inicio']);
   }
 }

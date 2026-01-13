@@ -1,57 +1,106 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, User } from '@angular/fire/auth';
+import {
+  Auth,
+  User,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  sendEmailVerification,
+  reload,
+  updateProfile,
+} from '@angular/fire/auth';
 import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
 
-export type PerfilUsuario = {
+export type perfilusuario = {
   uid: string;
   email: string;
   usuario: string;
   numero: string;
   sector: string;
-  creadoEn: number;
+  creadoen: number;
 };
 
 @Injectable({ providedIn: 'root' })
 export class servicioauth {
   constructor(private auth: Auth, private firestore: Firestore) {}
 
-  async registrar(email: string, password: string, usuario: string, numero: string, sector: string) {
+  async registrar(
+    email: string,
+    password: string,
+    usuario: string,
+    numero: string,
+    sector: string
+  ) {
     const cred = await createUserWithEmailAndPassword(this.auth, email, password);
 
-    // nombre visible en Auth (opcional)
     await updateProfile(cred.user, { displayName: usuario });
+    await this.crearperfil(cred.user, { usuario, numero, sector });
 
-    // perfil en Firestore
-    await this.crearPerfil(cred.user, { usuario, numero, sector });
+    await sendEmailVerification(cred.user);
 
     return cred.user;
   }
 
-  async iniciarSesion(email: string, password: string) {
+  async iniciarsesion(email: string, password: string) {
     const cred = await signInWithEmailAndPassword(this.auth, email, password);
+
+    await this.forzarrefreshusuario(cred.user);
+
+    if (!cred.user.emailVerified) {
+      await signOut(this.auth);
+      throw new Error('Correo no verificado. Revisa tu correo (y Spam) y vuelve a intentar.');
+    }
+
     return cred.user;
   }
 
-  async cerrarSesion() {
+  async cerrarsesion() {
     await signOut(this.auth);
   }
 
-  async obtenerPerfil(uid: string) {
-    const ref = doc(this.firestore, 'usuarios', uid);
-    const snap = await getDoc(ref);
-    return snap.exists() ? (snap.data() as PerfilUsuario) : null;
+  async correoverificadoactual(): Promise<boolean> {
+    const user = this.auth.currentUser;
+    if (!user) return false;
+
+    await this.forzarrefreshusuario(user);
+    return !!user.emailVerified;
   }
 
-  private async crearPerfil(user: User, data: { usuario: string; numero: string; sector: string }) {
+  async reenviarverificacion() {
+    const user = this.auth.currentUser;
+    if (!user) throw new Error('No hay sesión activa.');
+    await sendEmailVerification(user);
+  }
+
+  async obtenerperfil(uid: string) {
+    const ref = doc(this.firestore, 'usuarios', uid);
+    const snap = await getDoc(ref);
+    return snap.exists() ? (snap.data() as perfilusuario) : null;
+  }
+
+  private async crearperfil(user: User, data: { usuario: string; numero: string; sector: string }) {
     const ref = doc(this.firestore, 'usuarios', user.uid);
-    const perfil: PerfilUsuario = {
+
+    const perfil: perfilusuario = {
       uid: user.uid,
       email: user.email ?? '',
       usuario: data.usuario,
       numero: data.numero,
       sector: data.sector,
-      creadoEn: Date.now(),
+      creadoen: Date.now(),
     };
+
     await setDoc(ref, perfil);
   }
+
+  private async forzarrefreshusuario(user: User) {
+    await user.getIdToken(true);
+    await reload(user);
+  }
+async relogin(email: string, password: string) {
+  const cred = await signInWithEmailAndPassword(this.auth, email, password);
+  await this.forzarrefreshusuario(cred.user);
+  return cred.user;
+}
+
 }

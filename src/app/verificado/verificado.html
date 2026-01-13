@@ -1,0 +1,15 @@
+<div class="fondo">
+  <div class="borde">
+    <h1 class="titulo">Verificación</h1>
+  </div>
+
+  <div class="bloque-registro">
+    <p *ngIf="cargando">Verificando...</p>
+    <p style="margin-top: 10px;">{{ mensaje }}</p>
+
+    <div class="botones" style="margin-top: 16px;">
+      <a routerLink="/registro"><button type="button" class="btn">Volver a Registro</button></a>
+      <a routerLink="/inicio"><button type="button" class="btn">Volver a Inicio</button></a>
+    </div>
+  </div>
+</div>
