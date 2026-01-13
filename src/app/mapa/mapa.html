@@ -1,17 +1,21 @@
 <div class="fondo">
+
+  <!-- Header verde -->
   <header>
+
+    <!-- Menú de navegación -->
     <div class="menu-nav-mapa" id="menu-nav-mapa">
+
+      <!-- Botón de registro/perfil según si está logueado -->
       <a *ngIf="!logueado" routerLink="/registro">Regístrate</a>
       <a *ngIf="logueado" routerLink="/perfil">Perfil</a>
 
-      <button
-        type="button"
-        class="btn-filtrar-header"
-        (click)="mostrarFiltros = !mostrarFiltros"
-      >
+      <!-- Botón de filtros de animales -->
+      <a (click)="mostrarFiltros = !mostrarFiltros">
         Filtrar
-      </button>
+      </a>
 
+      <!-- Botón para volver al inicio -->
       <a routerLink="/inicio">Volver al Inicio</a>
     </div>
   </header>
@@ -19,6 +23,7 @@
   <!-- PANEL DE FILTROS FLOTANTE -->
   <div class="filtros-dropdown" *ngIf="mostrarFiltros">
 
+    <!-- Campos de filtro -->
     <div class="campo-filtro">
       <label>Edad mín</label>
       <input
@@ -82,13 +87,18 @@
 
   </div>
 
+  <!-- Cuerpo del componente -->
   <main class="cuerpo">
+
+    <!-- Inserción de mapa -->
     <div id="map"></div>
 
+    <!-- Botón flotante para abrir popup de crear animal -->
     <div class="btn-menu-botones" (click)="abrirPopup()">
       <span class="boton">+</span>
     </div>
 
+    <!-- Popup para crear/editar animal -->
     <app-popup
       *ngIf="mostrarPopup"
       [visible]="mostrarPopup"
