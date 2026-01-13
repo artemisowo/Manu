@@ -1,112 +1,117 @@
+/* Reset de estilos y configuración básica */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/*ESTILOS PARA EL FONDO DE LA PAGINA MAS EL CUERPO PRINCIPAL*/
 .fondo {
     background-color: #1b1f2b;
     min-height: 100vh;
-}
 
-header {
-    padding: 13em 6.25em;
-    
-    color: #ffffff;
-    text-align: center;
-    position: relative;
-    height: 230px;
-    background-image: url('https://i.postimg.cc/BQwbtWsZ/foto-1-Picsart-Ai-Image-Enhancer.png');
-    background-position: center;
-    background-size: cover;
-} 
-
-nav {
-    text-align: right;
-    font-size: 20px;
-    margin-top: -160px;
-    margin-bottom: 40px;
-    a {
-        padding: 10px;
+    /*HEADER DE LA PÁGINA*/
+    header { 
+        padding: 13em 6.25em;
         color: #ffffff;
-        text-decoration: none;
-        transition: color 0.5s ease;
-        &:hover {
-            color: #1b1f2b;
+        text-align: center;
+        position: relative;
+        height: 230px;
+        background-image: url('https://i.postimg.cc/BQwbtWsZ/foto-1-Picsart-Ai-Image-Enhancer.png');
+        background-position: center;
+        background-size: cover;
+
+        nav {   /* Estilos para el menú de navegación */
+            text-align: right;
+            font-size: 20px;
+            margin-top: -160px;
+            margin-bottom: 40px;
+
+            a {   /* Estilos para los enlaces del menú de navegación */
+                padding: 10px;
+                color: #ffffff;
+                text-decoration: none;
+                transition: color 0.5s ease;
+                &:hover {  /* Efecto al pasar el mouse en el menú ne navegación */
+                    color: #1b1f2b;
+                }
+            }
+        }
+
+        .header-text { /* Estilos para el texto del encabezado */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .titulo { /* Estilos para el título principal */
+            font-size: 80px;
+            color: white;
+            position: relative;
+            text-align: center;  
+            padding: 10px;
+        }
+
+        .subtitulito { /* Estilos para el subtítulo */
+            font-size: 30px;
         }
     }
+
+    /*ESTILOS PARA EL CUERPO PRINCIPAL DE LA PÁGINA*/
+    main { 
+        padding-top: 80px;
+        color: white;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+
+        .bloques{  /* Estilos para los bloques de información */
+            background-color: #5b8a66;
+            margin: 40px;
+            padding: 1.2rem;
+            width: min(90%, 460px);
+            max-width: 460px;
+            height: 260px; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            gap: 0.6rem; 
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            transition: all 0.5s ease;
+            border-radius: 10px;
+            color: #ffffff;
+            text-decoration: none;
+            text-align: center;
+            box-sizing: border-box;
+            overflow: hidden;
+
+            & h1 { /* Estilos para los títulos dentro de los bloques */
+                margin: 10px;
+                padding: 0;
+                line-height: 1.1;
+            }
+
+            & p {  /* Estilos para los párrafos dentro de los bloques */
+                margin: 0px;
+                padding: -5px 0.6rem;
+            }
+        }
+    }
+
 }
 
-.header-text {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.titulo {
-    font-size: 80px;
-    color: white;
-    position: relative;
-    text-align: center;  
-    padding: 10px;
-}
-
-.subtitulito {
-    font-size: 30px;
-}
-
-main {
-    padding-top: 80px;
-    color: white;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
-.bloques{
-    background-color: #5b8a66;
-    margin: 40px;
-    padding: 1.2rem;
-    width: min(90%, 460px);
-    max-width: 460px;
-    height: 260px; 
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-    align-items: center; 
-    gap: 0.6rem; 
-    font-size: clamp(1rem, 2.5vw, 1.25rem);
-    transition: all 0.5s ease;
-    border-radius: 10px;
-    color: #ffffff;
-    text-decoration: none;
-    text-align: center;
-    box-sizing: border-box;
-    overflow: hidden;
-}
-
-.bloques h1 {
-    margin: 10px;
-    padding: 0;
-    line-height: 1.1;
-}
-
-.bloques p {
-    margin: 0px;
-    padding: -5px 0.6rem;
-}
-
-@media (min-width: 700px) {
-    main {
+@media (min-width: 700px) { /* Media query para pantallas más grandes */
+    main {   /* Ajustes para el cuerpo principal en pantallas grandes */
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
         align-items: flex-start;
     }
 
-    .bloques {
+    .bloques {  /* Ajustes para los bloques de información en pantallas grandes */
         flex: 0 1 calc(50% - 40px);
         width: calc(50% - 40px);
         max-width: 460px;
