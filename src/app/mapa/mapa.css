@@ -93,13 +93,10 @@ header {
   }
 }
 
-
 #map {
-  
   z-index: 900;
   overflow: hidden;
 }
-
   
 .icono-foto-animal-mini{
   background: transparent !important;

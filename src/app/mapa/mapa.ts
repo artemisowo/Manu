@@ -34,6 +34,7 @@ export class mapa implements AfterViewInit, OnDestroy {
 
   mostrarPopup = false;
   private markerSeleccion: any = null;
+  private iconoPersonalizado: any = null;
 
   modopopup: 'crear' | 'editar' = 'crear';
   animalparaeditar: any = null;
@@ -58,6 +59,7 @@ export class mapa implements AfterViewInit, OnDestroy {
     });
   }
 
+  // Inicialización del mapa
   ngAfterViewInit(): void {
     if (typeof window === 'undefined') return;
 
@@ -65,11 +67,22 @@ export class mapa implements AfterViewInit, OnDestroy {
       this.Lref = L;
       this.map = L.map('map');
 
+      // Marcador en el mapa personalzado
+      this.iconoPersonalizado = L.divIcon({
+        className: 'icono-animal',
+        iconSize: [37, 46],
+        iconAnchor: [37, 92],
+        popupAnchor: [0, -42],
+        html: '<img src="https://i.ibb.co/ds5ZDWbB/Icono.png" alt="Icono de animal">'
+      });
+
+      // Url del mapa utilizado
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap',
       }).addTo(this.map);
 
-      this.map.setView([-33.45, -70.66], 13);
+      // Centro inicial del mapa
+      this.map.setView([-33.02, -71.55], 15);
 
       (window as any).eliminarAnimal = (id: string) => {
         this.zone.run(() => this.eliminarAnimal(id));
@@ -79,6 +92,7 @@ export class mapa implements AfterViewInit, OnDestroy {
         this.zone.run(() => this.editarDesdePopup(id));
       };
 
+      // Obtener ubicación del usuario
       if (navigator.geolocation) {
         navigator.geolocation.watchPosition(
           (pos) => {
@@ -90,12 +104,15 @@ export class mapa implements AfterViewInit, OnDestroy {
         );
       }
 
+      // Manejar clics en el mapa para seleccionar ubicación del animal
       this.map.on('click', (e: any) => {
         this.selectedLat = e.latlng.lat;
         this.selectedLng = e.latlng.lng;
 
+        // Crear o mover marcador de selección
         if (!this.markerSeleccion) {
           this.markerSeleccion = L.marker([e.latlng.lat, e.latlng.lng], {
+            icon: this.iconoPersonalizado,
             draggable: true,
           }).addTo(this.map);
 
@@ -109,6 +126,7 @@ export class mapa implements AfterViewInit, OnDestroy {
         }
       });
 
+      // Cargar animales
       this.subAnimales = this.animalService.obtenerAnimales().subscribe({
         next: (animales: Animal[]) => {
           this.animalesCache = animales;
@@ -219,6 +237,7 @@ export class mapa implements AfterViewInit, OnDestroy {
     this.mostrarPopup = false;
   }
 
+  // Editar animal desde el popup
   private editarDesdePopup(id: string): void {
     const marker = this.markersAnimales.get(id);
     if (marker) marker.closePopup();
@@ -240,6 +259,7 @@ export class mapa implements AfterViewInit, OnDestroy {
     this.mostrarPopup = true;
   }
 
+  // Guardar animal (crear o editar)
   async guardarAnimal(payload: { datos: any; foto: File | null; id?: string }): Promise<void> {
     const id = payload.id;
 
@@ -296,6 +316,7 @@ export class mapa implements AfterViewInit, OnDestroy {
     }
   }
 
+  // Mostrar los animales en el mapa
   private pintarAnimales(L: any, animales: Animal[]): void {
     if (!this.map) return;
 
@@ -314,27 +335,25 @@ export class mapa implements AfterViewInit, OnDestroy {
         (a as any)?.caracteristicas?.fotoUrl ??
         '';
 
+      // Actualizar marcador existente
       if (this.markersAnimales.has(a.id)) {
         const m = this.markersAnimales.get(a.id);
         m.setLatLng([(a as any).lat, (a as any).lng]);
         m.setPopupContent(contenidoPopup);
 
-        if (fotoUrl) {
-          const nuevoIcono = this.crearIconoFoto(L, String(fotoUrl));
-          m.setIcon(nuevoIcono);
-        }
-
         continue;
       }
 
+      // Nuevo marcador en el mapa
       const marker = L.marker([(a as any).lat, (a as any).lng], {
-        icon: fotoUrl ? this.crearIconoFoto(L, String(fotoUrl)) : undefined,
+        icon: fotoUrl ? this.iconoPersonalizado : undefined,
       }).addTo(this.map);
 
       marker.bindPopup(contenidoPopup);
       this.markersAnimales.set(a.id, marker);
     }
 
+    // Eliminar marcadores que ya no están en la lista
     for (const [id, marker] of this.markersAnimales.entries()) {
       if (!idsActuales.has(id)) {
         marker.remove();
@@ -343,19 +362,7 @@ export class mapa implements AfterViewInit, OnDestroy {
     }
   }
 
-  private crearIconoFoto(L: any, fotoUrl: string): any {
-    const url = this.esc(fotoUrl);
-
-    return L.divIcon({
-      className: 'icono-foto-animal-mini-32',
-      html: `<img src="${url}"
-              style="width:32px;height:32px;object-fit:cover;border-radius:6px;display:block;" />`,
-      iconSize: [32, 32],
-      iconAnchor: [16, 16],
-      popupAnchor: [0, -18],
-    });
-  }
-
+  // Armar el contenido HTML del popup del animal
   private armarHtmlAnimal(a: any): string {
     const nombre =
       a?.nombre ??

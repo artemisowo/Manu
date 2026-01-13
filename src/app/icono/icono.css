@@ -48,13 +48,6 @@
   pointer-events: none;
 }
 
-.icono {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  pointer-events: auto;
-}
-
 .icono-menu {
   position: fixed;
   top: 50%;
