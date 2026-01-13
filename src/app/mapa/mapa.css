@@ -1,182 +1,163 @@
 /* Estilos fondo de la página */
 .fondo {
-    height: 100vh;
-    padding: 1vh;
-    background-color: #1B1F2B;
-    box-sizing: border-box;
-    overflow: hidden;
+  height: 100vh;
+  padding: 1vh;
+  background-color: #1B1F2B;
+  box-sizing: border-box;
+  overflow: hidden;
 
-    /* Header */
-    header {
-      z-index: 999;
-      background-color: #6DA67A;
-      position: relative;
-      position: sticky;
-      top: 0;
+  /* Header */
+  header {
+    z-index: 999;
+    background-color: #6DA67A;
+    position: relative;
+    position: sticky;
+    top: 0;
+    height: fit-content;
+
+    /* Menú de navegación */
+    .menu-nav-mapa {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
       height: fit-content;
+      padding: 1em;
+      z-index: 999;
+      gap: 5px;
 
-      /* Menú de navegación */
-      .menu-nav-mapa {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        height: fit-content;
+      /* Botones */
+      a {
+        text-align: center;
+        background-color: #1B1F2B;
+        color: #FFFFFF;
+        text-decoration: none;
+        font-size: clamp(0.7em, 2vw, 1.3em);
+        display: block;
         padding: 1em;
-        z-index: 999;
-        gap: 5px;
-
-        /* Botones */
-        a {
-          text-align: center;
-          background-color: #1B1F2B;
-          color: #FFFFFF;
-          text-decoration: none;
-          font-size: clamp(0.7em, 2vw, 1.3em);
-          display: block;
-          padding: 1em;
-          width: clamp(8em, 15vw, 15em);
-          transition: ease all 0.3s;
-          &:hover {
-            background-color: #292e3d;
-            cursor: pointer;
-          }
+        width: clamp(8em, 15vw, 15em);
+        transition: ease all 0.3s;
+        &:hover {
+          background-color: #292e3d;
+          cursor: pointer;
         }
-        @media screen and (max-width: 460px){
-          & {
-              font-size: 0.9em;
-          }
-          a {
-            padding: 1em clamp(0em, 0.6vw, 0.6em);
-          }
+      }
+
+      /* Responsividad menú de navegación */
+      @media screen and (max-width: 460px){
+        & {
+          font-size: 0.9em;
+        }
+        a {
+          padding: 1em clamp(0em, 0.6vw, 0.6em);
         }
       }
     }
-}
+  }
 
+  /* Menú desplegable de filtros */
+  .filtros-dropdown {
+    position: absolute;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(160px, 1fr));
+    gap: 12px;
+    max-width: 420px;
 
+    /* Elementos del menú */
+    .campo-filtro {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
 
+    label {
+      font-weight: bold;
+    }
 
+    input,
+    select {
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
 
-.cuerpo {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden !important;
-  display: flex;
-  justify-content: center;
-}
+    .checkbox {
+      grid-column: span 2;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-#map {
-  width: 100%;
-  height: 100%;
-  min-height: 100%;
-  overflow: hidden;
-  z-index: 900;
-}
+    /* Botón para limpiar filtros */
+    .btn-limpiar {
+      grid-column: span 2;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      background: #444;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
 
-
-.boton {
+  /* Cuerpo del componente */
+  .cuerpo {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden !important;
     display: flex;
     justify-content: center;
-    align-items: center;
-    font-size: clamp(4em, 20vw, 8em);
-    font-weight: bold;
-}
 
-.btn-menu-botones {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  left: 50%;
-  bottom: 20vh;
-  transform: translateX(-50%);
-  height: clamp(6em, 20vw, 8em);
-  width: clamp(6em, 20vw, 8em);
-  border: none;
-  background-color: #6DA67A;
-  cursor: pointer;
-  transition: ease all 0.3s;
-  border-radius: 10em;
-  box-shadow: 1px 1px 10px #acacac; /*cambiar a azul después de agregar mapa*/
-  color: #fff;
-  z-index: 999;
-  &:hover {
-    background-color: #4a7c56;
+    /* Mapa */
+    #map {
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+      overflow: hidden;
+      z-index: 900;
+    }
+
+    /* Botón flotante para abrir popup de crear animal */
+    .btn-menu-botones {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      left: 50%;
+      bottom: 20vh;
+      transform: translateX(-50%);
+      height: clamp(6em, 20vw, 8em);
+      width: clamp(6em, 20vw, 8em);
+      border: none;
+      background-color: #6DA67A;
+      cursor: pointer;
+      transition: ease all 0.3s;
+      border-radius: 10em;
+      box-shadow: 1px 1px 10px #acacac;
+      color: #fff;
+      z-index: 999;
+
+      &:hover {
+        background-color: #4a7c56;
+      }
+
+      /* Texto "+" del botón */
+      .boton {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: clamp(4em, 20vw, 8em);
+        font-weight: bold;
+      }
+    }
   }
 }
-
-#map {
-  z-index: 900;
-  overflow: hidden;
-}
-  
-.icono-foto-animal-mini{
-  background: transparent !important;
-  border: none !important;
-}
-.btn-filtrar-header {
-  background: #1f2a44;
-  color: white;
-  border: none;
-  padding: 14px 28px;
-  font-size: 18px;
-  font-family: inherit;
-  cursor: pointer;
-}
-
-.btn-filtrar-header:hover {
-  background: #2c3a5f;
-}
-
-.filtros-dropdown {
-  position: absolute;
-  top: 90px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: white;
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-  z-index: 1000;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(160px, 1fr));
-  gap: 12px;
-  max-width: 420px;
-}
-
-.filtros-dropdown .campo-filtro {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.filtros-dropdown label {
-  font-weight: bold;
-}
-
-.filtros-dropdown input,
-.filtros-dropdown select {
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-.filtros-dropdown .checkbox {
-  grid-column: span 2;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.filtros-dropdown .btn-limpiar {
-  grid-column: span 2;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  background: #444;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-
