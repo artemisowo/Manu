@@ -60,61 +60,150 @@
     /*ESTILOS PARA EL CUERPO PRINCIPAL DE LA PÁGINA*/
     main { 
         padding-top: 80px;
+        padding-left: 40px;
+        padding-right: 40px;
         color: white;
         text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        justify-items: center;
         gap: 20px;
-
-        .bloques{  /* Estilos para los bloques de información */
-            background-color: #5b8a66;
-            margin: 40px;
-            padding: 1.2rem;
-            width: min(90%, 460px);
-            max-width: 460px;
-            height: 260px; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center; 
-            align-items: center; 
-            gap: 0.6rem; 
-            font-size: clamp(1rem, 2.5vw, 1.25rem);
-            transition: all 0.5s ease;
-            border-radius: 10px;
-            color: #ffffff;
-            text-decoration: none;
-            text-align: center;
-            box-sizing: border-box;
-            overflow: hidden;
-
-            & h1 { /* Estilos para los títulos dentro de los bloques */
-                margin: 10px;
-                padding: 0;
-                line-height: 1.1;
-            }
-
-            & p {  /* Estilos para los párrafos dentro de los bloques */
-                margin: 0px;
-                padding: -5px 0.6rem;
-            }
+        max-width: 1500px;
+        margin: 0 auto;
+            
         }
     }
 
+.bloques{  /* Estilos para los bloques de información */
+    background-color: #5b8a66;
+    margin: 10px auto;
+    padding: 1.5rem 1.2rem;
+    width: min(90%, 460px);
+    max-width: 460px;
+    min-height: 260px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    gap: 0.8rem; 
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    transition: all 0.5s ease;
+    border-radius: 10px;
+    color: #ffffff;
+    text-decoration: none;
+    text-align: center;
+    box-sizing: border-box;
+    overflow: visible;
+
+    & h1 { /* Estilos para los títulos dentro de los bloques */
+        margin: 0;
+        padding: 0;
+        line-height: 1.2;
+        }
+
+    & p {  /* Estilos para los párrafos dentro de los bloques */
+        margin: 0;
+        padding: 0 0.3rem;
+        line-height: 1.4;
+    }
 }
 
-@media (min-width: 700px) { /* Media query para pantallas más grandes */
-    main {   /* Ajustes para el cuerpo principal en pantallas grandes */
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: flex-start;
-    }
+.bloques:last-child { /* Centra el último bloque si queda solo */
+    grid-column: 1 / 2;
+}
 
-    .bloques {  /* Ajustes para los bloques de información en pantallas grandes */
-        flex: 0 1 calc(50% - 40px);
-        width: calc(50% - 40px);
-        max-width: 460px;
-        height: 260px;
+@media (max-width: 768px) { /* Media query para tabletas */
+    .fondo {
+        header {
+            padding: 4em 2em;
+            height: auto;
+            
+            .titulo {
+                font-size: 50px;
+            }
+            
+            .subtitulito {
+                font-size: 20px;
+            }
+            
+            nav {
+                margin-top: -80px;
+                font-size: 16px;
+            }
+        }
+    }
+    
+    main {   /* Ajustes para el cuerpo principal en tabletas */
+        grid-template-columns: repeat(2, 1fr);
+        padding-top: 40px;
+        padding-left: 20px;
+        padding-right: 20px;
+        gap: 15px;
+        max-width: 900px;
+    }
+    
+    .bloques {
+        width: 100%;
+        max-width: 350px;
+        min-height: 220px;
+        margin: 20px;
     }
 }
+
+@media (max-width: 480px) { /* Media query para móviles */
+    .fondo {
+        header {
+            padding: 2em 1em;
+            height: auto;
+            
+            .titulo {
+                font-size: 35px;
+            }
+            
+            .subtitulito {
+                font-size: 16px;
+            }
+            
+            nav {
+                margin-top: -50px;
+                font-size: 14px;
+            }
+        }
+    }
+    
+    main {   /* Ajustes para el cuerpo principal en móviles */
+        padding-top: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+        gap: 10px;
+    }
+    
+    .bloques {
+        width: 100%;
+        max-width: 100%;
+        min-height: 200px;
+        margin: 10px 0;
+        padding: 1rem 0.8rem;
+        
+        & h1 {
+            font-size: 1.1rem;
+        }
+        
+        & p {
+            font-size: 0.9rem;
+        }
+    }
+}
+
+@media (min-width: 1200px) { /* Media query para pantallas muy grandes */
+    main {   /* Ajustes para el cuerpo principal en pantallas muy grandes */
+        max-width: 1200px;
+        gap: 30px;
+    }
+    
+    .bloques {
+        width: 100%;
+        max-width: 500px;
+    }
+}
+
