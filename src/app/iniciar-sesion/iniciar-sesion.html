@@ -1,6 +1,7 @@
+<!-- Fondo de la página más titulo -->
 <div class="fondo">
   <div class="borde">
-    <h1 class="titulo">Inicia Sesión</h1>
+    <h1 class="titulo">Inicia Sesión</h1>  <!-- Título de la sección -->
   </div>
 
   <div class="bloque-registro">
@@ -8,6 +9,7 @@
     <!-- Pantalla normal -->
     <form class="formulario" *ngIf="!mostrarverificacion" (ngSubmit)="iniciar()">
 
+      <!-- Formulario donde se ingresa correo electrónico -->
       <label for="email">Correo electrónico:</label>
       <input
         type="email"
@@ -18,6 +20,7 @@
         required
       />
 
+      <!-- Formulario donde se ingresa contraseña -->
       <label for="contraseña">Contraseña:</label>
       <input
         type="password"
@@ -28,13 +31,15 @@
         required
       />
 
-      <p *ngIf="error" style="margin-top:10px;">{{ error }}</p>
+      <p *ngIf="error" class="margin-top-10">{{ error }}</p>
 
+      <!-- Boton para poder ingresar con una cuenta -->
       <div class="botones">
         <button type="submit" class="btn" [disabled]="cargando">
           {{ cargando ? 'Cargando...' : 'Ingresar' }}
         </button>
 
+        <!-- Botones de redirección a otras páginas -->
         <a routerLink="/registro"><button type="button" class="btn">Regístrate</button></a>
         <a routerLink="/inicio"><button type="button" class="btn">Volver a Inicio</button></a>
       </div>
@@ -42,10 +47,11 @@
 
     <!-- Pantalla: Revisa tu correo -->
     <div class="formulario" *ngIf="mostrarverificacion">
-      <p style="margin-top:10px;">{{ aviso }}</p>
-      <p *ngIf="error" style="margin-top:10px;">{{ error }}</p>
+      <p class="margin-top-10">{{ aviso }}</p>
+      <p *ngIf="error" class="margin-top-10">{{ error }}</p>
 
-      <div class="botones" style="margin-top:16px;">
+      <!-- Botones de verificación  de cuenta-->
+      <div class="botones margin-top-16">
         <button type="button" class="btn" (click)="ya_verifique()" [disabled]="cargando">
           Ya verifiqué, Revisar
         </button>
@@ -54,6 +60,7 @@
           Reenviar Correo
         </button>
 
+        <!-- Botones de redirección a página principal -->
         <a routerLink="/inicio"><button type="button" class="btn">Volver a Inicio</button></a>
       </div>
     </div>

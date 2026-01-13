@@ -1,3 +1,4 @@
+/*ESTILOS PARA EL FONDO DE LA PAGINA*/
 .fondo {
     min-height: 100vh;
     width: 100%;
@@ -9,23 +10,24 @@
     justify-content: center;
     padding: 16px;
     box-sizing: border-box;
+
+    .borde {    /* Estilo para estructura y bordes de la página */
+        border-bottom: 2px solid white;
+        width: 100%;
+        max-width: 600px;
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+    
+        .titulo {  /* Estilo para el título de la página */
+            color: #fff;
+            font-size: clamp(1.5em, 5vw, 3em);
+            margin: 0;
+            text-align: center;
+        }
+    }
 }
 
-.titulo {
-    color: #fff;
-    font-size: clamp(1.5em, 5vw, 3em);
-    margin: 0;
-    text-align: center;
-}
-
-.borde {
-    border-bottom: 2px solid white;
-    width: 100%;
-    max-width: 600px;
-    padding-bottom: 15px;
-    margin-bottom: 30px;
-}
-
+/*ESTILOS PARA LOS BLOQUES DE REGISTRO Y BOTONES*/
 .bloque-registro {
     width: 100%;
     max-width: 600px;
@@ -33,102 +35,113 @@
     flex-direction: column;
     padding: 16px;
     box-sizing: border-box;
+
+    .formulario {   /* Estilos para formularios de registro */
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        box-sizing: border-box;
+ 
+    }
+    & input {     /* Estilos para los campos de entrada del formulario */
+        padding: clamp(0.8em, 3vw, 1.2em);
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #2a2f3f;
+        color: #fff;
+        font-size: 1em;
+        box-sizing: border-box;
+        margin-bottom: 12px;
+        transition: border-color 0.3s ease;
+    }
+
+    & input:focus {       /* Estilos para los campos de entrada al estar enfocados */
+        outline: none;
+        border-color: #6da67a;
+        background-color: #333844;
+    }
+
+    & input::placeholder {    /* Estilos para el texto del espacio de relleno */
+        color: #999;
+    }
+
+    & label {   /* Estilos para las etiquetas de los campos del formulario */
+        margin: clamp(0.5em, 3vw, 1em) 0 8px 0;
+        font-size: clamp(0.95em, 3vw, 1.1em);
+        font-weight: bold;
+        display: block;
+    }
+
+    .botones {   /* Estilos para los botones */
+        display: flex;
+        width: 100%;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: stretch;
+        justify-content: center;
+        margin-top: 20px;
+        box-sizing: border-box;
+
+        & a {   /* Estilos para los enlaces de los botones */
+            text-decoration: none;
+            flex: 1;
+            min-width: 150px;
+            display: flex;
+        }
+
+        .btn {  /* Estilos para los botones */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #6da67a;
+            color: #fff;
+            padding: clamp(12px, 3vw, 20px);
+            font-size: clamp(0.85em, 2.5vw, 1.1em);
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            cursor: pointer;
+            border: none;
+            min-height: 44px;
+            font-weight: 600;
+            width: 100%;
+
+            &:hover {  /* Estilos para los botones al pasar el cursor */
+                background-color: #497253;
+                color: #e0e0e0;
+            }
+
+            &:active {  /* Estilos para los botones al hacer clic */
+                transform: scale(0.98);
+            }
+
+            &:disabled {    /* Estilos para los botones deshabilitados */
+                background-color: #4a5f52;
+                cursor: not-allowed;
+                opacity: 0.7;
+            }
+        }
+    }   
+
 }
 
-.formulario {
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.formulario input {
-    padding: clamp(0.8em, 3vw, 1.2em);
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #2a2f3f;
-    color: #fff;
-    font-size: 1em;
-    box-sizing: border-box;
-    margin-bottom: 12px;
-    transition: border-color 0.3s ease;
-}
-
-.formulario input:focus {
-    outline: none;
-    border-color: #6da67a;
-    background-color: #333844;
-}
-
-.formulario input::placeholder {
-    color: #999;
-}
-
-.formulario label {
-    margin: clamp(0.5em, 3vw, 1em) 0 8px 0;
-    font-size: clamp(0.95em, 3vw, 1.1em);
-    font-weight: bold;
-    display: block;
-}
-
-.btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #6da67a;
-    color: #fff;
-    padding: clamp(12px, 3vw, 20px);
-    font-size: clamp(0.85em, 2.5vw, 1.1em);
-    transition: all 0.3s ease;
-    border-radius: 10px;
-    cursor: pointer;
-    border: none;
-    min-height: 44px;
-    font-weight: 600;
-    width: 100%;
-}
-
-.btn:hover {
-    background-color: #497253;
-    color: #e0e0e0;
-}
-
-.btn:active {
-    transform: scale(0.98);
-}
-
-.btn:disabled {
-    background-color: #4a5f52;
-    cursor: not-allowed;
-    opacity: 0.7;
-}
-
-.botones {
-    display: flex;
-    width: 100%;
-    gap: 10px;
-    flex-wrap: wrap;
-    align-items: stretch;
-    justify-content: center;
-    margin-top: 20px;
-    box-sizing: border-box;
-}
-
-.botones a {
-    text-decoration: none;
-    flex: 1;
-    min-width: 150px;
-    display: flex;
-}
-
+/* Estilos para los botones dentro de los enlaces */
 .botones a .btn {
     width: 100%;
 }
 
-/* Media Queries para dispositivos móviles */
-@media screen and (max-width: 768px) {
+/* Clases auxiliares para márgenes */
+.margin-top-10 {
+    margin-top: 10px;
+}
+
+.margin-top-16 {
+    margin-top: 16px;
+}
+
+/* MEDIA QUERIES PARA DISPOSITIVOS MÓVILES */
+@media screen and (max-width: 768px) {      /* Estilos para pantallas pequeñas */
     .fondo {
         padding: 12px;
         justify-content: flex-start;
@@ -154,7 +167,7 @@
     }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 480px) {   /* Estilos para pantallas muy pequeñas */
     .fondo {
         padding: 8px;
         padding-top: 16px;
@@ -200,7 +213,7 @@
     }
 }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 360px) {  /* Estilos para pantallas muy muy pequeñas */
     .fondo {
         padding: 6px;
     }
