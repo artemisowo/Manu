@@ -86,6 +86,11 @@ export class mapa implements AfterViewInit, OnDestroy {
       // Centro inicial del mapa
       this.map.setView([-33.02, -71.55], 15);
 
+      // Limites del mapa a Viña del Mar
+      var vinadelmarBounds = L.latLngBounds(L.latLng(-33.07, -71.60), L.latLng(-32.95, -71.45));
+      this.map.setMaxBounds(vinadelmarBounds);
+
+
       (window as any).eliminarAnimal = (id: string) => {
         this.zone.run(() => this.eliminarAnimal(id));
       };
