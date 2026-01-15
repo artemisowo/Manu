@@ -60,32 +60,38 @@
     top: 90px;
     left: 50%;
     transform: translateX(-50%);
-    background: white;
+    background: #1B1F2B;
     padding: 16px;
     border-radius: 12px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 5px 20px rgba(255, 255, 255, 0.418);
     z-index: 1000;
     display: grid;
-    grid-template-columns: repeat(2, minmax(160px, 1fr));
-    gap: 12px;
-    max-width: 420px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(6px, 1vw, 12px);;
+    max-width: clamp(150px, 35vw, 500px);
 
     /* Elementos del menú */
     .campo-filtro {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: clamp(6px, 1vw, 8px);
+      width: clamp(120px, 15vw, 200px);
     }
 
     label {
-      font-weight: bold;
+      color: rgba(255, 255, 255, 0.897);
+      font-weight: 600;
+      font-size: clamp(0.7em, 1.2vw, 1.2em);
     }
 
     input,
     select {
-      padding: 8px;
+      padding: clamp(2px, 0.8vw, 10px);
+      font-size: clamp(0.4em, 1.2vw, 1em);
       border-radius: 8px;
-      border: 1px solid #ccc;
+      border: 1px solid #ccccccce;
+      background-color: rgba(255, 255, 255, 0.897);
+      color: #1B1F2B;
     }
 
     .checkbox {
@@ -95,16 +101,35 @@
       gap: 8px;
     }
 
+    option {
+      background-color: rgba(209, 209, 209, 0.712);
+      color: #1B1F2B;
+    }
+
     /* Botón para limpiar filtros */
     .btn-limpiar {
       grid-column: span 2;
-      padding: 10px;
+      padding: clamp(6px, 0.8vw, 10px);
+      font-size: clamp(0.6em, 1vw, 1em);
       border-radius: 10px;
       border: none;
-      background: #444;
+      background: #6DA67A;
       color: white;
       font-weight: bold;
       cursor: pointer;
+      transition: ease all 0.3s;
+      &:hover {
+        background: #4a7c56;
+      }
+    }
+
+    @media screen and (max-width: 460px){
+      & {
+        top: 70px;
+        max-width: 90vw;
+        grid-template-columns: 1fr;
+      }
+      
     }
   }
 
