@@ -1,9 +1,12 @@
+<!-- Backdrop oscuro que cubre todo -->
+<div class="backdrop" (click)="onCerrar()"></div>
+
 <!-- Estructura del componente -->
 <!-- Encerrada en un div para añadir un fondo fijo a toda la página -->
 <div class="fondo">
 
   <!-- Bloque de título y subtítulo -->
-  <div class="bloque-titulo">
+  <div class="bloque-titulo" (click)="$event.stopPropagation()">
 
     <!-- Bloque de título + borde inferior -->
     <div class="borde">
@@ -22,7 +25,7 @@
   </div>
 
   <!-- Bloque de registro de datos del animal -->
-  <div class="bloque-registro">
+  <div class="bloque-registro" (click)="$event.stopPropagation()">
 
     <!-- Formulario de datos del animal -->
     <form class="formulario" (submit)="onIngresar($event)">
