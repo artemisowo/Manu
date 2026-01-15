@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy, NgZone, ViewContainerRef } from '@angular/core';
+import { HostListener, Component, AfterViewInit, OnDestroy, NgZone, ViewContainerRef, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -17,6 +17,9 @@ import { ServicioAnimal, Animal } from '../servicio/servicioanimal';
   styleUrl: './mapa.css',
 })
 export class mapa implements AfterViewInit, OnDestroy {
+  // Referencia al contenedor de filtros en el HTML
+  @ViewChild('contenedorFiltros') contenedorFiltros!: ElementRef;
+
   private map: any;
   private Lref: any;
   private subAnimales?: Subscription;
@@ -59,6 +62,20 @@ export class mapa implements AfterViewInit, OnDestroy {
       this.uidActual = user?.uid ?? null;
       this.refrescarVista();
     });
+  }
+
+  // Detectar clics fuera del contenedor de filtros para cerrarlo
+  @HostListener('document:click', ['$event'])
+  clickFuera(event: Event) {
+    if (!this.mostrarFiltros) return;
+
+    // Verificamos si el clic ocurrió DENTRO del contenedor de filtros
+    const clicDentro = this.contenedorFiltros.nativeElement.contains(event.target);
+
+    // Si el clic fue fuera, cerramos el dropdown
+    if (!clicDentro) {
+      this.mostrarFiltros = false;
+    }
   }
 
   // Inicialización del mapa
@@ -167,6 +184,7 @@ export class mapa implements AfterViewInit, OnDestroy {
     this.pintarAnimales(this.Lref, lista);
   }
 
+  // Filtrar animales según los filtros seleccionados
   private filtrarAnimales(animales: Animal[]): Animal[] {
     let lista = [...animales];
 
@@ -418,6 +436,7 @@ export class mapa implements AfterViewInit, OnDestroy {
     }
   }
 
+  // Eliminar animal
   async eliminarAnimal(id: string) {
     try {
       await this.animalService.eliminarAnimal(id);

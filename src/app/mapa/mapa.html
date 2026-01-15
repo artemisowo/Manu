@@ -11,7 +11,7 @@
       <a *ngIf="logueado" routerLink="/perfil">Perfil</a>
 
       <!-- Botón de filtros de animales -->
-      <a (click)="mostrarFiltros = !mostrarFiltros">
+      <a (click)="$event.stopPropagation(); mostrarFiltros = !mostrarFiltros">
         Filtrar
       </a>
 
@@ -21,7 +21,7 @@
   </header>
 
   <!-- PANEL DE FILTROS FLOTANTE -->
-  <div class="filtros-dropdown" *ngIf="mostrarFiltros">
+  <div class="filtros-dropdown" *ngIf="mostrarFiltros" #contenedorFiltros>
 
     <!-- Campos de filtro -->
     <div class="campo-filtro">
@@ -82,7 +82,7 @@
       class="btn-limpiar"
       (click)="limpiarFiltros()"
     >
-      LIMPIAR
+      LIMPIAR CAMPOS
     </button>
 
   </div>
