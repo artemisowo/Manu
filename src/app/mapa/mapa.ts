@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy, NgZone } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, NgZone, ViewContainerRef } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -6,6 +6,7 @@ import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 import { FormsModule } from '@angular/forms';
 
 import { Popup } from '../popup/popup';
+import { Icono } from '../icono/icono';
 import { ServicioAnimal, Animal } from '../servicio/servicioanimal';
 
 @Component({
@@ -19,7 +20,7 @@ export class mapa implements AfterViewInit, OnDestroy {
   private map: any;
   private Lref: any;
   private subAnimales?: Subscription;
-  private markersAnimales = new Map<string, any>();
+  private markersAnimales = new Map<string, { marker: any, componentRef: any }>();
 
   animalesCache: Animal[] = [];
 
@@ -50,7 +51,8 @@ export class mapa implements AfterViewInit, OnDestroy {
   constructor(
     private animalService: ServicioAnimal,
     private zone: NgZone,
-    private auth: Auth
+    private auth: Auth,
+    private viewContainerRef: ViewContainerRef
   ) {
     onAuthStateChanged(this.auth, (user) => {
       this.logueado = !!user;
@@ -237,10 +239,18 @@ export class mapa implements AfterViewInit, OnDestroy {
     this.mostrarPopup = false;
   }
 
+  onEditarDesdePopupAnimal(id: string): void {
+    this.editarDesdePopup(id);
+  }
+
+  onEliminarDesdePopupAnimal(id: string): void {
+    this.eliminarAnimal(id);
+  }
+
   // Editar animal desde el popup
   private editarDesdePopup(id: string): void {
-    const marker = this.markersAnimales.get(id);
-    if (marker) marker.closePopup();
+    const entry = this.markersAnimales.get(id);
+    if (entry) entry.marker.closePopup();
 
     const a = this.animalesCache.find((x) => x.id === id);
 
@@ -268,9 +278,19 @@ export class mapa implements AfterViewInit, OnDestroy {
 
       try {
         const datosEdit: any = {
-          ...payload.datos,
-          descripcion: (payload.datos?.descripcion ?? payload.datos?.lesiones ?? '').toString().trim(),
+          nombre: payload.datos?.nombre ?? payload.datos?.name,
+          edad: payload.datos?.edad,
+          personalidad: payload.datos?.personalidad,
+          estado: payload.datos?.estado,
         };
+
+        // Solo guardar descripcion si hay lesiones (estado es "Signos de Enfermedades/Lesiones")
+        if (payload.datos?.estado !== 'Signos de Enfermedades/Lesiones') {
+          datosEdit.descripcion = '';
+        } else {
+          // Si el estado es lesiones, guardamos lo que venga (o vacío si no escribió nada)
+          datosEdit.descripcion = payload.datos.lesiones?.toString().trim() || '';
+        }
 
         if (payload.foto) {
           const imagenUrl = await this.animalService.subirImagenCloudinary(payload.foto);
@@ -278,6 +298,7 @@ export class mapa implements AfterViewInit, OnDestroy {
         }
 
         await this.animalService.editarAnimal(id, datosEdit);
+        // El Observable se actualiza automáticamente, no necesitamos llamar a refrescarVista manualmente
       } catch {
         alert('No se pudo editar el animal');
         this.zone.run(() => (this.mostrarPopup = true));
@@ -301,9 +322,16 @@ export class mapa implements AfterViewInit, OnDestroy {
     try {
       const imagenUrl = await this.animalService.subirImagenCloudinary(payload.foto);
 
+      const descripcion = payload.datos?.estado === 'Signos de Enfermedades/Lesiones' 
+        ? (payload.datos.lesiones?.toString().trim() || '') 
+        : '';
+
       const animal: Animal = {
-        ...payload.datos,
-        descripcion: (payload.datos?.descripcion ?? payload.datos?.lesiones ?? '').toString().trim(),
+        nombre: payload.datos?.nombre ?? payload.datos?.name,
+        edad: payload.datos?.edad,
+        personalidad: payload.datos?.personalidad,
+        estado: payload.datos?.estado,
+        descripcion,
         lat,
         lng,
         imagenUrl,
@@ -326,8 +354,6 @@ export class mapa implements AfterViewInit, OnDestroy {
       if (!a.id || typeof (a as any).lat !== 'number' || typeof (a as any).lng !== 'number') continue;
       idsActuales.add(a.id);
 
-      const contenidoPopup = this.armarHtmlAnimal(a);
-
       const fotoUrl =
         (a as any)?.imagenUrl ??
         (a as any)?.fotoUrl ??
@@ -337,10 +363,12 @@ export class mapa implements AfterViewInit, OnDestroy {
 
       // Actualizar marcador existente
       if (this.markersAnimales.has(a.id)) {
-        const m = this.markersAnimales.get(a.id);
-        m.setLatLng([(a as any).lat, (a as any).lng]);
-        m.setPopupContent(contenidoPopup);
+        const objetoMarcador = this.markersAnimales.get(a.id)!;
+        objetoMarcador.marker.setLatLng([(a as any).lat, (a as any).lng]);
+        objetoMarcador.componentRef.instance.datosAnimal = a;
+        objetoMarcador.componentRef.instance.imgUrl = fotoUrl;
 
+        objetoMarcador.componentRef.changeDetectorRef.detectChanges();
         continue;
       }
 
@@ -349,101 +377,49 @@ export class mapa implements AfterViewInit, OnDestroy {
         icon: fotoUrl ? this.iconoPersonalizado : undefined,
       }).addTo(this.map);
 
-      marker.bindPopup(contenidoPopup);
-      this.markersAnimales.set(a.id, marker);
+      // Crear un contenedor para el popup con el componente Icono
+      const popupContainer = document.createElement('div');
+      popupContainer.style.pointerEvents = 'auto';
+
+      // Renderizar el componente Icono dinámicamente
+      const componentRef = this.viewContainerRef.createComponent(Icono);
+      componentRef.instance.datosAnimal = a;
+      componentRef.instance.imgUrl = fotoUrl;
+      
+      componentRef.instance.editar.subscribe((id: string) => {
+        marker.closePopup();
+        this.zone.run(() => this.onEditarDesdePopupAnimal(id));
+      });
+      
+      componentRef.instance.animalEliminado.subscribe((id: string) => {
+        marker.remove();
+        this.markersAnimales.delete(id);
+      });
+
+      popupContainer.appendChild(componentRef.location.nativeElement);
+
+      marker.bindPopup(popupContainer, { maxWidth: 400, className: 'leaflet-popup-icono' });
+
+      this.markersAnimales.set(a.id, { marker, componentRef });
     }
 
     // Eliminar marcadores que ya no están en la lista
-    for (const [id, marker] of this.markersAnimales.entries()) {
+    for (const [id, entry] of this.markersAnimales.entries()) {
       if (!idsActuales.has(id)) {
-        marker.remove();
+        entry.marker.remove();
+        entry.componentRef.destroy(); // <--- Añade esta línea para liberar memoria
         this.markersAnimales.delete(id);
       }
     }
   }
 
-private crearIconoFoto(L: any, fotoUrl: string): any {
-  const url = this.esc(fotoUrl);
-
-  return L.divIcon({
-    className: 'icono-foto-animal-mini-32',
-    html: `<img src="${url}" class="icono-foto-mini" />`,
-    iconSize: [24, 24],
-    iconAnchor: [12, 12],
-    popupAnchor: [0, -14],
-  });
-}
-
-
-
-
-private armarHtmlAnimal(a: any): string {
-  const nombre =
-    a?.nombre ??
-    a?.name ??
-    a?.caracteristicas?.nombre ??
-    a?.caracteristicas?.name ??
-    'Desconocido';
-
-  const edad = a?.edad ?? '—';
-  const personalidad = a?.personalidad ?? '—';
-
-  const descripcionRaw =
-    a?.descripcion ??
-    a?.lesiones ??
-    a?.caracteristicas?.descripcion ??
-    a?.caracteristicas?.lesiones ??
-    '';
-
-  const descripcion = String(descripcionRaw).trim() || '—';
-
-  const fotoUrl =
-    a?.imagenUrl ??
-    a?.fotoUrl ??
-    a?.caracteristicas?.imagenUrl ??
-    a?.caracteristicas?.fotoUrl ??
-    '';
-
-  const esDuenio = this.uidActual && a?.uidCreador === this.uidActual;
-
-  return `
-    <div class="popup-animal">
-      <h3 class="popup-animal-titulo">${this.esc(String(nombre))}</h3>
-
-      ${
-        fotoUrl
-          ? `<img src="${this.esc(String(fotoUrl))}" class="popup-animal-img" />`
-          : ''
-      }
-
-      <div class="popup-animal-linea"><b>Edad:</b> ${this.esc(String(edad))}</div>
-      <div class="popup-animal-linea"><b>Personalidad:</b> ${this.esc(String(personalidad))}</div>
-      <div class="popup-animal-linea"><b>Enfermedad/Lesión:</b> ${this.esc(String(descripcion))}</div>
-
-      ${
-        esDuenio
-          ? `
-        <button class="popup-animal-btn popup-animal-btn-editar" onclick="window.editarAnimal('${a.id}')">
-          EDITAR
-        </button>
-
-        <button class="popup-animal-btn popup-animal-btn-eliminar" onclick="window.eliminarAnimal('${a.id}')">
-          ELIMINAR
-        </button>
-      `
-          : ''
-      }
-    </div>
-  `;
-}
-
-
   async eliminarAnimal(id: string) {
     try {
       await this.animalService.eliminarAnimal(id);
-      const marker = this.markersAnimales.get(id);
-      if (marker) {
-        marker.remove();
+      const entry = this.markersAnimales.get(id);
+      if (entry) {
+        entry.marker.remove();
+        entry.componentRef.destroy();    
         this.markersAnimales.delete(id);
       }
     } catch {

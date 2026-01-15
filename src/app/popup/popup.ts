@@ -19,6 +19,13 @@ export class Popup implements OnChanges {
   @Output() cerrar = new EventEmitter<void>();
   @Output() ingresar = new EventEmitter<{ datos: any; foto: File | null; id?: string }>();
 
+  datosAnimal: any = {
+    nombre: '',
+    edad: null,
+    personalidad: 'Desconocido',
+    lesiones: ''
+  };
+
   fotoSeleccionada: File | null = null;
   nombreFoto = '';
 
@@ -31,45 +38,36 @@ export class Popup implements OnChanges {
       if (this.modo === 'editar' && this.animal) {
         this.precargarEditar(this.animal);
       } else {
-        this.prepararCrear(this.ubicacion);
+        this.prepararCrear();
       }
     }
 
     if (this.visible && (changes['animal'] || changes['modo'])) {
       if (this.modo === 'editar' && this.animal) this.precargarEditar(this.animal);
-      if (this.modo === 'crear') this.prepararCrear(this.ubicacion);
+      if (this.modo === 'crear') this.prepararCrear();
     }
   }
 
-  prepararCrear(ubicacion: any): void {
-    this.fotoSeleccionada = null;
-    this.nombreFoto = '';
-    this.imagenUrl = null;
-
+  prepararCrear(): void {
+    this.datosAnimal = { nombre: '', edad: null, personalidad: 'Desconocido', lesiones: '' };
     this.estadoSeleccionado = 'Desconocido';
-
-    const form = document.querySelector('form');
-    if (form) form.reset();
-  }
+    this.fotoSeleccionada = null;
+    this.imagenUrl = null;
+}
 
   precargarEditar(animal: any): void {
-    this.fotoSeleccionada = null;
-    this.nombreFoto = '';
-    this.imagenUrl = animal.imagenUrl ?? null;
-
+    this.datosAnimal = {
+      // Aseguramos que tome el nombre sin importar si viene como 'nombre' o 'name'
+      nombre: animal.nombre || animal.name || '', 
+      edad: animal.edad ?? null,
+      personalidad: animal.personalidad ?? 'Desconocido',
+      // IMPORTANTE: Tu servicio animal usa 'descripcion', pero el popup usa 'lesiones'
+      lesiones: animal.descripcion || animal.lesiones || '' 
+    };
+    
     this.estadoSeleccionado = animal.estado ?? 'Desconocido';
-
-    setTimeout(() => {
-      const form = document.querySelector('form') as HTMLFormElement | null;
-      if (!form) return;
-
-      Object.keys(animal).forEach(k => {
-        const input = form.querySelector(`[name="${k}"]`) as HTMLInputElement | null;
-        if (input && animal[k] !== undefined && animal[k] !== null) {
-          input.value = animal[k];
-        }
-      });
-    });
+    this.imagenUrl = animal.imagenUrl ?? null;
+    this.fotoSeleccionada = null;
   }
 
   onCerrar(): void {
@@ -93,33 +91,29 @@ export class Popup implements OnChanges {
     }
   }
 
+  
   onIngresar(event: Event): void {
     event.preventDefault();
 
-    if (this.modo === 'crear' && !this.fotoSeleccionada) return;
+    // 1. Creamos una copia de los datos actuales del formulario
+    const datosParaEnviar = { ...this.datosAnimal };
 
-    const form = event.target as HTMLFormElement;
-    const fd = new FormData(form);
-
-    const datos: any = {};
-    fd.forEach((valor, clave) => {
-      datos[clave] = valor;
-    });
-
-    datos.estado = this.estadoSeleccionado;
-
-    if (typeof datos.edad === 'string' && datos.edad.trim() !== '') {
-      const n = Number(datos.edad);
-      datos.edad = Number.isNaN(n) ? datos.edad : n;
+    // 2. Lógica de limpieza según el estado seleccionado:
+    if (this.estadoSeleccionado !== 'Signos de Enfermedades/Lesiones') {
+      // Si NO está enfermo, enviamos la descripción/lesiones como texto vacío 
+      // para que se borre del menú y de la base de datos.
+      datosParaEnviar.lesiones = ''; 
     }
 
-    if (this.ubicacion) {
-      datos.lat = this.ubicacion.lat;
-      datos.lng = this.ubicacion.lng;
-    }
+    // 3. Añadimos el estado actual
+    const payload = {
+      ...datosParaEnviar,
+      estado: this.estadoSeleccionado
+    };
 
+    // 4. Emitimos hacia el componente mapa
     this.ingresar.emit({
-      datos,
+      datos: payload,
       foto: this.fotoSeleccionada,
       id: this.modo === 'editar' ? this.animal?.id : undefined,
     });

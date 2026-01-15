@@ -126,6 +126,23 @@
       z-index: 900;
     }
 
+    /* Elimina el triángulo inferior del menú del animal */
+    ::ng-deep .leaflet-popup-tip-container {
+        display: none !important;
+    }
+
+    /* Elimina sombras o bordes extraños que Leaflet pone al contenedor */
+    ::ng-deep .leaflet-popup-content-wrapper {
+        background: transparent !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+
+    /* Elimina el botón 'X' predeterminado de Leaflet */
+    ::ng-deep .leaflet-popup-close-button {
+        display: none !important;
+    }
+
     /* Botón flotante para abrir popup de crear animal */
     .btn-menu-botones {
       display: flex;

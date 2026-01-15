@@ -1,34 +1,42 @@
-<div (click)="onIconClick(); $event.stopPropagation()">
-  <div *ngIf="menuVisible" class="icono-menu">
-    <h2 class="titulo-menu">
-      Información de:
-      <span class="nombre-animal" id="nombre-animal">
-        {{ datosAnimal?.name || datosAnimal?.nombre || 'Desconocido' }}
-      </span>
-    </h2>
+<div class="popup-animal" *ngIf="datosAnimal">
+  <h3 class="popup-animal-titulo">
+    {{ datosAnimal?.nombre || datosAnimal?.name || 'Desconocido' }}
+  </h3>
 
-    <img *ngIf="imgUrl" [src]="imgUrl" alt="" class="imagen-animal">
+  <img 
+    *ngIf="imgUrl" 
+    [src]="imgUrl" 
+    class="popup-animal-img" 
+    alt="Foto del animal"
+  />
 
-    <div *ngIf="datosAnimal">
-      <p><b>Edad:</b> {{ datosAnimal.edad || 'Desconocido' }}</p>
-      <p><b>Personalidad:</b> {{ datosAnimal.personalidad || 'Desconocido' }}</p>
-      <p><b>Estado de salud:</b> {{ datosAnimal.estado || 'Desconocido' }}</p>
+  <div class="popup-animal-linea">
+    <b>Edad:</b> {{ datosAnimal?.edad || '—' }}
+  </div>
+  
+  <div class="popup-animal-linea">
+    <b>Personalidad:</b> {{ datosAnimal?.personalidad || '—' }}
+  </div>
+  
+  <div class="popup-animal-linea">
+    <b>Enfermedad/Lesión:</b> 
+    {{ datosAnimal?.descripcion || datosAnimal?.lesiones || '—' }}
+  </div>
 
-      <p *ngIf="datosAnimal.lesiones">
-        <b>Lesiones:</b>
-        <span *ngIf="datosAnimal.lesiones instanceof Array; else single">
-          {{ datosAnimal.lesiones.join(', ') }}
-        </span>
-        <ng-template #single>{{ datosAnimal.lesiones }}</ng-template>
-      </p>
+  <div *ngIf="puedeEliminar" class="popup-animal-botones">
+    <button 
+      class="popup-animal-btn popup-animal-btn-editar" 
+      (click)="onEditar(); $event.stopPropagation()"
+    >
+      EDITAR
+    </button>
 
-      <button
-        *ngIf="puedeEliminar"
-        class="boton-eliminar"
-        (click)="eliminar(); $event.stopPropagation()"
-      >
-        ELIMINAR
-      </button>
-    </div>
+    <button 
+      class="popup-animal-btn popup-animal-btn-eliminar" 
+      (click)="eliminar(); $event.stopPropagation()"
+      [disabled]="eliminando"
+    >
+      ELIMINAR
+    </button>
   </div>
 </div>

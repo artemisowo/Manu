@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Auth, onAuthStateChanged, User } from '@angular/fire/auth';
 import { ServicioAnimal } from '../servicio/servicioanimal'; // ajusta ruta si es distinta
@@ -10,14 +10,13 @@ import { ServicioAnimal } from '../servicio/servicioanimal'; // ajusta ruta si e
   templateUrl: './icono.html',
   styleUrl: './icono.css'
 })
-export class Icono implements OnChanges {
+export class Icono implements OnChanges, OnDestroy {
   @Input() menuVisible = false;
   @Input() imgUrl?: string;
   @Input() datosAnimal?: any;
 
   @Output() menuToggle = new EventEmitter<void>();
-
-  // ✅ para avisar al padre que se eliminó (para refrescar mapa/lista)
+  @Output() editar = new EventEmitter<string>();
   @Output() animalEliminado = new EventEmitter<string>();
 
   puedeEliminar = false;
@@ -40,8 +39,11 @@ export class Icono implements OnChanges {
     }
   }
 
-  onIconClick() {
-    this.menuToggle.emit();
+  onEditar() {
+    const id = this.datosAnimal?.id;
+    if (id) {
+      this.editar.emit(id);
+    }
   }
 
   private recalcularPermiso() {
@@ -82,3 +84,4 @@ export class Icono implements OnChanges {
     if (this.unsubscribeAuth) this.unsubscribeAuth();
   }
 }
+

@@ -27,36 +27,31 @@
     <!-- Formulario de datos del animal -->
     <form class="formulario" (submit)="onIngresar($event)">
       <label for="name">Nombre del animal:</label>
-      <input type="text" placeholder="Desconocido" id="name" name="name" maxlength="30" minlength="2">
+      <input type="text" [(ngModel)]="datosAnimal.nombre" name="nombre" id="name" placeholder="Desconocido">
 
-      <!-- Ingresar edad aproximada del animal -->
       <label for="edad">Edad aproximada:</label>
-      <input type="number" name="edad" id="edad" placeholder="???" max="30" min="0">
+      <input type="number" [(ngModel)]="datosAnimal.edad" name="edad" id="edad" placeholder="???" max="30" min="0">
 
-      <!-- Seleccionar casillas de personalidad -->
       <label for="personalidad">Personalidad:</label>
-      <select name="personalidad" id="personalidad">
-        <option value="Desconocido" selected>Se desconoce</option>
+      <select [(ngModel)]="datosAnimal.personalidad" name="personalidad" id="personalidad">
+        <option value="Desconocido">Se desconoce</option>
         <option value="Dócil">Dócil / Amable</option>
         <option value="Agresivo">Agresivo</option>
         <option value="Temeroso">Temeroso / Con miedo</option>
       </select>
 
-      <!-- Seleccionar casillas de estado de salud -->
       <label for="estado">Estado de salud:</label>
       <select name="estado" id="estado" [(ngModel)]="estadoSeleccionado">
-        <option value="Desconocido" selected>Se desconoce</option>
+        <option value="Desconocido">Se desconoce</option>
         <option value="Saludable">Saludable</option>
         <option value="Signos de Enfermedades/Lesiones">Signos de Enfermedades/Lesiones</option>
       </select>
 
-      <!-- Ingresar manualmente lesiones del animal -->
-      <div *ngIf="estadoSeleccionado === 'Signos de Enfermedades/Lesiones'" class="lesiones">
+      <div class="lesiones" *ngIf="estadoSeleccionado === 'Signos de Enfermedades/Lesiones'">
         <label for="lesiones">Presenta:</label>
-        <input type="text" name="lesiones" maxlength="60" minlength="3" placeholder="Lesiones o signos de enfermedades" id="lesiones">
+        <input type="text" [(ngModel)]="datosAnimal.lesiones" name="lesiones" id="lesiones" placeholder="Lesiones o signos">
       </div>
 
-      <!-- Seleccionar foto del animal -->
       <label>Foto del animal:</label>
       <label for="ingreso-imagen" class="seleccionar-img">Seleccionar imagen</label>
       <input id="ingreso-imagen" class="input-img" type="file" accept=".png, .jpg, .jpeg .heic" (change)="onFotoSeleccionada($event)" />
@@ -69,12 +64,10 @@
         />
       </div>
 
-      <!-- Botones -->
       <div class="botones">
-        <button type="submit" class="btn">Ingresar</button>
+        <button type="submit" class="btn">{{ modo === 'editar' ? 'Guardar' : 'Ingresar' }}</button>
         <button type="button" class="btn" (click)="onCerrar()">Cerrar</button>
       </div>
-
     </form>
   </div>
 </div>
