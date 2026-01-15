@@ -25,28 +25,37 @@
 
     <!-- Campos de filtro -->
     <div class="campo-filtro">
-      <label>Edad mín</label>
+      <label for="edad-min">Edad mín</label>
       <input
         type="number"
         [(ngModel)]="filtroEdadMin"
         (ngModelChange)="onCambiarFiltros()"
+        id="edad-min"
+        max="30"
+        min="0"
+        inputmode="numeric"
       />
     </div>
 
     <div class="campo-filtro">
-      <label>Edad máx</label>
+      <label for="edad-max">Edad máx</label>
       <input
         type="number"
         [(ngModel)]="filtroEdadMax"
         (ngModelChange)="onCambiarFiltros()"
+        id="edad-max"
+        max="30"
+        min="0"
+        inputmode="numeric"
       />
     </div>
 
     <div class="campo-filtro">
-      <label>Salud</label>
+      <label for="salud">Salud</label>
       <select
         [(ngModel)]="filtroSalud"
         (ngModelChange)="onCambiarFiltros()"
+        id="salud"
       >
         <option value="TODOS">TODOS</option>
         <option value="ENFERMO">Enfermo</option>
@@ -55,10 +64,11 @@
     </div>
 
     <div class="campo-filtro">
-      <label>Personalidad</label>
+      <label for="personalidad">Personalidad</label>
       <select
         [(ngModel)]="filtroPersonalidad"
         (ngModelChange)="onCambiarFiltros()"
+        id="personalidad"
       >
         <option value="TODOS">TODOS</option>
         <option value="Se desconoce">Se desconoce</option>
@@ -74,7 +84,7 @@
         [(ngModel)]="filtroSoloMios"
         (change)="onCambiarFiltros()"
       />
-      Subido por mi
+      Subido por mí
     </label>
 
     <button
