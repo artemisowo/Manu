@@ -117,25 +117,32 @@ header {
       display: flex;
       justify-content: center;
       align-items: center;
-
-      .bloqueingreso {    /* Estilo para los bloques */
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .bloqueingreso {    /* Estilo para los bloques */
         background-color: #6da67a;
-        margin: 10px;
-        padding: 1.3em 0;
-        width: 16vw;
-        max-width: 160px;
-        font-size: clamp(1em, 2vw, 2em);
-        transition: all 0.5s ease;
+        margin: 0;
+        padding: clamp(12px, 3vw, 20px);
+        width: clamp(120px, 20vw, 180px);
+        height: 60px;
+        font-size: clamp(0.9em, 2vw, 1.2em);
+        transition: all 0.3s ease;
         border-radius: 10px;
         color: #ffffff;
         text-decoration: none;
         text-align: center;
-        &:hover {   /* Estilos para los bloques al pasar el cursor */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+      }
+      
+      .bloqueingreso:hover {   /* Estilos para los bloques al pasar el cursor */
             background-color: #497253;
             color: #1b1f2b;      
         }
-      }
-    }
 
     .parrafito {   /* Estilo para el párrafo */
       background-color: #1b1f2b;
