@@ -136,7 +136,6 @@ export class mapa implements AfterViewInit, OnDestroy {
         // Crear o mover marcador de selección
         if (!this.markerSeleccion) {
           this.markerSeleccion = L.marker([e.latlng.lat, e.latlng.lng], {
-            icon: this.iconoPersonalizado,
             draggable: true,
           }).addTo(this.map);
 
