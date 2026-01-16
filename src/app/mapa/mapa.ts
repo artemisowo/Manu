@@ -84,7 +84,10 @@ export class mapa implements AfterViewInit, OnDestroy {
 
     import('leaflet').then((L) => {
       this.Lref = L;
-      this.map = L.map('map');
+      this.map = L.map('map', {
+        minZoom: 14, // Maximum zoom-out level
+        maxZoom: 18 // Maximum zoom-in level
+      });
 
       // Marcador en el mapa personalzado
       this.iconoPersonalizado = L.divIcon({
@@ -418,8 +421,10 @@ export class mapa implements AfterViewInit, OnDestroy {
         this.markersAnimales.delete(id);
       });
 
+      // Agregar el componente renderizado al contenedor del popup
       popupContainer.appendChild(componentRef.location.nativeElement);
 
+      // Vincular el popup al marcador
       marker.bindPopup(popupContainer, { maxWidth: 400, className: 'leaflet-popup-icono' });
 
       this.markersAnimales.set(a.id, { marker, componentRef });
