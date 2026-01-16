@@ -1,23 +1,24 @@
 <div class="fondo">
-  <div class="marcoblanco">
-    <h2>RECUPERAR CONTRASEÑA</h2>
+      <h1 class="titulo">Recuperar Contraseña</h1>
+      <p class="bajotitulo">Ingresa tu correo y te enviaremos un enlace.</p>
+      <div class="borde"></div>
 
-    <p>INGRESA TU CORREO Y TE ENVIAREMOS UN LINK.</p>
+    <form class="formulario">
+      <input
+        type="email"
+        [(ngModel)]="correo"
+        name="correo"
+        placeholder="Escriba su correo electrónico aquí"
+        autocomplete="email"
+      />
+    </form>
 
-    <input
-      type="email"
-      [(ngModel)]="correo"
-      placeholder="CORREO"
-      autocomplete="email"
-    />
-
-    <button (click)="enviar()" [disabled]="cargando">
-      {{ cargando ? 'ENVIANDO...' : 'ENVIAR' }}
+    <button class="btn" (click)="enviar()" [disabled]="cargando">
+      {{ cargando ? 'ENVIANDO...' : 'Enviar' }}
     </button>
 
     <p *ngIf="mensaje" class="ok">{{ mensaje }}</p>
     <p *ngIf="error" class="err">{{ error }}</p>
 
-    <a routerLink="/iniciar-sesion">VOLVER A INICIAR SESIÓN</a>
-  </div>
+    <a class="btn" routerLink="/iniciar-sesion">Volver a Inicio de Sesión</a>
 </div>

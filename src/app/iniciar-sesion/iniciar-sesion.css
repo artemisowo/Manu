@@ -126,6 +126,20 @@
 
 }
 
+.olvidaste {
+    color: #ffffff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 8px 12px;
+}
+
+.olvidaste:hover {
+    background-color: #497253;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 5px;
+}
+
 /* Estilos para los botones dentro de los enlaces */
 .botones a .btn {
     width: 100%;
