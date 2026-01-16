@@ -1,19 +1,34 @@
+<!-- Estructura para el fondo de la página -->
 <div class="fondo">
+
+  <!-- Borde debajo del título -->
   <div class="borde">
-    <h1 class="titulo">perfil</h1>
+
+    <!-- Título -->
+    <h1 class="titulo">Mi perfil</h1>
   </div>
 
-  <div class="bloque-registro">
+  <!-- Bloque para los datos del usuario -->
+  <div class="bloque-datos">
+
+    <!-- Mensajes de carga y error -->
     <p *ngIf="cargando">cargando...</p>
     <p *ngIf="error">{{ error }}</p>
 
-    <div *ngIf="!cargando && datos">
-      <p><strong>correo:</strong> {{ datos.email }}</p>
-      <p><strong>usuario:</strong> {{ datos.usuario }}</p>
-      <p><strong>número:</strong> +56 {{ datos.numero }}</p>
-      <p><strong>sector:</strong> {{ datos.sector }}</p>
+    <!-- Elementos visibles en la página al cargar -->
+    <div *ngIf="!cargando && datos" class="datos-visibles">
 
-      <div class="botones" style="margin-top: 16px;">
+      <!-- Datos del usuario -->
+      <div class="datos">
+        <p class="info"><span class="bold">Correo:</span> <br /> {{ datos.email }}</p>
+        <p class="info"><span class="bold">Usuario:</span> <br /> @ {{ datos.usuario }}</p>
+        <p class="info"><span class="bold">Número:</span> <br /> +56 {{ datos.numero }}</p>
+        <p class="info"><span class="bold">Sector:</span> <br /> {{ datos.sector }}</p>
+      </div>
+      
+
+      <!-- Botones para cerrar sesión y volver al mapa -->
+      <div class="botones">
         <button type="button" class="btn" (click)="cerrarsesion()">cerrar sesión</button>
         <a routerLink="/mapa"><button type="button" class="btn">volver al mapa</button></a>
       </div>
