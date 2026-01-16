@@ -85,6 +85,8 @@ export class mapa implements AfterViewInit, OnDestroy {
     import('leaflet').then((L) => {
       this.Lref = L;
       this.map = L.map('map', {
+        center: [-33.02, -71.55], // Coordenadas iniciales
+        zoom: 15, // Nivel de zoom inicial
         minZoom: 14, // Maximum zoom-out level
         maxZoom: 18 // Maximum zoom-in level
       });
@@ -102,9 +104,6 @@ export class mapa implements AfterViewInit, OnDestroy {
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap',
       }).addTo(this.map);
-
-      // Centro inicial del mapa
-      this.map.setView([-33.02, -71.55], 15);
 
       // Limites del mapa a Viña del Mar
       var vinadelmarBounds = L.latLngBounds(L.latLng(-33.07, -71.60), L.latLng(-32.95, -71.45));
