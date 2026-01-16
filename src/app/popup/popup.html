@@ -30,8 +30,8 @@
     <!-- Formulario de datos del animal -->
     <form class="formulario" (submit)="onIngresar($event)">
       <label for="name">Nombre del animal:</label>
-      <input type="text" [(ngModel)]="datosAnimal.nombre" name="nombre" id="name" placeholder="Desconocido">
-
+<input
+  type="text" [(ngModel)]="datosAnimal.nombre" name="nombre" (input)="soloLetrasNombre()" placeholder="NOMBRE" />
       <label for="edad">Edad aproximada:</label>
       <input type="number" [(ngModel)]="datosAnimal.edad" name="edad" id="edad" placeholder="???" max="30" min="0">
 

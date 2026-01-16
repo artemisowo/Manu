@@ -7,6 +7,8 @@ import { registro } from './registro/registro';
 import { iniciar_sesion  } from './iniciar-sesion/iniciar-sesion';
 import { perfil } from './perfil/perfil';
 import { verificado } from './verificado/verificado';
+import { recuperar } from './recuperar/recuperar';
+
 
 export const routes: Routes = [
   { path: '', component: Inicio },
@@ -15,9 +17,11 @@ export const routes: Routes = [
   { path: 'nosotros', component: Nosotros },
   { path: 'mapa', component: mapa },
   { path: 'registro', component: registro },
-  { path: 'iniciarsesion', component: iniciar_sesion  },
+  { path: 'iniciar_sesion', component: iniciar_sesion  },
   { path: 'perfil', component: perfil },
   { path: 'verificado', component: verificado },
+  { path: 'recuperar', component: recuperar },
+
 
   { path: '**', redirectTo: '' },
 ];

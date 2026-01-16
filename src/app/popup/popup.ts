@@ -49,22 +49,25 @@ export class Popup implements OnChanges {
   }
 
   prepararCrear(): void {
-    this.datosAnimal = { nombre: '', edad: null, personalidad: 'Desconocido', lesiones: '' };
+    this.datosAnimal = {
+      nombre: '',
+      edad: null,
+      personalidad: 'Desconocido',
+      lesiones: ''
+    };
     this.estadoSeleccionado = 'Desconocido';
     this.fotoSeleccionada = null;
     this.imagenUrl = null;
-}
+  }
 
   precargarEditar(animal: any): void {
     this.datosAnimal = {
-      // Aseguramos que tome el nombre sin importar si viene como 'nombre' o 'name'
-      nombre: animal.nombre || animal.name || '', 
+      nombre: animal.nombre || animal.name || '',
       edad: animal.edad ?? null,
       personalidad: animal.personalidad ?? 'Desconocido',
-      // IMPORTANTE: Tu servicio animal usa 'descripcion', pero el popup usa 'lesiones'
-      lesiones: animal.descripcion || animal.lesiones || '' 
+      lesiones: animal.descripcion || animal.lesiones || ''
     };
-    
+
     this.estadoSeleccionado = animal.estado ?? 'Desconocido';
     this.imagenUrl = animal.imagenUrl ?? null;
     this.fotoSeleccionada = null;
@@ -91,27 +94,55 @@ export class Popup implements OnChanges {
     }
   }
 
-  
+  /* ============================
+     VALIDACIÓN NOMBRE
+     ============================ */
+  soloLetrasNombre(): void {
+    if (this.datosAnimal?.nombre == null) return;
+
+    const valorOriginal = String(this.datosAnimal.nombre);
+
+    const valorLimpio = valorOriginal
+      .replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '')
+      .replace(/\s{2,}/g, ' ');
+
+    if (valorOriginal !== valorLimpio) {
+      alert('EL NOMBRE SOLO PUEDE CONTENER LETRAS.');
+    }
+
+    this.datosAnimal.nombre = valorLimpio;
+  }
+
+
   onIngresar(event: Event): void {
     event.preventDefault();
 
-    // 1. Creamos una copia de los datos actuales del formulario
-    const datosParaEnviar = { ...this.datosAnimal };
+    /* VALIDAR NOMBRE ANTES DE GUARDAR */
+    const nombre = (this.datosAnimal?.nombre || '').trim();
 
-    // 2. Lógica de limpieza según el estado seleccionado:
-    if (this.estadoSeleccionado !== 'Signos de Enfermedades/Lesiones') {
-      // Si NO está enfermo, enviamos la descripción/lesiones como texto vacío 
-      // para que se borre del menú y de la base de datos.
-      datosParaEnviar.lesiones = ''; 
+    if (nombre && !/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(nombre)) {
+      alert('EL NOMBRE SOLO PUEDE CONTENER LETRAS.');
+      return;
     }
 
-    // 3. Añadimos el estado actual
+    // normalizar nombre
+    this.datosAnimal.nombre = nombre.replace(/\s{2,}/g, ' ');
+
+    // 1. Copia segura de los datos
+    const datosParaEnviar = { ...this.datosAnimal };
+
+    // 2. Limpiar lesiones si no corresponde
+    if (this.estadoSeleccionado !== 'Signos de Enfermedades/Lesiones') {
+      datosParaEnviar.lesiones = '';
+    }
+
+    // 3. Payload final
     const payload = {
       ...datosParaEnviar,
       estado: this.estadoSeleccionado
     };
 
-    // 4. Emitimos hacia el componente mapa
+    // 4. Emitir al mapa
     this.ingresar.emit({
       datos: payload,
       foto: this.fotoSeleccionada,
