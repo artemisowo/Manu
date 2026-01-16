@@ -89,10 +89,10 @@ export class mapa implements AfterViewInit, OnDestroy {
       // Marcador en el mapa personalzado
       this.iconoPersonalizado = L.divIcon({
         className: 'icono-animal',
-        iconSize: [37, 46],
-        iconAnchor: [37, 92],
-        popupAnchor: [0, -42],
-        html: '<img src="https://i.ibb.co/ds5ZDWbB/Icono.png" alt="Icono de animal">'
+        iconSize: [56, 69],
+        iconAnchor: [28, 69],
+        popupAnchor: [-10, -34.5],
+        html: '<img src="https://i.ibb.co/whYkM1BD/Icono-manu.png" alt="Icono de animal">'
       });
 
       // Url del mapa utilizado
