@@ -126,6 +126,7 @@
 
 }
 
+/* Estilos para el enlace de ¿Olvidaste tu contraseña? */
 .olvidaste {
     color: #ffffff;
     text-decoration: none;
@@ -133,6 +134,7 @@
     padding: 8px 12px;
 }
 
+/* Estilos para el enlace olvidaste al pasar el cursor */
 .olvidaste:hover {
     background-color: #497253;
     color: #fff;

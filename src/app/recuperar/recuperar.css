@@ -32,9 +32,9 @@
     margin-bottom: 30px;
 }
 
+/* Estilos para los mensajes de éxito y error */
 input:not(.btn) { width: 100%; margin-top: 10px; padding: 10px; }
 .ok { margin-top: 10px; }
-
 .err { margin-top: 10px;
         color: #ffffff; 
     }
@@ -62,7 +62,7 @@ input:not(.btn) { width: 100%; margin-top: 10px; padding: 10px; }
     max-width: 600px;
 }
 
-.btn:hover {
+.btn:hover { /* Estilos para los botones al pasar el cursor por encima */
     color: #1b1f2b !important;
     background-color: #497253 !important;
 }
