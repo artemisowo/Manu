@@ -11,6 +11,7 @@ import { ServicioAnimal } from '../servicio/servicioanimal'; // ajusta ruta si e
   styleUrl: './icono.css'
 })
 export class Icono implements OnChanges, OnDestroy {
+  // Entradas y salidas del componente
   @Input() menuVisible = false;
   @Input() imgUrl?: string;
   @Input() datosAnimal?: any;
@@ -26,6 +27,7 @@ export class Icono implements OnChanges, OnDestroy {
   private uidActual: string | null = null;
   private unsubscribeAuth?: () => void;
 
+  // Suscribirse a cambios de autenticación
   constructor(private auth: Auth, private servicioAnimal: ServicioAnimal) {
     this.unsubscribeAuth = onAuthStateChanged(this.auth, (user: User | null) => {
       this.uidActual = user?.uid ?? null;
@@ -33,12 +35,14 @@ export class Icono implements OnChanges, OnDestroy {
     });
   }
 
+  // Recalcular permisos al cambiar los datos del animal
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['datosAnimal']) {
       this.recalcularPermiso();
     }
   }
 
+  // Emitir evento para editar el animal
   onEditar() {
     const id = this.datosAnimal?.id;
     if (id) {
@@ -46,11 +50,13 @@ export class Icono implements OnChanges, OnDestroy {
     }
   }
 
+  // Recalcular si el usuario actual puede eliminar el animal
   private recalcularPermiso() {
     const uidCreador = this.datosAnimal?.uidCreador ?? null;
     this.puedeEliminar = !!this.uidActual && !!uidCreador && this.uidActual === uidCreador;
   }
 
+  // Eliminar el animal
   async eliminar() {
     this.errorEliminar = '';
 
@@ -60,12 +66,13 @@ export class Icono implements OnChanges, OnDestroy {
       return;
     }
 
-    // Confirmación simple (puedes quitarla si no quieres)
-    const ok = confirm('¿ELIMINAR ESTE ANIMAL?');
+    // Confirmación para eliminar el animal
+    const ok = confirm('¿Desea eliminar este animal?');
     if (!ok) return;
 
     this.eliminando = true;
 
+    // Intentar eliminar el animal
     try {
       await this.servicioAnimal.eliminarAnimal(id);
 

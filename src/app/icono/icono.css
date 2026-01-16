@@ -1,7 +1,9 @@
+/* Estilos del menú */
 :host {
   display: block;
   pointer-events: none;
 
+  /* Estilos del contenedor del menú */
   .popup-animal {
     position: absolute;
     min-width: 280px;
@@ -15,6 +17,7 @@
     top: 0;
     left: 100px;
 
+    /* Flecha que apunta al ícono desde el que proviene el menú */
     &::after {
       content: "";
       position: absolute;
@@ -27,6 +30,7 @@
       border-right: 10px solid #1B1F2B;
     }
 
+    /* Estilos del nombre del animal */
     .popup-animal-titulo {
       margin: 0 0 12px 0;
       font-size: 1.3em;
@@ -34,6 +38,7 @@
       font-weight: bold;
     }
 
+    /* Estilos de la imagen del animal */
     .popup-animal-img {
       width: 100%;
       border-radius: 10px;
@@ -43,18 +48,21 @@
       height: 200px;
     }
 
+    /* Estilos de las líneas de información del animal */
     .popup-animal-linea {
       margin: 8px 0;
       font-size: 0.95em;
       line-height: 1.4;
     }
 
+    /* Estilos del contenedor de los botones */
     .popup-animal-botones {
       display: flex;
       flex-direction: column;
       gap: 8px;
       margin-top: 12px;
 
+      /* Estilos de los botones para editar y eliminar */
       .popup-animal-btn {
         padding: 10px 12px;
         border: none;
@@ -75,6 +83,7 @@
         }
       }
 
+      /* Estilos específicos para el botón de editar */
       .popup-animal-btn-editar {
         background: #63bb77;
 
@@ -83,6 +92,7 @@
         }
       }
 
+      /* Estilos específicos para el botón de eliminar */
       .popup-animal-btn-eliminar {
         background: #c0392b;
 
