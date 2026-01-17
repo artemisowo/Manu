@@ -74,10 +74,30 @@ Backend: TypeScript
   - Mostrar animales almacenados directamente en el mapa.
 - Configuración correcta del archivo `angular.json` para servir los assets necesarios (iconos del mapa).
 - Corrección de errores relacionados con:
-  - Rutas de archivos.
+  - Rutas de archivos.  
   - Inyección de dependencias.
   - Tipado en TypeScript (`number | null`).
 - Ajuste de reglas de Firestore para permitir lecturas y escrituras durante la etapa de desarrollo.
 - Implementación correcta de métodos como `addDoc` y `collectionData`.
 - Verificación de persistencia de datos mediante la consola de Firebase.
 - Creación de cuenta en Cloudinary para futura gestión de imágenes subidas por usuarios (pendiente de integración completa).
+
+# 7. Decisiones técnicas
+
+Durante el desarrollo del proyecto MANU se tomaron diversas decisiones técnicas orientadas a mejorar la experiencia de usuario, la coherencia visual y la usabilidad de la aplicación, considerando tanto aspectos funcionales como de diseño.
+
+- Se decidió realizar un rediseño parcial de las páginas “Nosotros” y “Contacto”, con el objetivo de mejorar su atractivo visual, orden de la información y facilidad de navegación para el usuario.
+
+- Se optó por cambiar el ícono que representa la ubicación de los animales en el mapa por un ícono personalizado, con el fin de reforzar la identidad visual y de marca del proyecto MANU.
+
+- Se decidió adaptar de forma responsiva las páginas de Inicio de sesión, Registro, Mapa y el popup de ingreso de datos de animales, debido a que en dispositivos con pantallas más pequeñas los elementos no se visualizaban correctamente, afectando la experiencia del usuario.
+
+- Se determinó limitar la visualización del mapa únicamente a la ciudad de Viña del Mar, con el propósito de evitar que el usuario navegue fuera del área de cobertura del proyecto, previniendo confusión y mejorando la usabilidad.
+
+- Se modificaron los estilos del menú que muestra los datos de los animales ingresados, con el objetivo de mantener coherencia visual y reforzar la identidad de marca de MANU.
+
+- Se realizaron cambios en los estilos del panel de filtros, alineándolos con la identidad visual del proyecto para ofrecer una experiencia de usuario más consistente.
+
+- Se decidió crear una página de perfil en su versión mínima viable (MVP), con el fin de mejorar la experiencia del usuario y sentar las bases para futuras funcionalidades relacionadas con la gestión de cuentas.
+
+(Incompleto)
