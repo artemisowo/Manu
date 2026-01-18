@@ -1,14 +1,17 @@
+/*Estilos generales*/
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/*Estilos para el fondo*/
 .fondo {
     background-color: #1b1f2b;
     min-height: 100vh;
 }
 
+/*Estilos para el header*/
 header {
     padding: 12em 6.25em;
     color: #ffffff;
@@ -19,7 +22,7 @@ header {
     background-image: url('https://i.postimg.cc/BQwbtWsZ/foto-1-Picsart-Ai-Image-Enhancer.png');
     background-size: cover;
     background-position: center;
-    @media screen and (max-width: 535px) {
+    @media screen and (max-width: 535px) {  /* Ajustes para pantallas pequeñas */
         & {
             padding: 10em 6.25em;
             nav {
@@ -29,6 +32,7 @@ header {
     }
 }
 
+/*Estilos para el menú de navegación*/
 nav {
     text-align: right;
     font-size: 20px;
@@ -45,6 +49,7 @@ nav {
     }
 }  
 
+/*Estilos para el texto del header*/
 .header-text {
     display: flex;
     flex-direction: column;
@@ -53,6 +58,7 @@ nav {
 
 }
 
+/*Estilos para el título principal*/
 .titulo {
     font-size: 70px;
     color: white;
@@ -65,7 +71,8 @@ nav {
         }
     }
 }
-  
+
+/*Estilos para el texto de la página*/
 .contactito {
     padding: 20px;
     font-size: 30px;
@@ -77,6 +84,7 @@ nav {
     }
 }
 
+/*Estilos para el cuerpo de la página*/
 main {
     background-color: #1b1f2b;
     padding: 20px;
@@ -87,6 +95,7 @@ main {
     align-items: center;
 }
 
+/*Estilos para los bloques de redes sociales*/
 .bloqueredes {
     display: inline-block;
     margin: 20px;
@@ -102,7 +111,7 @@ main {
     display: flex;
     align-items: center;
 
-    &:hover {
+    &:hover {  /* Efecto al pasar el mouse en los bloques de redes sociales */
         background-color: #497253;   
         color: #1b1f2b;   
     }
