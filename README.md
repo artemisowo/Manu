@@ -100,4 +100,4 @@ Durante el desarrollo del proyecto MANU se tomaron diversas decisiones técnicas
 
 - Se decidió crear una página de perfil en su versión mínima viable (MVP), con el fin de mejorar la experiencia del usuario y sentar las bases para futuras funcionalidades relacionadas con la gestión de cuentas.
 
-(Incompleto)
+- Se decidió actualizar el apartado de edad para los animales. En vez de generar una edad específica para el animal, se categorizaría de mejor manera entre 3 secciones: (Joven, Adulto y Viejo) De esa forma se organizaría mejor.
