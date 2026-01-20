@@ -8,6 +8,7 @@ import { iniciar_sesion  } from './iniciar-sesion/iniciar-sesion';
 import { perfil } from './perfil/perfil';
 import { verificado } from './verificado/verificado';
 import { recuperar } from './recuperar/recuperar';
+import { Donaciones } from './donaciones/donaciones';
 
 
 export const routes: Routes = [
@@ -15,6 +16,7 @@ export const routes: Routes = [
   { path: 'inicio', component: Inicio },
   { path: 'contacto', component: Contacto },
   { path: 'nosotros', component: Nosotros },
+  { path: 'donaciones', component: Donaciones },
   { path: 'mapa', component: mapa },
   { path: 'registro', component: registro },
   { path: 'iniciar_sesion', component: iniciar_sesion  },
