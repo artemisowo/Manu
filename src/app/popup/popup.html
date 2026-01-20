@@ -29,11 +29,24 @@
 
     <!-- Formulario de datos del animal -->
     <form class="formulario" (submit)="onIngresar($event)">
+
       <label for="name">Nombre del animal:</label>
-<input
-  type="text" [(ngModel)]="datosAnimal.nombre" name="nombre" (input)="soloLetrasNombre()" placeholder="NOMBRE" />
-      <label for="edad">Edad aproximada:</label>
-      <input type="number" [(ngModel)]="datosAnimal.edad" name="edad" id="edad" placeholder="???" max="30" min="0">
+      <input
+        type="text"
+        [(ngModel)]="datosAnimal.nombre"
+        name="nombre"
+        (input)="soloLetrasNombre()"
+        placeholder="NOMBRE"
+      />
+
+      <label for="etapa">Etapa:</label>
+      <select [(ngModel)]="datosAnimal.etapa" name="etapa" id="etapa">
+        <option value="Desconocido">Se desconoce</option>
+        <option value="Cachorro">Cachorro</option>
+        <option value="Joven">Joven</option>
+        <option value="Adulto">Adulto</option>
+        <option value="Viejo">Viejo</option>
+      </select>
 
       <label for="personalidad">Personalidad:</label>
       <select [(ngModel)]="datosAnimal.personalidad" name="personalidad" id="personalidad">
@@ -52,12 +65,24 @@
 
       <div class="lesiones" *ngIf="estadoSeleccionado === 'Signos de Enfermedades/Lesiones'">
         <label for="lesiones">Presenta:</label>
-        <input type="text" [(ngModel)]="datosAnimal.lesiones" name="lesiones" id="lesiones" placeholder="Lesiones o signos">
+        <input
+          type="text"
+          [(ngModel)]="datosAnimal.lesiones"
+          name="lesiones"
+          id="lesiones"
+          placeholder="Lesiones o signos"
+        >
       </div>
 
       <label>Foto del animal:</label>
       <label for="ingreso-imagen" class="seleccionar-img">Seleccionar imagen</label>
-      <input id="ingreso-imagen" class="input-img" type="file" accept=".png, .jpg, .jpeg .heic" (change)="onFotoSeleccionada($event)" />
+      <input
+        id="ingreso-imagen"
+        class="input-img"
+        type="file"
+        accept=".png, .jpg, .jpeg .heic"
+        (change)="onFotoSeleccionada($event)"
+      />
 
       <!-- Preview de la foto -->
       <div class="imagen" *ngIf="imagenUrl">

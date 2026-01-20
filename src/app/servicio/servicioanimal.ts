@@ -21,7 +21,7 @@ export interface Animal {
   lng: number;
 
   nombre?: string;
-  edad?: number | string;
+  etapa?: string; 
   personalidad?: string;
   estado?: string;
 
@@ -55,13 +55,16 @@ export class ServicioAnimal {
 
     await addDoc(this.colRef, {
       ...animal,
+
       descripcion: (animal.descripcion ?? '').trim(),
+
+      edad: null,
+
       uidCreador: user.uid,
       correoCreador: user.email ?? '',
       creado: serverTimestamp(),
     });
   }
-
 
   async editarAnimal(id: string, data: Partial<Animal>): Promise<void> {
     const user = this.auth.currentUser;
@@ -73,7 +76,12 @@ export class ServicioAnimal {
 
     await updateDoc(ref, {
       ...data,
-      ...(data.descripcion !== undefined ? { descripcion: (data.descripcion ?? '').trim() } : {}),
+
+      edad: null,
+
+      ...(data.descripcion !== undefined
+        ? { descripcion: (data.descripcion ?? '').trim() }
+        : {}),
     } as any);
   }
 

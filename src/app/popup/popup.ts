@@ -21,7 +21,7 @@ export class Popup implements OnChanges {
 
   datosAnimal: any = {
     nombre: '',
-    edad: null,
+    etapa: 'Desconocido',
     personalidad: 'Desconocido',
     lesiones: ''
   };
@@ -51,7 +51,7 @@ export class Popup implements OnChanges {
   prepararCrear(): void {
     this.datosAnimal = {
       nombre: '',
-      edad: null,
+      etapa: 'Desconocido',
       personalidad: 'Desconocido',
       lesiones: ''
     };
@@ -63,7 +63,7 @@ export class Popup implements OnChanges {
   precargarEditar(animal: any): void {
     this.datosAnimal = {
       nombre: animal.nombre || animal.name || '',
-      edad: animal.edad ?? null,
+      etapa: animal.etapa ?? 'Desconocido',
       personalidad: animal.personalidad ?? 'Desconocido',
       lesiones: animal.descripcion || animal.lesiones || ''
     };
@@ -91,6 +91,7 @@ export class Popup implements OnChanges {
     } else {
       this.fotoSeleccionada = null;
       this.nombreFoto = '';
+      this.imagenUrl = null;
     }
   }
 
@@ -112,7 +113,6 @@ export class Popup implements OnChanges {
 
     this.datosAnimal.nombre = valorLimpio;
   }
-
 
   onIngresar(event: Event): void {
     event.preventDefault();
