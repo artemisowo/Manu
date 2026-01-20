@@ -17,7 +17,6 @@ import { ServicioAnimal, Animal } from '../servicio/servicioanimal';
   styleUrl: './mapa.css',
 })
 export class mapa implements AfterViewInit, OnDestroy {
-  // Referencia al contenedor de filtros en el HTML
   @ViewChild('contenedorFiltros') contenedorFiltros!: ElementRef;
 
   private map: any;
@@ -25,6 +24,7 @@ export class mapa implements AfterViewInit, OnDestroy {
   private subAnimales?: Subscription;
   private markersAnimales = new Map<string, { marker: any, componentRef: any }>();
 
+  // ✅ bounds Viña del Mar
   private vinaBounds: any = null;
 
   animalesCache: Animal[] = [];
@@ -47,6 +47,7 @@ export class mapa implements AfterViewInit, OnDestroy {
 
   mostrarFiltros = false;
 
+  // (los mantengo tal cual los tienes, aunque después los migremos a etapa)
   filtroEdadMin: number | null = null;
   filtroEdadMax: number | null = null;
   filtroSoloMios = false;
@@ -66,57 +67,49 @@ export class mapa implements AfterViewInit, OnDestroy {
     });
   }
 
-  // Detectar clics fuera del contenedor de filtros para cerrarlo
   @HostListener('document:click', ['$event'])
   clickFuera(event: Event) {
     if (!this.mostrarFiltros) return;
 
-    // Verificamos si el clic ocurrió DENTRO del contenedor de filtros
-    const clicDentro = this.contenedorFiltros.nativeElement.contains(event.target);
-
-    // Si el clic fue fuera, cerramos el dropdown
-    if (!clicDentro) {
-      this.mostrarFiltros = false;
-    }
+    const clicDentro = this.contenedorFiltros?.nativeElement?.contains(event.target);
+    if (!clicDentro) this.mostrarFiltros = false;
   }
 
-  // Inicialización del mapa
   ngAfterViewInit(): void {
     if (typeof window === 'undefined') return;
 
     import('leaflet').then((L) => {
       this.Lref = L;
-      this.map = L.map('map');
 
-      // Marcador en el mapa personalzado
-      this.iconoPersonalizado = L.divIcon({
-        className: 'icono-animal',
-        iconSize: [37, 46],
-        iconAnchor: [37, 92],
-        popupAnchor: [0, -42],
-        html: '<img src="https://i.ibb.co/ds5ZDWbB/Icono.png" alt="Icono de animal">'
+      this.map = L.map('map', {
+        center: [-33.02, -71.55],
+        zoom: 15,
+        minZoom: 14,
+        maxZoom: 18,
       });
 
-      // Url del mapa utilizado
+      // ✅ Icono selección (tu imagen)
+      this.iconoPersonalizado = L.divIcon({
+        className: 'icono-animal',
+        iconSize: [56, 69],
+        iconAnchor: [28, 69],
+        popupAnchor: [-10, -34.5],
+        html: '<img src="https://i.ibb.co/whYkM1BD/Icono-manu.png" alt="Icono de animal">',
+      });
+
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap',
       }).addTo(this.map);
 
-      // Centro inicial del mapa
-      this.map.setView([-33.02, -71.55], 15);
-
-      //  Limites del mapa a Viña del Mar 
+      // ✅ Bounds Viña del Mar (propiedad, para validación)
       this.vinaBounds = L.latLngBounds(
         L.latLng(-33.07, -71.60),
         L.latLng(-32.95, -71.45)
       );
 
-      //  aplica límites al mapa (
+      // ✅ Limitar mapa a Viña
       this.map.setMaxBounds(this.vinaBounds);
-
-      if (this.map.options) {
-        this.map.options.maxBoundsViscosity = 1.0;
-      }
+      this.map.options.maxBoundsViscosity = 1.0;
 
       (window as any).eliminarAnimal = (id: string) => {
         this.zone.run(() => this.eliminarAnimal(id));
@@ -126,7 +119,7 @@ export class mapa implements AfterViewInit, OnDestroy {
         this.zone.run(() => this.editarDesdePopup(id));
       };
 
-      // Obtener ubicación del usuario
+      // Ubicación usuario
       if (navigator.geolocation) {
         navigator.geolocation.watchPosition(
           (pos) => {
@@ -138,11 +131,10 @@ export class mapa implements AfterViewInit, OnDestroy {
         );
       }
 
-      //  Manejar clics en el mapa para seleccionar ubicación del animal (con validación bounds)
+      // ✅ Click: solo dentro de Viña
       this.map.on('click', (e: any) => {
         const latlng = e.latlng;
 
-        //  bloquear selección fuera de Viña del Mar (independiente del zoom del navegador)
         if (this.vinaBounds && !this.vinaBounds.contains(latlng)) {
           alert('SOLO SE PUEDEN CREAR REPORTES DENTRO DE VIÑA DEL MAR.');
           return;
@@ -151,14 +143,13 @@ export class mapa implements AfterViewInit, OnDestroy {
         this.selectedLat = latlng.lat;
         this.selectedLng = latlng.lng;
 
-        // Crear o mover marcador de selección
         if (!this.markerSeleccion) {
           this.markerSeleccion = L.marker([latlng.lat, latlng.lng], {
             icon: this.iconoPersonalizado,
             draggable: true,
           }).addTo(this.map);
 
-          // ✅ Evitar que el usuario arrastre el marcador fuera de Viña
+          // ✅ Drag: no permitir dejarlo fuera
           this.markerSeleccion.on('dragend', () => {
             const p = this.markerSeleccion.getLatLng();
 
@@ -169,7 +160,6 @@ export class mapa implements AfterViewInit, OnDestroy {
               if (this.selectedLat !== null && this.selectedLng !== null) {
                 this.markerSeleccion.setLatLng([this.selectedLat, this.selectedLng]);
               } else {
-                // fallback seguro
                 this.markerSeleccion.setLatLng(this.vinaBounds.getCenter());
               }
               return;
@@ -217,7 +207,6 @@ export class mapa implements AfterViewInit, OnDestroy {
     this.pintarAnimales(this.Lref, lista);
   }
 
-  // Filtrar animales según los filtros seleccionados
   private filtrarAnimales(animales: Animal[]): Animal[] {
     let lista = [...animales];
 
@@ -268,14 +257,15 @@ export class mapa implements AfterViewInit, OnDestroy {
   }
 
   abrirPopup(): void {
+    // si no hay selección, usar ubicación usuario SOLO si está dentro de Viña
     if (
       (this.selectedLat === null || this.selectedLng === null) &&
       this.userLat !== null &&
-      this.userLng !== null
+      this.userLng !== null &&
+      this.Lref
     ) {
-      //  usar ubicación del usuario SOLO si está dentro de Viña
-      const posible = this.Lref?.latLng(this.userLat, this.userLng);
-      if (this.vinaBounds && posible && !this.vinaBounds.contains(posible)) {
+      const posible = this.Lref.latLng(this.userLat, this.userLng);
+      if (this.vinaBounds && !this.vinaBounds.contains(posible)) {
         alert('TU UBICACIÓN ACTUAL ESTÁ FUERA DE VIÑA DEL MAR. SELECCIONA UN PUNTO DENTRO DEL MAPA.');
         return;
       }
@@ -283,7 +273,7 @@ export class mapa implements AfterViewInit, OnDestroy {
       this.selectedLat = this.userLat;
       this.selectedLng = this.userLng;
 
-      if (this.markerSeleccion && this.Lref) {
+      if (this.markerSeleccion) {
         this.markerSeleccion.setLatLng([this.selectedLat, this.selectedLng]);
       }
     }
@@ -293,7 +283,7 @@ export class mapa implements AfterViewInit, OnDestroy {
       return;
     }
 
-    //  validación final: no abrir popup si está fuera
+    // validación final: no abrir si está fuera
     if (this.vinaBounds && this.Lref) {
       const p = this.Lref.latLng(this.selectedLat, this.selectedLng);
       if (!this.vinaBounds.contains(p)) {
@@ -319,7 +309,6 @@ export class mapa implements AfterViewInit, OnDestroy {
     this.eliminarAnimal(id);
   }
 
-  // Editar animal desde el popup
   private editarDesdePopup(id: string): void {
     const entry = this.markersAnimales.get(id);
     if (entry) entry.marker.closePopup();
@@ -330,7 +319,6 @@ export class mapa implements AfterViewInit, OnDestroy {
     this.animalparaeditar = a ? { ...a } : { id };
 
     if (a?.lat != null && a?.lng != null) {
-      // pero NO permite mover selección fuera de Viña
       this.selectedLat = a.lat;
       this.selectedLng = a.lng;
 
@@ -342,11 +330,10 @@ export class mapa implements AfterViewInit, OnDestroy {
     this.mostrarPopup = true;
   }
 
-  // Guardar animal (crear o editar)
   async guardarAnimal(payload: { datos: any; foto: File | null; id?: string }): Promise<void> {
     const id = payload.id;
 
-    //  validación de bounds antes de guardar (crear/editar)
+    // ✅ validación final de bounds (crear/editar)
     if (this.selectedLat !== null && this.selectedLng !== null && this.vinaBounds && this.Lref) {
       const p = this.Lref.latLng(this.selectedLat, this.selectedLng);
       if (!this.vinaBounds.contains(p)) {
@@ -367,11 +354,9 @@ export class mapa implements AfterViewInit, OnDestroy {
           estado: payload.datos?.estado,
         };
 
-        // Solo guardar descripcion si hay lesiones (estado es "Signos de Enfermedades/Lesiones")
         if (payload.datos?.estado !== 'Signos de Enfermedades/Lesiones') {
           datosEdit.descripcion = '';
         } else {
-          // Si el estado es lesiones, guardamos lo que venga (o vacío si no escribió nada)
           datosEdit.descripcion = payload.datos.lesiones?.toString().trim() || '';
         }
 
@@ -404,9 +389,10 @@ export class mapa implements AfterViewInit, OnDestroy {
     try {
       const imagenUrl = await this.animalService.subirImagenCloudinary(payload.foto);
 
-      const descripcion = payload.datos?.estado === 'Signos de Enfermedades/Lesiones'
-        ? (payload.datos.lesiones?.toString().trim() || '')
-        : '';
+      const descripcion =
+        payload.datos?.estado === 'Signos de Enfermedades/Lesiones'
+          ? (payload.datos.lesiones?.toString().trim() || '')
+          : '';
 
       const animal: Animal = {
         nombre: payload.datos?.nombre ?? payload.datos?.name,
@@ -426,7 +412,6 @@ export class mapa implements AfterViewInit, OnDestroy {
     }
   }
 
-  // Mostrar los animales en el mapa
   private pintarAnimales(L: any, animales: Animal[]): void {
     if (!this.map) return;
 
@@ -443,27 +428,22 @@ export class mapa implements AfterViewInit, OnDestroy {
         (a as any)?.caracteristicas?.fotoUrl ??
         '';
 
-      // Actualizar marcador existente
       if (this.markersAnimales.has(a.id)) {
         const objetoMarcador = this.markersAnimales.get(a.id)!;
         objetoMarcador.marker.setLatLng([(a as any).lat, (a as any).lng]);
         objetoMarcador.componentRef.instance.datosAnimal = a;
         objetoMarcador.componentRef.instance.imgUrl = fotoUrl;
-
         objetoMarcador.componentRef.changeDetectorRef.detectChanges();
         continue;
       }
 
-      // Nuevo marcador en el mapa
       const marker = L.marker([(a as any).lat, (a as any).lng], {
         icon: fotoUrl ? this.iconoPersonalizado : undefined,
       }).addTo(this.map);
 
-      // Crear un contenedor para el popup con el componente Icono
       const popupContainer = document.createElement('div');
       popupContainer.style.pointerEvents = 'auto';
 
-      // Renderizar el componente Icono dinámicamente
       const componentRef = this.viewContainerRef.createComponent(Icono);
       componentRef.instance.datosAnimal = a;
       componentRef.instance.imgUrl = fotoUrl;
@@ -479,13 +459,11 @@ export class mapa implements AfterViewInit, OnDestroy {
       });
 
       popupContainer.appendChild(componentRef.location.nativeElement);
-
       marker.bindPopup(popupContainer, { maxWidth: 400, className: 'leaflet-popup-icono' });
 
       this.markersAnimales.set(a.id, { marker, componentRef });
     }
 
-    // Eliminar marcadores que ya no están en la lista
     for (const [id, entry] of this.markersAnimales.entries()) {
       if (!idsActuales.has(id)) {
         entry.marker.remove();
@@ -495,7 +473,6 @@ export class mapa implements AfterViewInit, OnDestroy {
     }
   }
 
-  // Eliminar animal
   async eliminarAnimal(id: string) {
     try {
       await this.animalService.eliminarAnimal(id);

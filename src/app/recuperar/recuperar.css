@@ -1,5 +1,110 @@
-/* mínimo, por si no tienes estilos; puedes borrarlo si ya tienes */
-.marcoblanco { padding: 16px; }
-input, button { width: 100%; margin-top: 10px; padding: 10px; }
+.fondo {  /*Estilos para el fondo de la página*/
+    min-height: 100vh;
+    background-color: #1B1F2B;
+    z-index: -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: flex-start;
+    padding: 16px;
+    padding-top: 40px;
+}
+
+.titulo { /* Estilos para el título */
+    color: #fff;
+    font-size: clamp(1.5em, 5vw, 3em);
+    margin: 0 0 5px 0;
+    text-align: center;
+}
+
+.bajotitulo { /* Estilos para el subtítulo */
+    color: #ccc;
+    font-size: clamp(1em, 3vw, 1.5em);
+    margin: 0 0 15px 0;
+    text-align: center;
+}
+
+.borde { /* Borde inferior del título */
+    border-bottom: 2px solid white;
+    width: 100%;
+    max-width: 600px;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+
+/* Estilos para los mensajes de éxito y error */
+input:not(.btn) { width: 100%; margin-top: 10px; padding: 10px; }
 .ok { margin-top: 10px; }
-.err { margin-top: 10px; }
+.err { margin-top: 10px;
+        color: #ffffff; 
+    }
+
+
+.btn {  /* Estilos para los botones y enlaces  */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #6da67a;
+    color: #fff;
+    padding: clamp(12px, 3vw, 20px);
+    font-size: clamp(0.85em, 2.5vw, 1.1em);
+    font-family: 'Times New Roman', Times, serif;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+    min-height: 44px;
+    font-weight: 600;
+    width: 100%;
+    text-decoration: none;
+    margin-top: 10px;
+    box-sizing: border-box;
+    max-width: 600px;
+}
+
+.btn:hover { /* Estilos para los botones al pasar el cursor por encima */
+    color: #1b1f2b !important;
+    background-color: #497253 !important;
+}
+
+.btn:active { /* Estilos para los botones al hacer clic */
+    transform: scale(0.98);
+}
+
+.btn:disabled {  /* Estilos para los botones deshabilitados */
+    background-color: #4a5f52;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.formulario {  /* Estilos para los formularios */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+    margin-top: 100px;
+}
+
+.formulario input {  /* Estilos para los campos de entrada de los formularios */
+    padding: clamp(0.8em, 3vw, 1.2em);
+    width: 100%;
+    border: 1px solid #666;
+    border-radius: 5px;
+    background-color: #2a2f3f;
+    color: #fff;
+    font-size: 1em;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+    transition: border-color 0.3s ease;
+}
+
+.formulario input:focus {  /* Estilos para los campos de entrada cuando están enfocados */
+    outline: none;
+    border-color: #6da67a;
+    background-color: #333844;
+}
+
+.formulario input::placeholder {  /* Estilos para el texto placeholder dentro de los campos de entrada */
+    color: #999;
+}

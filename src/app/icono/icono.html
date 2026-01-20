@@ -1,8 +1,12 @@
+<!-- Cuerpo del menú con los datos del animal ingresados por el usuario -->
 <div class="popup-animal" *ngIf="datosAnimal">
+
+  <!-- Nombre del animal -->
   <h3 class="popup-animal-titulo">
     {{ datosAnimal?.nombre || datosAnimal?.name || 'Desconocido' }}
   </h3>
 
+  <!-- Foto del animal -->
   <img 
     *ngIf="imgUrl" 
     [src]="imgUrl" 
@@ -10,20 +14,28 @@
     alt="Foto del animal"
   />
 
+  <!-- Detalles del animal -->
+
+  <!-- Edad del animal -->
   <div class="popup-animal-linea">
     <b>Edad:</b> {{ datosAnimal?.edad || '—' }}
   </div>
   
+  <!-- Personalidad del animal -->
   <div class="popup-animal-linea">
     <b>Personalidad:</b> {{ datosAnimal?.personalidad || '—' }}
   </div>
   
+  <!-- Enfermedades o lesiones del animal -->
   <div class="popup-animal-linea">
     <b>Enfermedad/Lesión:</b> 
     {{ datosAnimal?.descripcion || datosAnimal?.lesiones || '—' }}
   </div>
 
+  <!-- Botones solo para el usuario que ingresió el animal -->
   <div *ngIf="puedeEliminar" class="popup-animal-botones">
+    
+    <!-- Botón para editar el animal -->
     <button 
       class="popup-animal-btn popup-animal-btn-editar" 
       (click)="onEditar(); $event.stopPropagation()"
@@ -31,6 +43,7 @@
       EDITAR
     </button>
 
+    <!-- Botón para eliminar el animal -->
     <button 
       class="popup-animal-btn popup-animal-btn-eliminar" 
       (click)="eliminar(); $event.stopPropagation()"
