@@ -3,7 +3,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow-x: hidden;
 }
 
 /*Estilos para el fondo*/
@@ -79,9 +78,79 @@
         align-items: center;
         margin-bottom: 10em;
         padding: 1em 4em;
+
+        .contenedor {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            margin-top: auto;
+            color: white;
+            font-size: 1.5em;
+
+            & h2 {
+                text-align: center;
+                margin-bottom: 1em;
+            }
+
+            & p {
+                color: #cecece;
+                margin-bottom: 1em;
+                text-align: center;
+                font-style: italic;
+            }
+        }  
+
+        .botones {    /* Estilos para los botones */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 3em;
+
+            .bloqueingreso {    /* Estilo para los bloques */
+                background-color: #6da67a;
+                padding: clamp(15px, 3vw, 20px);
+                width: clamp(120px, 20vw, 180px);
+                height: 90px;
+                font-size: clamp(0.9em, 2vw, 1.2em);
+                transition: all 0.3s ease;
+                border-radius: 10px;
+                color: #ffffff;
+                text-decoration: none;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 600;
+                cursor: pointer;
+            }
+                    
+            .bloqueingreso:hover {   /* Estilos para los bloques al pasar el cursor */
+                background-color: #497253;
+                color: #1b1f2b;      
+            }
+        } 
     }
 }
 
+.contenedores-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2em;
+    width: 100%;
+    max-width: 1100px;
+}
+
+@media screen and (min-width: 900px) {
+    .contenedores-grid {
+        grid-template-columns: 1fr 1fr;
+        align-items: stretch;
+    }
+}
 
 
 /* ESTILOS PARA EL FOOTER */
