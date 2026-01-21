@@ -7,22 +7,10 @@
 }
 
 /*Estilos para el fondo*/
-.fondo {
-    background-color: #1b1f2b;
-    width: 100%;
-    min-height: 100vh;
+.fondo-general {
 
     /*Estilos para el header*/
     header {
-        padding: 12em 6.25em;
-        color: #ffffff;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        height: 230px;
-        background-image: url('https://i.postimg.cc/BQwbtWsZ/foto-1-Picsart-Ai-Image-Enhancer.png');
-        background-size: cover;
-        background-position: center;
         @media screen and (max-width: 535px) {  /* Ajustes para pantallas pequeñas */
             & {
                 padding: 10em 6.25em;
@@ -68,7 +56,6 @@
     }
 
     main {  /* Estilos para el contenido principal */
-        background-color: #1b1f2b;
         padding: 20px;
         color: white;
         text-align: center;
@@ -136,7 +123,7 @@
             margin-top: 3em;
 
             .bloqueingreso {    /* Estilo para los bloques */
-                background-color: #6da67a;
+                background-color: var(--verde-manu);
                 padding: clamp(15px, 3vw, 20px);
                 width: clamp(120px, 20vw, 180px);
                 height: 90px;
@@ -153,8 +140,8 @@
             }
                 
             .bloqueingreso:hover {   /* Estilos para los bloques al pasar el cursor */
-                    background-color: #497253;
-                    color: #1b1f2b;      
+                    background-color: var(--verde-manu-hover);
+                    color: var(--azul-oscuro-manu);      
             }
         }
     }

@@ -5,88 +5,8 @@
     box-sizing: border-box;
 }
 
-/*Estilos para el fondo*/
-.fondo {
-    background-color: #1b1f2b;
-    min-height: 100vh;
-}
-
-/*Estilos para el header*/
-header {
-    padding: 12em 6.25em;
-    color: #ffffff;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    height: 230px;
-    background-image: url('https://i.postimg.cc/BQwbtWsZ/foto-1-Picsart-Ai-Image-Enhancer.png');
-    background-size: cover;
-    background-position: center;
-    @media screen and (max-width: 535px) {  /* Ajustes para pantallas pequeñas */
-        & {
-            padding: 10em 6.25em;
-            nav {
-                margin-top: -130px;
-            }
-        }
-    }
-}
-
-/*Estilos para el menú de navegación*/
-nav {
-    text-align: right;
-    font-size: 20px;
-    margin-top: -160px;
-    margin-bottom: 40px;
-    a {
-        padding: 10px;
-        color: #ffffff;
-        text-decoration: none;
-        transition: color 0.5s ease;
-        &:hover {
-            color: #1b1f2b;
-        }
-    }
-}  
-
-/*Estilos para el texto del header*/
-.header-text {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-}
-
-/*Estilos para el título principal*/
-.titulo {
-    font-size: 70px;
-    color: white;
-    position: relative;
-    text-align: center;
-    padding: 10px;
-    @media screen and (max-width: 535px) {
-        & {
-            font-size: 60px;
-        }
-    }
-}
-
-/*Estilos para el texto de la página*/
-.contactito {
-    padding: 20px;
-    font-size: 30px;
-    @media screen and (max-width: 535px) {
-        & {
-            font-size: 24px;
-            padding: 20px 0 30px 0;
-        }
-    }
-}
-
 /*Estilos para el cuerpo de la página*/
-main {
-    background-color: #1b1f2b;
+.fondo-general main {
     padding: 20px;
     color: white;
     text-align: center;
@@ -99,7 +19,7 @@ main {
 .bloqueredes {
     display: inline-block;
     margin: 20px;
-    background-color: #6da67a;
+    background-color: var(--verde-manu);
     color: #ffffff;
     padding: 10px;
     font-size: 30px;
@@ -107,13 +27,13 @@ main {
     max-width: fit-content; 
     gap: 8px;  
     text-decoration: none;
-    transition: all 0.5s ease;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
 
     &:hover {  /* Efecto al pasar el mouse en los bloques de redes sociales */
-        background-color: #497253;   
-        color: #1b1f2b;   
+        background-color: var(--verde-manu-hover);   
+        color: var(--azul-oscuro-manu);   
     }
 
     .icono {

@@ -5,68 +5,8 @@
     box-sizing: border-box;
 }
 
-/* Estilos para el fondo de la página */
-.fondo {
-    background-color: #1b1f2b;
-    min-height: 100vh;
-}
-
-/* Header de la página */
-.fondo header { 
-    padding: 13em 6.25em;
-    color: #ffffff;
-    text-align: center;
-    position: relative;
-    height: 230px;
-    background-image: url('https://i.postimg.cc/BQwbtWsZ/foto-1-Picsart-Ai-Image-Enhancer.png');
-    background-position: center;
-    background-size: cover;
-}
-
-/* Menú de navegación */
-.fondo header nav {   
-    text-align: right;
-    font-size: 20px;
-    margin-top: -160px;
-    margin-bottom: 40px;
-}
-
-/* Enlaces del menú */
-.fondo header nav a {   
-    padding: 10px;
-    color: #ffffff;
-    text-decoration: none;
-    transition: color 0.5s ease;
-}
-
-/* Efecto al pasar el mouse en el menú */
-.fondo header nav a:hover {  
-    color: #1b1f2b;
-}
-
-/* Texto del encabezado */
-.fondo header .header-text { 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Título principal */
-.fondo header .titulo { 
-    font-size: 80px;
-    color: white;
-    position: relative;
-    text-align: center;  
-    padding: 10px;
-}
-
-/* Subtítulo */
-.fondo header .subtitulito { 
-    font-size: 30px;
-}
-
 /* Cuerpo principal de la página */
-.fondo main { 
+.fondo-general main { 
     padding-top: 80px;
     color: white;
     text-align: center;
@@ -121,7 +61,7 @@
 
 @media (min-width: 700px) { 
     /* Ajustes para el cuerpo principal en pantallas grandes */
-    .fondo main {   
+    .fondo-general main {   
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
