@@ -79,7 +79,7 @@
         margin-bottom: 10em;
         padding: 1em 4em;
 
-        .contenedor {
+        .contenedor {  /* Estilos para los contenedores de información */
             display: flex;
             flex-direction: column;
             height: 100%;
@@ -90,12 +90,12 @@
             color: white;
             font-size: 1.5em;
 
-            & h2 {
+            & h2 {  /* Estilos para los subtitulos dentro del contenedor */
                 text-align: center;
                 margin-bottom: 1em;
             }
 
-            & p {
+            & p {   /* Estilos para los párrafos dentro del contenedor */
                 color: #cecece;
                 margin-bottom: 1em;
                 text-align: center;
@@ -112,7 +112,7 @@
             margin-top: 3em;
 
             .bloqueingreso {    /* Estilo para los bloques */
-                background-color: #6da67a;
+                background-color: var(--verde-manu);
                 padding: clamp(15px, 3vw, 20px);
                 width: clamp(120px, 20vw, 180px);
                 height: 90px;
@@ -130,14 +130,14 @@
             }
                     
             .bloqueingreso:hover {   /* Estilos para los bloques al pasar el cursor */
-                background-color: #497253;
+                background-color: var(--verde-manu-hover);
                 color: #1b1f2b;      
             }
         } 
     }
 }
 
-.contenedores-grid {
+.contenedores-grid {    /* Estilos para el grid de contenedores */
     display: grid;
     grid-template-columns: 1fr;
     gap: 2em;
@@ -145,7 +145,7 @@
     max-width: 1100px;
 }
 
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 900px) {  /* Estilos para pantallas grandes */
     .contenedores-grid {
         grid-template-columns: 1fr 1fr;
         align-items: stretch;

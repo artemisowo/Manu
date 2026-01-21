@@ -66,7 +66,7 @@
         margin-bottom: 10em;
         padding: 1em 4em;
 
-        .contenedor {
+        .contenedor {  /* Estilos para el contenedor de la información (subtitulos, parrafos e imagenes) */
             display: flex;
             flex-direction: column;
             height: 100%;
@@ -77,24 +77,24 @@
             color: white;
             font-size: 1.5em;
 
-            & h2 {
+            & h2 {   /*Estilos para los subtitulos dentro del contenedor*/
                 text-align: center;
                 margin-bottom: 1em;
             }
 
-            & p {
+            & p {  /*Estilos para los parrafos dentro del contenedor*/
                 color: #cecece;
                 margin-bottom: 1em;
                 text-align: center;
                 font-style: italic;
             }
 
-            .imagen {
+            .imagen { /* Estilos para las imagenes dentro del contenedor */
                 display: flex;
                 justify-content: center;
                 margin-top: auto;
 
-                img {
+                img {  /* Estilos para el marco de las imagenes */
                     max-width: 400px;
                     height: auto;
                     border: solid 2px #ffffff;
@@ -102,13 +102,13 @@
                 }
             }
 
-            .textito {
+            .textito {  /* Estilos para el texto pequeño del primer subtitulo */
                 font-size: 0.7em;
                 font-weight: normal;
                 opacity: 0.8;
             }
 
-            .negrita {
+            .negrita {  /* Estilos para el texto en verde del tercer parrafo */
                 font-weight: bold;
                 color: #6da67a;
             }
@@ -147,7 +147,7 @@
     }
 }
 
-.contenedores-grid {
+.contenedores-grid {    /* Estilos para el contenedor de grid */
     display: grid;
     grid-template-columns: 1fr;
     gap: 2em;
@@ -155,7 +155,7 @@
     max-width: 1100px;
 }
 
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 900px) {  /* Ajustes para pantallas grandes para que quede mejor ordenado lado a lado */
     .contenedores-grid {
         grid-template-columns: 1fr 1fr;
         align-items: stretch;
@@ -164,7 +164,7 @@
 
 /* ESTILOS PARA EL FOOTER */
 footer{ 
-  background-color: #1b1f2b;
+  background-color: var(--azul-oscuro-manu);
   display: flex;
   flex-direction: column;
   align-items: center;
