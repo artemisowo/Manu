@@ -9,6 +9,7 @@ import { perfil } from './perfil/perfil';
 import { verificado } from './verificado/verificado';
 import { recuperar } from './recuperar/recuperar';
 import { Donaciones } from './donaciones/donaciones';
+import { Pago } from './pago/pago';
 
 
 export const routes: Routes = [
@@ -21,6 +22,7 @@ export const routes: Routes = [
   { path: 'registro', component: registro },
   { path: 'iniciar_sesion', component: iniciar_sesion  },
   { path: 'perfil', component: perfil },
+  { path: 'pago', component: Pago },
   { path: 'verificado', component: verificado },
   { path: 'recuperar', component: recuperar },
 
