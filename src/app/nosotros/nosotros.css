@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
 }
 
 /* Cuerpo principal de la página */
@@ -18,8 +19,7 @@
 
 
 .bloques{  /* Estilos para los bloques de información */
-    background-color:var(--verde-manu);
-    margin: 40px;
+    margin: 10px;
     padding: 1.2rem;
     width: min(90%, 460px);
     max-width: 460px;
@@ -37,8 +37,9 @@
     text-align: center;
     box-sizing: border-box;
     overflow: hidden;
-    border: 3px solid #4a7055;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    position: relative;
+    line-height: 1.1;
+    padding-bottom: 8px;
 }
 
 .bloques h1 { /* Estilos para los títulos dentro de los bloques */
@@ -47,17 +48,20 @@
     line-height: 1.1;
 }
 
+.bloques h1::after {
+    content: "";
+    display: block;
+    width: 60%;
+    height: 2px;
+    background-color: white;
+    margin: 8px auto 0;
+}
+
 .bloques p {  /* Estilos para los párrafos dentro de los bloques */
     margin: 0px;
     padding: 5px 0.6rem;
 }
 
-.bloques:hover {
-    background-color:var(--verde-manu-hover);
-    border-color: #5a8065;
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    transform: translateY(-5px);
-}
 
 @media (min-width: 700px) { 
     /* Ajustes para el cuerpo principal en pantallas grandes */

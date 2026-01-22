@@ -4,6 +4,7 @@
     padding: 0;
     box-sizing: border-box;
     overflow-x: hidden;
+    font-family: 'Inter', sans-serif;
 }
 
 /*Estilos para el fondo*/
@@ -80,6 +81,7 @@
             & h2 {   /*Estilos para los subtitulos dentro del contenedor*/
                 text-align: center;
                 margin-bottom: 1em;
+               
             }
 
             & p {  /*Estilos para los parrafos dentro del contenedor*/
