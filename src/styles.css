@@ -24,6 +24,7 @@ body::-webkit-scrollbar {
     background-color: var(--azul-oscuro-manu);
     height: 100%;
     min-height: 100vh;
+    font-family: 'Inter', sans-serif;
     
     .header-general {
         background-image: url("https://i.ibb.co/qL6P90bG/gato-manu-1.jpg");
@@ -117,6 +118,20 @@ body::-webkit-scrollbar {
             background-color: var(--azul-oscuro-manu);
             clip-path: ellipse(50% 80% at 50% 100%);
             z-index: 10;
+        }
+    }
+
+    .footer-general {
+        margin-top: 50px;
+        min-height: 15vh;
+        background-color: var(--verde-manu);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .texto-footer-general {
+            color: var(--azul-oscuro-manu);
+            font-weight: 600;
         }
     }
 }

@@ -19,7 +19,7 @@
 
 
 .bloques{  /* Estilos para los bloques de información */
-    margin: 10px;
+    margin: 20px;
     padding: 1.2rem;
     width: min(90%, 460px);
     max-width: 460px;
@@ -36,7 +36,7 @@
     text-decoration: none;
     text-align: center;
     box-sizing: border-box;
-    overflow: hidden;
+    
     position: relative;
     line-height: 1.1;
     padding-bottom: 8px;
