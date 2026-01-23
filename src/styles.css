@@ -6,13 +6,13 @@
     --azul-oscuro-manu: #070c1e;
     --verde-manu: #1B924E;
     --verde-manu-hover: #0f522b;
+    --verde-manu-brillante: #52E483;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    
 }
 
 body::-webkit-scrollbar {
@@ -86,7 +86,6 @@ body::-webkit-scrollbar {
                         color: var(--azul-oscuro-manu);
                     }
                 }
-                
             }
 
             .titulo-header-general {

@@ -1,5 +1,5 @@
 import { ApplicationConfig, inject } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app.routes';
 
 import { provideFirebaseApp, initializeApp, FirebaseApp } from '@angular/fire/app';
@@ -12,17 +12,17 @@ import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
-
+    provideRouter(
+      routes,
+      withInMemoryScrolling({ scrollPositionRestoration: 'enabled' })
+    ),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-
     provideAuth(() => {
       const app = inject(FirebaseApp);
       return initializeAuth(app, {
         persistence: browserLocalPersistence,
       });
     }),
-
     provideFirestore(() => getFirestore()),
   ],
 };

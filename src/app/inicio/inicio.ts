@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from '@angular/router';
 
@@ -8,4 +8,14 @@ import {RouterLink} from '@angular/router';
   templateUrl: './inicio.html',
   styleUrl: './inicio.css'
 })
-export class Inicio {}
+export class Inicio {
+  @ViewChild('contenidoPrincipal') private contenidoPrincipal!: ElementRef;
+
+  // Función para hacer scroll al llamar
+  autoScroll(): void {
+    this.contenidoPrincipal.nativeElement.scrollIntoView({
+      behavior: 'smooth', 
+      block: 'start'      
+    });
+  }
+}

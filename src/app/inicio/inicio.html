@@ -1,49 +1,63 @@
-<!-- Header de la página -->
-<header>  
-    <nav>  <!-- Menú de navegación -->
-        <a href="/inicio">Inicio</a>
-        <a href="/nosotros">Nosotros</a>
-        <a href="/contacto">Contacto</a>
-        <a href="/donaciones">Donaciones</a>
-    </nav>
-    <!-- Título principal MANU-->
-    <h1 class="header-text">Bienvenido a <br> <span class="manuelito">MANU</span> </h1>
-</header>
-
 <!-- Fondo y cuerpo de la página -->
 <div class="fondo">
-    <main>
-        <!-- Marco blanco que contiene la imagen del minimapa -->
-        <div class="marcoblanco">
-            <div class="imagenmarco">
-                <img src="https://i.postimg.cc/MpNwJqwR/Mapa.png" alt="#">       <!-- Imagen del minimapa  -->
+
+    <!-- Header de la página -->
+    <header class="header-inicio">  
+        <div class="contenido-header">
+
+            <div class="header-texto">
+                <!-- Título principal MANU-->
+                <h1 class="titulo">Bienvenido a <br> <span class="manuelito">MANU</span> </h1>
+                <p class="subtitulo">
+                    Explora en el mapa la ubicación de animales callejeros y reporta a los que encuentres cerca de tí.
+                    <br>
+                    <br>
+                    Ayuda a las Fundaciones de rescate animal a encontrar y asistir animales en necesidad 
+                    con un solo toque.
+                </p>
             </div>
         </div>
 
-        <!-- Botones de ingreso y registro de la página-->
-        <div class="botones">
-        <a routerLink="/iniciar_sesion" class="bloqueingreso">Inicia Sesión</a>        <!-- Botón de ingreso para iniciar sesion -->
-        <a routerLink="/registro" class="bloqueingreso">Registrate</a>        <!-- Botón de ingreso para registro -->
+        <div class="icono" (click)="autoScroll()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+                <path fill-rule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+            </svg>
         </div>
-        
+    </header>
 
-        <!-- Breve descripción de la plataforma con texto llamativo -->
-        <div class="parrafito">
-            <p><strong class="negrita">MANU</strong> es una plataforma que conecta a
-            fundaciones de rescate con animales callejeros en
-            necesidad. Usando nuestro mapa, las fundaciones
-            pueden visualizar la ubicación de los animales y
-            brindarles la ayuda necesaria.</p>
-        </div>
-        <h1>Todo esto, gracias a TI</h1>
-        <h1>¡Ingresa ahora al mapa de tu ciudad!</h1>
+    <!-- Contenido principal de la página -->
+    <main #contenidoPrincipal>
+
+        <nav>  <!-- Menú de navegación -->
+            <a routerLink="/nosotros">Nosotros</a>
+            <a routerLink="/contacto">Contacto</a>
+            <a routerLink="/donaciones">Donaciones</a>
+            <a routerLink="/iniciar_sesion">Inicia Sesión/Regístrate</a>
+        </nav>
+        
+        <!-- Call to action hacia la página de Donaciones -->
+        <a routerLink="/donaciones" class="enlace-donaciones">
+            Salva una vida donando aquí
+            <div class="icono-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
+                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
+                </svg>
+            </div>
+        </a>
+
+        <!-- Imagen del mapa que te linkea a éste -->
+        <a href="#">
+            <img src="https://i.ibb.co/zTTydzGx/Mapa.png" alt="Mapa de MANU" class="img-mapa">
+        </a>
+        
+        <!-- Call to action para ingresar al mapa -->
+        <h1 class="cta-mapa">¡Haz click en el mapa e ingresa ya!</h1>
     </main>
      
     <!-- Footer de la página -->
-    <footer>
-        <div class="huella">
-            <img src="https://i.postimg.cc/NM1BxVWX/Logo.png" alt="loguito">
-        </div>
-    </footer>
-           
+    <footer class="footer-general">
+        <p class="texto-footer-general">MANU - Todos los Derechos Reservados 2026 © </p>
+    </footer>    
 </div>

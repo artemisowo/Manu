@@ -5,99 +5,215 @@
   box-sizing: border-box;
 }
 
-/* ESTILOS PARA EL HEADER */
-header {
-  padding: 7em 6.25em 20em 6.25em;
-  color: #ffffff;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  height: 230px;
-  background-image: url('https://i.postimg.cc/BQwbtWsZ/foto-1-Picsart-Ai-Image-Enhancer.png'); /*Imagen de fondo del header*/
-  background-position: center;
-  background-size: cover;
+/* Estilos del fondo de la página */
 
-  /* Estilos para la navegación del header*/
-  nav {           
-    text-align: right;
-    font-size: 20px;
-    margin-top: -50px;
-    a {
-        padding: 10px;
-        color: #ffffff;
-        text-decoration: none;
-        transition: color 0.5s ease;
-        &:hover {
-            color: #1b1f2b;
+.fondo {
+  background-color: var(--azul-oscuro-manu);
+  height: 100%;
+  min-height: 100vh;
+  width: 100vw;
+  font-family: 'Inter', sans-serif;
+
+  /* ESTILOS PARA EL HEADER */
+  .header-inicio {
+    background-image: url("https://i.ibb.co/NMMjN8x/gato-manu-inicio-1.jpg");
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 10px;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    z-index: 1;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to left, rgba(7, 12, 30, 0.9) 25%, rgba(31, 36, 49, 0.8) 50%, rgba(91, 105, 145, 0.1));
+      z-index: 2;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 80%;
+      left: 0;
+      width: 100%;
+      height: 20%;
+      background: linear-gradient(0deg,rgba(7, 12, 30, 1) 10%, rgba(91, 105, 145, 0.1) 70%, transparent);
+      z-index: 2;
+    }
+
+    /* Contenedor para el texto */
+    .contenido-header {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: right;
+      height: 100%;
+      width: 40vw;
+
+      /* Texto del header */
+
+      .header-texto {
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+        h1 {
+          font-size: 4em;
+          width: 30vw;
+        }
+
+        p {
+          font-size: 1.7em;
+          width: 30vw;
         }
       }
     }
 
-  /* Estilos para el texto del header */
-  .header-text {
-    font-size: clamp(3em, 5vw, 3.44em);
-    color: white;
-    position: relative;
-    text-align: center;
-
-    .manuelito { /*Estilo para nombre MANU*/
-      font-size: clamp(2em, 10vw, 2.4em);
-      text-align: center;
-      }
-    }  
-
-  @media screen and (max-width: 1000px){  /* Estilos para el header en pantallas pequeñas */
-    & {
-      padding-bottom: 15em;
-    }
-  }
-
-  @media screen and (max-width: 768px){  /* Estilos para el header en pantallas muy pequeñas */
-    & {
+    /* Ícono de flechas hacia abajo */
+    .icono {
+      z-index: 4;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      align-self: center;
+      width: 50px;
+      padding-bottom: 20px;
+      cursor: pointer;
+      svg {
+        width: 100%;
+        color: #ffffff80;
+        transition: ease all 0.3s;
+        &:hover {
+          color: #ffffffce;
+        }
+      }
     }
   }
 
-  @media screen and (max-width: 460px){  /* Estilos para el header en pantallas muy muypequeñas */
-    & {
-      padding-bottom: 2em;
+  /* Estilos para el contenido principal */
+
+  main {
+    color: white;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    nav {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 60vw;
+      margin-top: 40px;
+      font-weight: 500;
+      font-size: 1.3em;
+      z-index: 4;
       a {
-        font-size: 14px;
+          color: #ffffff;
+          text-decoration: none;
+          transition: all 0.2s ease;
+          position: relative;
+
+          &::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: #fff;
+            bottom: -5px;
+            left: 0;
+            transition: all 0.3s ease;
+          }
+
+          &:hover {
+              &::after {
+                width: 100%;
+              }
+          }
       }
-      h1 {
-        font-size: 2em;
-      } 
+    }
+
+    .enlace-donaciones {
+      color: #ffffff;
+      display: flex;
+      gap: 10px;
+      text-decoration: none;
+      border: 2px solid #fff;
+      padding: 4px 10px;
+      border-radius: 5px;
+      font-size: 1.2em;
+      margin-top: 50px;
+      box-shadow: 0 5px 10px #ffffff57;
+      transition: ease all .3s;
+
+      .icono-link {
+        svg {
+          width: 100%;
+        }
+      }
+
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 10px #ffffff57;
+      }
+      
+    }
+  }
+
+  .img-mapa {
+    margin-top: 50px;
+    border: 5px solid var(--verde-manu-brillante);
+    border-radius: 9px;
+    cursor: pointer;
+    box-shadow: 0 5px 10px var(--verde-manu);
+    transition: ease all .3s;
+    &:hover {
+      transform: translateY(3px);
+      box-shadow: 0 2px 10px var(--verde-manu);
+    }
+  }
+
+  .cta-mapa {
+    margin-top: 50px;
+  }
+
+  /* Estilos footer */
+  .footer-general {
+    margin-top: 50px;
+    min-height: 15vh;
+    background-color: var(--verde-manu);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .texto-footer-general {
+        color: var(--azul-oscuro-manu);
+        font-weight: 600;
     }
   }
 }
 
+
+
 /*ESTILOS PARA EL FONDO*/
 .fondo {
-  background-color: #1b1f2b;
-
   main {      /*Estilos para el main*/
-    background-color: #1b1f2b;
-    padding: 20px;
-    color: white;
-    text-align: center;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 10em;
+    
 
-    .marcoblanco {    /* Estilo para el marco blanco de la imagen */
-      border: solid 1px #ffffff;
-      padding: clamp(1em, 2vw, 1.25em);
-      margin-bottom: clamp(1.8em, 2vw, 2.5em);
-      max-width: 300px;
-      max-height: 300px;
-      img {
-          width: 100%;
-          height: 100%;
-        }
 
       @media screen and (max-width: 768px){ /* Estilos para el marco blanco en pantallas pequeñas */
         & {
@@ -113,39 +229,8 @@ header {
       }
     }
 
-    .botones {    /* Estilos para los botones */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    
-    .bloqueingreso {    /* Estilo para los bloques */
-        background-color: #6da67a;
-        margin: 0;
-        padding: clamp(12px, 3vw, 20px);
-        width: clamp(120px, 20vw, 180px);
-        height: 60px;
-        font-size: clamp(0.9em, 2vw, 1.2em);
-        transition: all 0.3s ease;
-        border-radius: 10px;
-        color: #ffffff;
-        text-decoration: none;
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
-      }
-      
-      .bloqueingreso:hover {   /* Estilos para los bloques al pasar el cursor */
-            background-color: #497253;
-            color: #1b1f2b;      
-        }
 
     .parrafito {   /* Estilo para el párrafo */
-      background-color: #1b1f2b;
       max-width: 400px;
       width: 80%;
       font-size: clamp(1.4em, 1vw, 1.56em);
@@ -154,17 +239,8 @@ header {
 
   }
 
-}
 
 .negrita { /* Estilo para texto en negrita */
   font-weight: bold;
 }
 
-/* ESTILOS PARA EL FOOTER */
-footer{ 
-  background-color: #1b1f2b;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 3em 0;
-}
