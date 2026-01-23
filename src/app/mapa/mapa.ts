@@ -145,7 +145,6 @@ export class mapa implements AfterViewInit, OnDestroy {
 
         if (!this.markerSeleccion) {
           this.markerSeleccion = L.marker([latlng.lat, latlng.lng], {
-            icon: this.iconoPersonalizado,
             draggable: true,
           }).addTo(this.map);
 
