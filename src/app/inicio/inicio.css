@@ -5,6 +5,16 @@
   box-sizing: border-box;
 }
 
+/* Animación para Ícono de flechas en header */
+@keyframes subtleBounce {
+  0%, 100% {
+    transform: translateY(0); /* Start and end at the original position */
+  }
+  50% {
+    transform: translateY(-5px); /* Move up 5 pixels in the middle */
+  }
+}
+
 /* Estilos del fondo de la página */
 
 .fondo {
@@ -31,6 +41,7 @@
     justify-content: center;
     align-items: flex-end;
     
+    /* Gradientes sobre la imagen */
     &::before {
       content: "";
       position: absolute;
@@ -66,7 +77,6 @@
       width: 40vw;
 
       /* Texto del header */
-
       .header-texto {
         display: flex;
         flex-direction: column;
@@ -91,6 +101,7 @@
       width: 50px;
       padding-bottom: 20px;
       cursor: pointer;
+      animation: subtleBounce 2s infinite ease-out; 
       svg {
         width: 100%;
         color: #ffffff80;
@@ -113,6 +124,7 @@
     align-items: center;
     justify-content: center;
 
+    /* Menú de navegación */
     nav {
       display: flex;
       flex-direction: row;
@@ -128,6 +140,7 @@
           transition: all 0.2s ease;
           position: relative;
 
+          /* Animación al hacer hover */
           &::after {
             content: '';
             position: absolute;
@@ -147,6 +160,7 @@
       }
     }
 
+    /* Botón CTA para redirigir a pág. de donaciones */
     .enlace-donaciones {
       color: #ffffff;
       display: flex;
@@ -174,6 +188,7 @@
     }
   }
 
+  /* Imagen del mapa */
   .img-mapa {
     margin-top: 50px;
     border: 5px solid var(--verde-manu-brillante);
@@ -187,6 +202,7 @@
     }
   }
 
+  /* Texto debajo del mapa */
   .cta-mapa {
     margin-top: 50px;
   }
@@ -206,41 +222,3 @@
     }
   }
 }
-
-
-
-/*ESTILOS PARA EL FONDO*/
-.fondo {
-  main {      /*Estilos para el main*/
-    
-
-
-      @media screen and (max-width: 768px){ /* Estilos para el marco blanco en pantallas pequeñas */
-        & {
-            width: 65%;
-            height: fit-content;
-        }
-      }
-      @media screen and (max-width: 460px){ /* Estilos para el marco blanco en pantallas muy pequeñas */
-        & {
-            width: 50%;
-            height: fit-content;
-        }
-      }
-    }
-
-
-    .parrafito {   /* Estilo para el párrafo */
-      max-width: 400px;
-      width: 80%;
-      font-size: clamp(1.4em, 1vw, 1.56em);
-      padding: 50px 0;
-    }
-
-  }
-
-
-.negrita { /* Estilo para texto en negrita */
-  font-weight: bold;
-}
-
