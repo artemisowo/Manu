@@ -15,10 +15,10 @@
                     <h2>Donación Mensual</h2>
                     <p> Incluye cosmeticos dentro de la app.</p>
                 <div class="botones">
-                    <button class="bloqueingreso">$1.000 pesos</button>
-                    <button class="bloqueingreso">$3.000 pesos</button> 
-                    <button class="bloqueingreso">$5.000 pesos</button>  
-                    <button class="bloqueingreso">$10.000 pesos</button>   
+                    <button class="bloqueingreso" (click)="donar('mensual', 1000)">$1.000 pesos</button>
+                    <button class="bloqueingreso" (click)="donar('mensual', 3000)">$3.000 pesos</button>
+                    <button class="bloqueingreso" (click)="donar('mensual', 5000)">$5.000 pesos</button>
+                    <button class="bloqueingreso" (click)="donar('mensual', 10000)">$10.000 pesos</button>
                 </div>
             </div>
 
@@ -26,10 +26,10 @@
                     <h2>Donación Unica</h2>
                     <p>Incluye cosmeticos dentro de la app.</p>
                 <div class="botones">
-                    <button class="bloqueingreso">$1.000 pesos</button>
-                    <button class="bloqueingreso">$3.000 pesos</button> 
-                    <button class="bloqueingreso">$5.000 pesos</button>  
-                    <button class="bloqueingreso">$10.000 pesos</button>   
+                    <button class="bloqueingreso" (click)="donar('unica', 1000)">$1.000 pesos</button>
+                    <button class="bloqueingreso" (click)="donar('unica', 3000)">$3.000 pesos</button>
+                    <button class="bloqueingreso" (click)="donar('unica', 5000)">$5.000 pesos</button>
+                    <button class="bloqueingreso" (click)="donar('unica', 10000)">$10.000 pesos</button>   
                 </div>
             </div>
         </div>
