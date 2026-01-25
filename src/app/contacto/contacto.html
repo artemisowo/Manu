@@ -1,34 +1,94 @@
 <!--Fondo de la página-->
-<div class="fondo">
+<div class="fondo-general">
 
     <!--Fondo de la página-->
-    <header> 
-        <nav>  <!--Menú de navegación-->
-            <a href="/inicio">Inicio</a>
-            <a href="/nosotros">Nosotros</a>
-            <a href="/contacto">Contacto</a>
-        </nav>
-        <div class="header-text">
-            <h1 class="titulo">Contacto</h1>  <!--Título principal-->
-            <h1 class="contactito">Puedes contactarnos en nuestras siguientes redes: </h1>  <!--Subtítulo de la página-->
+    <header class="header-general"> 
+        <div class="contenido-header-general">
+            <nav class="nav-general">  <!--Menú de navegación-->
+                <a href="/inicio">Inicio</a>
+                <a href="/nosotros">Nosotros</a>
+                <a href="/contacto">Contacto</a>
+                <a href="/donaciones">Donaciones</a>
+                <a href="/iniciar_sesion">Registro/Inicio sesión</a>
+            </nav>
+            <div class="titulo-header-general">
+                <h1 class="titulo-general">Contacto</h1>  <!--Título principal-->
+                <h1 class="subtitulo-general">Puedes contactarnos en nuestras siguientes redes: </h1>  <!--Subtítulo de la página-->
+            </div>
         </div>
+        
+        <!-- Curva sobre el header -->
+        <div class="curva-general"></div>
     </header>
 
-    <main>  <!--Cuerpo de la página-->
-        <a href="https://www.tiktok.com/@manu.rescate?_t=ZM-8zaGqsbVruA&_r=1" class="bloqueredes">  <!--Bloque de red social TikTok-->
-            <img src="https://i.postimg.cc/KYLsc5Kx/3670299.png" alt="icono" class="icono">
-                @manu.rescate
-        </a>
-        <a href="https://www.instagram.com/manu.rescate/" class="bloqueredes">  <!--Bloque de red social Instagram-->
-            <img src="https://i.postimg.cc/66hhBp07/instagram-new.png" alt="icono" class="icono">
-                @manu.rescate
-        </a>
-        
-        <!--Bloque de red social Gmail-->
-        <a class="bloqueredes" href="https://www.google.com/maps/place/MANU/@-33.0155601,-71.5567255,17z/data=!3m1!4b1!4m6!3m5!1s0x9689dd366f13e3a5:0xdfcd42ec59151ef3!8m2!3d-33.0155601!4d-71.5567255!16s%2Fg%2F11yfzbh7_g?entry=ttu&g_ep=EgoyMDI1MDkwMy4wIKXMDSoASAFQAw%3D%3D">
-            <img src="https://i.postimg.cc/TwRYXxf6/gmail.png" alt="icono" class="icono">
-                manu.rescateanimal@gmail.com
-        </a>
+    <main class="main-general">  <!--Cuerpo de la página-->
 
+        <div class="contenedor">
+            <div class="bloque formulario">
+                <h2 class="titulo-contenido-general">Envíanos un mensaje</h2>
+                <form action="">
+                    <div class="fila-top">
+                        <div class="seccion-formulario">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" pattern="[A-Za-zÑñ]+" maxlength="30" minlength="3" title="Por favor ingrese solo letras del alfabeto" required>
+                        </div>
+
+                        <div class="seccion-formulario">
+                            <label for="email">Correo</label>
+                            <input type="email" id="email" title="Por favor ingrese un email válido" required>
+                        </div>
+                        
+                    </div>
+                    <label for="asunto">Asunto</label>
+                    <input type="text" id="asunto" pattern="[A-Za-zÑñ]+" maxlength="60" minlength="3" title="Por favor ingrese solo letras del alfabeto" required>
+                    <label for="mensaje">Mensaje</label>
+                    <textarea id="mensaje" pattern="[A-Za-zÑñ]+" title="Por favor ingrese solo letras del alfabeto" required ></textarea>
+
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+
+            <!-- Sección botones -->
+            <div class="bloque redes">
+                <h2 class="titulo-contenido-general">Encuéntranos en nuestras redes</h2>
+                
+                <!-- Contenedor botones -->
+                <div class="botones">
+
+                    <!-- Botón Instagram -->
+                    <a href="https://www.instagram.com/manu.rescate/" class="btn-redes" target="_blank">  <!--Bloque de red social Instagram-->
+                        
+                        <!-- Ícono del botón -->
+                        <div class="icono">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
+                            </svg>
+                        </div>
+                            Instagram
+                    </a>
+
+                    <!-- Botón Tiktok -->
+                    <a href="https://www.tiktok.com/@manu.rescate?_t=ZM-8zaGqsbVruA&_r=1" class="btn-redes" target="_blank">  <!--Bloque de red social TikTok-->
+                        
+                        <!-- Ícono del botón -->
+                        <div class="icono">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
+                            </svg>
+                        </div>
+                        
+                            Tiktok
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
     </main>
+
+    <!-- Footer de la página -->
+    <footer class="footer-general">
+        <p class="texto-footer-general">MANU - Todos los Derechos Reservados 2026 © </p>
+    </footer>
 </div>

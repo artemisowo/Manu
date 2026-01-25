@@ -4,25 +4,14 @@
     padding: 0;
     box-sizing: border-box;
     overflow-x: hidden;
+    font-family: 'Inter', sans-serif;
 }
 
 /*Estilos para el fondo*/
-.fondo {
-    background-color: #1b1f2b;
-    width: 100%;
-    min-height: 100vh;
+.fondo-general {
 
     /*Estilos para el header*/
     header {
-        padding: 12em 6.25em;
-        color: #ffffff;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        height: 230px;
-        background-image: url('https://i.postimg.cc/BQwbtWsZ/foto-1-Picsart-Ai-Image-Enhancer.png');
-        background-size: cover;
-        background-position: center;
         @media screen and (max-width: 535px) {  /* Ajustes para pantallas pequeñas */
             & {
                 padding: 10em 6.25em;
@@ -68,7 +57,6 @@
     }
 
     main {  /* Estilos para el contenido principal */
-        background-color: #1b1f2b;
         padding: 20px;
         color: white;
         text-align: center;
@@ -79,7 +67,7 @@
         margin-bottom: 10em;
         padding: 1em 4em;
 
-        .contenedor {
+        .contenedor {  /* Estilos para el contenedor de la información (subtitulos, parrafos e imagenes) */
             display: flex;
             flex-direction: column;
             height: 100%;
@@ -90,24 +78,25 @@
             color: white;
             font-size: 1.5em;
 
-            & h2 {
+            & h2 {   /*Estilos para los subtitulos dentro del contenedor*/
                 text-align: center;
                 margin-bottom: 1em;
+               
             }
 
-            & p {
+            & p {  /*Estilos para los parrafos dentro del contenedor*/
                 color: #cecece;
                 margin-bottom: 1em;
                 text-align: center;
                 font-style: italic;
             }
 
-            .imagen {
+            .imagen { /* Estilos para las imagenes dentro del contenedor */
                 display: flex;
                 justify-content: center;
                 margin-top: auto;
 
-                img {
+                img {  /* Estilos para el marco de las imagenes */
                     max-width: 400px;
                     height: auto;
                     border: solid 2px #ffffff;
@@ -115,13 +104,13 @@
                 }
             }
 
-            .textito {
+            .textito {  /* Estilos para el texto pequeño del primer subtitulo */
                 font-size: 0.7em;
                 font-weight: normal;
                 opacity: 0.8;
             }
 
-            .negrita {
+            .negrita {  /* Estilos para el texto en verde del tercer parrafo */
                 font-weight: bold;
                 color: #6da67a;
             }
@@ -136,7 +125,7 @@
             margin-top: 3em;
 
             .bloqueingreso {    /* Estilo para los bloques */
-                background-color: #6da67a;
+                background-color: var(--verde-manu);
                 padding: clamp(15px, 3vw, 20px);
                 width: clamp(120px, 20vw, 180px);
                 height: 90px;
@@ -153,14 +142,14 @@
             }
                 
             .bloqueingreso:hover {   /* Estilos para los bloques al pasar el cursor */
-                    background-color: #497253;
-                    color: #1b1f2b;      
+                    background-color: var(--verde-manu-hover);
+                    color: var(--azul-oscuro-manu);      
             }
         }
     }
 }
 
-.contenedores-grid {
+.contenedores-grid {    /* Estilos para el contenedor de grid */
     display: grid;
     grid-template-columns: 1fr;
     gap: 2em;
@@ -168,7 +157,7 @@
     max-width: 1100px;
 }
 
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 900px) {  /* Ajustes para pantallas grandes para que quede mejor ordenado lado a lado */
     .contenedores-grid {
         grid-template-columns: 1fr 1fr;
         align-items: stretch;
@@ -177,7 +166,7 @@
 
 /* ESTILOS PARA EL FOOTER */
 footer{ 
-  background-color: #1b1f2b;
+  background-color: var(--azul-oscuro-manu);
   display: flex;
   flex-direction: column;
   align-items: center;

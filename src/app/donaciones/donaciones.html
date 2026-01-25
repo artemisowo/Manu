@@ -1,16 +1,29 @@
 <!--Fondo de la página-->
-<div class="fondo">
+<div class="fondo-general">
 
-    <!--Fondo de la página-->
-    <header> 
-        <div class="header-text">
-            <h1 class="titulo">Donaciones</h1>  <!--Título principal-->
+    <header class="header-general">    <!-- header de la página -->
+        <div class="contenido-header-general">
+            <nav class="nav-general">   <!-- menú de navegación a otras páginas -->
+                <a href="/inicio">Inicio</a>
+                <a href="/nosotros">Nosotros</a>
+                <a href="/contacto">Contacto</a>
+                <a href="/donaciones">Donaciones</a>
+                <a href="/iniciar_sesion">Registro/Inicio sesión</a>
+            </nav>
+
+            <div class="titulo-header-general">  <!-- Título y subtítulo de la página -->
+                <h1 class="titulo-general">Donaciones</h1>
+                <h1 class="subtitulo-general">Acerca de MANU</h1>
+            </div>
         </div>
+
+        <!-- Curva sobre el header -->
+        <div class="curva-general"></div>
     </header>
 
     <!--Cuerpo de la página-->
     <main>
-        <div class="contenedor">
+        <div class="contenedor"> <!-- Contenedores de la página (Subtitulos, parrafos e imagenes)-->
             <h2>¡Ayudanos a erradicar el abandono animal por el precio de un café!
                 <span class="textito">o varios</span></h2>
             <p>Donar es una manera directa de apoyar a cumplir nuestro objetivo de erradicar el abandono animal
@@ -18,26 +31,26 @@
             la plataforma en pie.
             </p>
 
-            <div class="imagen">
-                <img src="https://i.postimg.cc/3x3Qz2yK/donaciones.png" alt="donaciones">
+            <div class="imagen">  <!-- Imagen decorativa del primer contenedor -->
+                <img src="https://i.postimg.cc/bvvkSSbh/385bf9fb-f08b-4d96-a1eb-25fa291ba0b2.jpg" alt="donaciones">
             </div>
         </div>
-        <div class="botones">
+        <div class="botones"> <!-- Botones de acción -->
             <a routerLink="/pago" class="bloqueingreso">¡Haz tu donación hoy</a>  
             <a routerLink="/inicio" class="bloqueingreso">Vuelve al inicio</a>  
         </div>
-        <div class="contenedores-grid">
-            <div class="contenedor">
+        <div class="contenedores-grid">  <!-- Contenedores en grid para los siguientes dos contenedores de información -->
+            <div class="contenedor"> <!-- Segundo contenedor de información -->
                 <h2>¿Hacia donde va el dinero?</h2>
                 <p>El dinero que recibiremos por donaciones se gasta en mejorar la experiencia que ofrece nuestra
                     aplicación, además de mantenerla. Siendo uno de los gastos principales los servidores.
                 </p>
 
-                <div class="imagen">
-                    <img src="https://i.postimg.cc/3x3Qz2yK/donaciones.png" alt="donaciones">
+                <div class="imagen"> <!-- Imagen decorativa del segundo contenedor -->
+                    <img src="https://i.postimg.cc/ncPJf6kM/2374d052-a4e5-4608-b198-668a9f1e89e0.jpg" alt="donaciones">
                 </div>
             </div>
-            <div class="contenedor">
+            <div class="contenedor"> <!-- Tercer contenedor de información -->
                 <h2>¿Obtengo beneficios por ser donador?</h2>
                 <p>¡Así es! Al convertirte en un donador obtienes acceso a diferentes y variadas opciones
                     para personalizar tu perfil, entre ellas: Medalla al lado de nombre para lucir que eres
@@ -45,14 +58,15 @@
                     <span class="negrita">¡beneficios!</span>
                 </p>
 
-                <div class="imagen">
+                <div class="imagen"> <!-- Imagen decorativa del tercer contenedor -->
                     <img src="https://i.postimg.cc/3x3Qz2yK/donaciones.png" alt="donaciones">
                 </div>
             </div>
         </div>
     </main>
-
-<!--Footer de la página-->
-<footer>
-    <img src="https://i.postimg.cc/NM1BxVWX/Logo.png" alt="loguito">
-</footer>
+    
+    <!-- Footer de la página -->
+    <footer class="footer-general">
+        <p class="texto-footer-general">MANU - Todos los Derechos Reservados 2026 © </p>
+    </footer>
+</div>

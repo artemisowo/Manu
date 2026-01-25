@@ -1,5 +1,152 @@
 /* You can add global styles to this file, and also import other style files */
 @import "leaflet/dist/leaflet.css";
 
+/* Variables */
+:root {
+    --azul-oscuro-manu: #070c1e;
+    --verde-manu: #1B924E;
+    --verde-manu-hover: #0f522b;
+    --verde-manu-brillante: #52E483;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+.fondo-general {
+    background-color: var(--azul-oscuro-manu);
+    height: 100%;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    
+    .header-general {
+        background-image: url("https://i.ibb.co/qL6P90bG/gato-manu-1.jpg");
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        height: 100vh;
+        z-index: 1;
+        font-family: 'Inter', sans-serif;
+        position: relative;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(7, 12, 30, 0.8), rgba(27, 31, 43, 0.1));
+            z-index: 2;
+        }
+        
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(0deg, rgba(7, 12, 30, 0.9), rgba(31, 36, 49, 0.6) 50%, rgba(91, 105, 145, 0.1));
+        }
+
+        .contenido-header-general {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            
+            .nav-general {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                width: 60vw;
+                margin-top: 70px;
+                font-weight: 500;
+                font-size: 1.4em;
+                z-index: 4;
+                a {
+                    color: #ffffff;
+                    text-decoration: none;
+                    transition: all 0.2s ease;
+
+                    &:hover {
+                        color: var(--azul-oscuro-manu);
+                    }
+                }
+            }
+
+            .titulo-header-general {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                position: absolute;
+                height: 100%;
+                gap: 10px;
+                font-size: 2em;
+
+                .titulo-general {
+                    font-weight: 600;
+                }
+
+                .subtitulo-general {
+                    font-weight: 400;
+                    font-size: 0.8em;
+                }
+            }
+        }
+
+        .curva-general {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30vh;
+            background-color: var(--azul-oscuro-manu);
+            clip-path: ellipse(50% 80% at 50% 100%);
+            z-index: 10;
+        }
+    }
+
+    .titulo-contenido-general {
+        font-size: 1.7em;
+        font-weight: 500;
+
+        &::after {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            margin: 7px 0;
+        }
+    }
+    
+    .footer-general {
+        margin-top: 50px;
+        min-height: 15vh;
+        background-color: var(--verde-manu);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .texto-footer-general {
+            color: var(--azul-oscuro-manu);
+            font-weight: 600;
+        }
+    }
+}
 
 

@@ -7,6 +7,23 @@ El sistema centraliza información relacionada con animales abandonados, promuev
 
 El proyecto está diseñado para ser escalable, modular y adaptable a distintos contextos territoriales.
 
+# Descripción funcional del proyecto
+
+MANU es una aplicación web que permite a los usuarios visualizar, registrar y gestionar información sobre animales en situación de calle dentro de la ciudad de Viña del Mar.
+
+Desde el punto de vista funcional, la aplicación ofrece un mapa interactivo donde los usuarios pueden registrar la ubicación de animales abandonados, ingresando información relevante como descripción, estado del animal, edad aproximada y observaciones generales. Cada animal registrado queda almacenado de forma persistente, permitiendo su visualización incluso después de cerrar o recargar la aplicación.
+
+El sistema permite a los usuarios:
+- Registrarse e iniciar sesión en la plataforma.
+- Visualizar en un mapa los animales registrados dentro del área de cobertura.
+- Ingresar nuevos animales mediante un formulario, asociando su información a una ubicación geográfica específica.
+- Consultar los datos de los animales registrados a través de un panel de información.
+- Filtrar y navegar la información presentada para facilitar la búsqueda y visualización.
+
+El uso práctico de MANU está orientado a apoyar a la comunidad y a organizaciones de rescate animal, facilitando la identificación de animales en situación de calle, mejorando la coordinación de ayudas y promoviendo acciones responsables como el rescate, la adopción y el seguimiento de casos.
+
+Actualmente, la aplicación se encuentra en una etapa de desarrollo inicial, ofreciendo un conjunto de funcionalidades básicas que servirán como base para futuras mejoras y ampliaciones del sistema.
+
 # 2. Objetivos del Sistema
 
 Reducir la cantidad de animales callejeros.
@@ -101,3 +118,54 @@ Durante el desarrollo del proyecto MANU se tomaron diversas decisiones técnicas
 - Se decidió crear una página de perfil en su versión mínima viable (MVP), con el fin de mejorar la experiencia del usuario y sentar las bases para futuras funcionalidades relacionadas con la gestión de cuentas.
 
 - Se decidió actualizar el apartado de edad para los animales. En vez de generar una edad específica para el animal, se categorizaría de mejor manera entre 3 secciones: (Joven, Adulto y Viejo) De esa forma se organizaría mejor.
+
+# Manual de uso básico de MANU
+
+Este manual describe el uso básico de la aplicación MANU, orientado a usuarios sin conocimientos técnicos.
+
+## 1. Registro e inicio de sesión
+
+1. El usuario accede a la aplicación MANU.
+2. Puede registrarse ingresando sus datos solicitados en la pantalla de registro.
+3. Una vez registrado, el usuario puede iniciar sesión con sus credenciales.
+4. Tras iniciar sesión correctamente, se habilitan las funcionalidades principales de la aplicación.
+
+## 2. Visualización del mapa
+
+1. Al iniciar sesión a la aplicación, el usuario puede acceder a la vista del mapa.
+2. El mapa muestra los animales registrados dentro de la ciudad de Viña del Mar.
+3. Cada marcador representa un animal ingresado por la comunidad.
+4. El usuario puede interactuar con los marcadores para visualizar información asociada a cada animal.
+
+## 3. Registro de un animal
+
+1. Desde la vista del mapa, el usuario puede presionar el botón “(+)” para ingresar un nuevo animal.
+2. Se despliega un formulario donde el usuario debe ingresar:
+   - Ubicación del animal en el mapa.
+   - Descripción u observaciones generales.
+   - Estado del animal y edad aproximada (Joven, Adulto o Viejo).
+3. Al confirmar el ingreso, la información queda almacenada de forma persistente en el sistema.
+4. El nuevo animal registrado aparece automáticamente en el mapa.
+
+## 4. Consulta de información de animales
+
+1. El usuario puede seleccionar cualquier marcador del mapa.
+2. Se despliega un panel o ventana emergente con los datos del animal registrado.
+3. El usuario puede revisar la información para conocer el estado y características del animal.
+
+## 5. Uso de filtros
+
+1. La aplicación cuenta con un panel de filtros.
+2. El usuario puede utilizar los filtros para facilitar la búsqueda de animales según los criterios disponibles.
+3. El mapa se actualiza automáticamente según los filtros aplicados.
+
+## 6. Perfil de usuario
+
+1. El sistema dispone de una página de perfil en su versión mínima viable.
+2. El usuario puede acceder a su perfil para visualizar información básica de su cuenta.
+3. Esta sección permitirá futuras mejoras relacionadas con la gestión del usuario.
+
+## 7. Cierre de sesión
+
+1. El usuario puede cerrar sesión desde el menú principal.
+2. Al cerrar sesión, se restringe el acceso a las funcionalidades internas de la aplicación.

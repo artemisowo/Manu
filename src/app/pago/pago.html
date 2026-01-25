@@ -1,45 +1,53 @@
 <!--Fondo de la página-->
 <div class="fondo">
 
-    <!--Fondo de la página-->
-    <header>
-        <div class="header-text">
-            <h1 class="titulo">Planes</h1>  <!--Título principal-->
-        </div>
-    </header>
+  <!--Header-->
+  <header>
+    <div class="header-text">
+      <h1 class="titulo">Planes</h1>
+    </div>
+  </header>
 
-    <!--Cuerpo de la página-->
-    <main>
-        <div class="contenedores-grid">
-            <div class="contenedor">
-                    <h2>Donación Mensual</h2>
-                    <p> Incluye cosmeticos dentro de la app.</p>
-                <div class="botones">
-                    <button class="bloqueingreso" (click)="donar('mensual', 1000)">$1.000 pesos</button>
-                    <button class="bloqueingreso" (click)="donar('mensual', 3000)">$3.000 pesos</button>
-                    <button class="bloqueingreso" (click)="donar('mensual', 5000)">$5.000 pesos</button>
-                    <button class="bloqueingreso" (click)="donar('mensual', 10000)">$10.000 pesos</button>
-                </div>
-            </div>
+  <!--Cuerpo de la página-->
+  <main>
 
-            <div class="contenedor">
-                    <h2>Donación Unica</h2>
-                    <p>Incluye cosmeticos dentro de la app.</p>
-                <div class="botones">
-                    <button class="bloqueingreso" (click)="donar('unica', 1000)">$1.000 pesos</button>
-                    <button class="bloqueingreso" (click)="donar('unica', 3000)">$3.000 pesos</button>
-                    <button class="bloqueingreso" (click)="donar('unica', 5000)">$5.000 pesos</button>
-                    <button class="bloqueingreso" (click)="donar('unica', 10000)">$10.000 pesos</button>   
-                </div>
-            </div>
-        </div>
+    <div class="contenedores-grid">
+
+      <div class="contenedor">
+        <h2>Donación Mensual</h2>
+        <p>Incluye cosmeticos dentro de la app.</p>
+
         <div class="botones">
-            <a routerLink="/inicio" class="bloqueingreso">Vuelve al inicio</a>  
+          <button class="bloqueingreso" (click)="donar('mensual', 1000)">$1.000 pesos</button>
+          <button class="bloqueingreso" (click)="donar('mensual', 3000)">$3.000 pesos</button>
+          <button class="bloqueingreso" (click)="donar('mensual', 5000)">$5.000 pesos</button>
+          <button class="bloqueingreso" (click)="donar('mensual', 10000)">$10.000 pesos</button>
         </div>
-    </main>
+      </div>
 
-    <!--Footer de la página-->
-    <footer>
-        <img src="https://i.postimg.cc/NM1BxVWX/Logo.png" alt="loguito">
-    </footer>
+      <div class="contenedor">
+        <h2>Donación Unica</h2>
+        <p>Incluye cosmeticos dentro de la app.</p>
+
+        <div class="botones">
+          <button class="bloqueingreso" (click)="donar('unica', 1000)">$1.000 pesos</button>
+          <button class="bloqueingreso" (click)="donar('unica', 3000)">$3.000 pesos</button>
+          <button class="bloqueingreso" (click)="donar('unica', 5000)">$5.000 pesos</button>
+          <button class="bloqueingreso" (click)="donar('unica', 10000)">$10.000 pesos</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="botones">
+      <a routerLink="/inicio" class="bloqueingreso">Vuelve al inicio</a>
+    </div>
+
+  </main>
+
+  <!--Footer de la página-->
+  <footer>
+    <img src="https://i.postimg.cc/NM1BxVWX/Logo.png" alt="loguito">
+  </footer>
+
 </div>
