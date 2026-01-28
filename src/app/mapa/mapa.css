@@ -1,7 +1,4 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
     font-family: 'Inter', sans-serif;
 }
 
@@ -16,7 +13,7 @@
   /* Header */
   header {
     z-index: 999;
-    background-color: var(--verde-manu);
+    background-color: var(--azul-oscuro-manu);
     position: relative;
     position: sticky;
     top: 0;
@@ -35,7 +32,7 @@
       /* Botones */
       a {
         text-align: center;
-        background-color: var(--azul-oscuro-manu);
+        background-color: var(--verde-manu);
         color: #FFFFFF;
         text-decoration: none;
         font-size: clamp(0.7em, 2vw, 1.3em);
@@ -44,7 +41,7 @@
         width: clamp(8em, 15vw, 15em);
         transition: ease all 0.3s;
         &:hover {
-          background-color: var(--azul-oscuro-manu-manu);
+          background-color: var(--verde-manu-hover);
           cursor: pointer;
         }
       }
@@ -98,7 +95,7 @@
       border-radius: 8px;
       border: 1px solid #ccccccce;
       background-color: rgba(255, 255, 255, 0.897);
-      color: #1B1F2B;
+      color: var(--azul-oscuro-manu);
     }
 
     .checkbox {
@@ -110,7 +107,7 @@
 
     option {
       background-color: rgba(209, 209, 209, 0.712);
-      color: var(--azul-oscuro-manu);
+      color: var(--verde-manu);
     }
 
     /* Botón para limpiar filtros */
@@ -120,7 +117,7 @@
       font-size: clamp(0.6em, 1vw, 1em);
       border-radius: 10px;
       border: none;
-      background: #6DA67A;
+      background: var(--verde-manu);
       color: white;
       font-weight: bold;
       cursor: pointer;
@@ -187,7 +184,7 @@
       height: clamp(6em, 20vw, 8em);
       width: clamp(6em, 20vw, 8em);
       border: none;
-      background-color: #6DA67A;
+      background-color: var(--verde-manu);
       cursor: pointer;
       transition: ease all 0.3s;
       border-radius: 10em;
@@ -196,7 +193,7 @@
       z-index: 999;
 
       &:hover {
-        background-color: #4a7c56;
+        background-color: var(--verde-manu-hover);
       }
 
       /* Texto "+" del botón */
