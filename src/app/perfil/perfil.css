@@ -10,7 +10,7 @@
 .fondo {
     min-height: 100vh;
     width: 100%;
-    background-color: #1B1F2B;
+    background-color: var(--azul-oscuro-manu);
     z-index: -1;
     display: flex;
     flex-direction: column;
@@ -106,7 +106,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                background-color: #6da67a;
+                background-color: var(--verde-manu);
                 color: #fff;
                 padding: clamp(0.7em, 2.5vw, 1.25em);
                 font-size: clamp(0.7em, 2.2vw, 1.2em);
@@ -119,7 +119,7 @@
                 width: 100%;
 
                 &:hover {  /* Estilos para los botones al pasar el cursor */
-                    background-color: #497253;
+                    background-color: var(--verde-manu-hover);
                     color: #e0e0e0;
                 }
 
@@ -128,7 +128,7 @@
                 }
 
                 &:disabled {    /* Estilos para los botones deshabilitados */
-                    background-color: #4a5f52;
+                    background-color: var(--verde-manu-hover);
                     cursor: not-allowed;
                     opacity: 0.7;
                 }

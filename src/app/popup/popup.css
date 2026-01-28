@@ -27,7 +27,7 @@
   width: 70vw;
   max-width: 1800px;
   max-height: 85vh;
-  background-color: #1B1F2B;
+  background-color: var(--azul-oscuro-manu);
   z-index: 2000;
   display: flex;
   flex-direction: row;
@@ -80,7 +80,7 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    scrollbar-color: #6da67a transparent;
+    scrollbar-color: var(--verde-manu) transparent;
     scrollbar-width: thin;
     scrollbar-gutter: stable;
 
@@ -137,8 +137,8 @@
         font-size: 1em;
 
         &:hover {
-          border-color: #497253;
-          background-color: #497253;
+          border-color: var(--verde-manu-hover);
+          background-color: var(--verde-manu-hover);
           color: #e2e2e2;
         }
       }
@@ -175,7 +175,7 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          background-color: #6da67a;
+          background-color: var(--verde-manu);
           color: #fff;
           margin-top: 30px;
           padding: 24px;
@@ -188,7 +188,7 @@
           height: 60px;
 
           &:hover {
-            background-color: #497253;
+            background-color: var(--verde-manu-hover);
             color: gray;
           }
         }
