@@ -1,8 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
 /*ESTILOS PARA EL FONDO DE LA PAGINA*/
 .fondo {
     min-height: 100vh;
     width: 100%;
-    background-color: #1B1F2B;
+    background-color: var(--azul-oscuro-manu);
     z-index: -1;
     display: flex;
     flex-direction: column;
@@ -49,7 +56,7 @@
         width: 100%;
         border: 1px solid #ccc;
         border-radius: 5px;
-        background-color: #2a2f3f;
+        background-color: var(--azul-oscuro-manu);
         color: #fff;
         font-size: 1em;
         box-sizing: border-box;
@@ -59,7 +66,7 @@
 
     & input:focus {       /* Estilos para los campos de entrada al estar enfocados */
         outline: none;
-        border-color: #6da67a;
+        border-color: var(--verde-manu);
         background-color: #333844;
     }
 
@@ -95,7 +102,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #6da67a;
+            background-color: var(--verde-manu);
             color: #fff;
             padding: clamp(12px, 3vw, 20px);
             font-size: clamp(0.85em, 2.5vw, 1.1em);
@@ -108,7 +115,7 @@
             width: 100%;
 
             &:hover {  /* Estilos para los botones al pasar el cursor */
-                background-color: #497253;
+                background-color: var(--verde-manu-hover);
                 color: #e0e0e0;
             }
 
@@ -117,7 +124,7 @@
             }
 
             &:disabled {    /* Estilos para los botones deshabilitados */
-                background-color: #4a5f52;
+                background-color: var(--verde-manu-hover);
                 cursor: not-allowed;
                 opacity: 0.7;
             }
@@ -136,7 +143,7 @@
 
 /* Estilos para el enlace olvidaste al pasar el cursor */
 .olvidaste:hover {
-    background-color: #497253;
+    background-color: var(--verde-manu-hover);
     color: #fff;
     padding: 8px 12px;
     border-radius: 5px;

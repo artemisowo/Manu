@@ -1,174 +1,171 @@
-/*Estilos generales*/
+/* Reset de estilos y configuración básica */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow-x: hidden;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', sans-serifng ;
 }
 
-/*Estilos para el fondo*/
-.fondo-general {
+/* Cuerpo principal de la página */
+.fondo-general main { 
+    padding-top: 80px;
+    color: white;
+    text-align: center;
+}
 
-    /*Estilos para el header*/
-    header {
-        @media screen and (max-width: 535px) {  /* Ajustes para pantallas pequeñas */
-            & {
-                padding: 10em 6.25em;
-                nav {
-                    margin-top: -130px;
-                }
-            }
-        }
-    }
+.fondo-general main > * {
+    margin-left: auto;
+    margin-right: auto;
+}
 
-    /* Estilos para el texto del header */
-    .header-text {
-        font-size: clamp(3em, 5vw, 3.44em);
-        color: white;
-        position: relative;
+
+.contenedor {  /* Estilos para el contenedor de la información (subtitulos, parrafos e imagenes) */
+    height: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0px 20px;
+    margin-top: auto;
+    color: white;
+    font-size: 1.5em;
+    text-align: center;
+    width: 100%;
+
+    & h2 {   /*Estilos para los subtitulos dentro del contenedor*/
         text-align: center;
-
-        @media screen and (max-width: 1000px){  /* Estilos para el header en pantallas pequeñas */
-            & {
-                padding-bottom: 15em;
-            }
-        }
-
-        @media screen and (max-width: 768px){  /* Estilos para el header en pantallas muy pequeñas */
-            & {
-            display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
-        @media screen and (max-width: 460px){  /* Estilos para el header en pantallas muy muypequeñas */
-            & {
-            padding-bottom: 2em;
-            a {
-                font-size: 14px;
-            }
-            h1 {
-                font-size: 2em;
-            } 
-            }
-        }
-    }
-
-    main {  /* Estilos para el contenido principal */
-        padding: 20px;
-        color: white;
-        text-align: center;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 10em;
-        padding: 1em 4em;
-
-        .contenedor {  /* Estilos para el contenedor de la información (subtitulos, parrafos e imagenes) */
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            margin-top: auto;
-            color: white;
-            font-size: 1.5em;
-
-            & h2 {   /*Estilos para los subtitulos dentro del contenedor*/
-                text-align: center;
-                margin-bottom: 1em;
+        margin-bottom: 1em;
                
-            }
+    }
 
-            & p {  /*Estilos para los parrafos dentro del contenedor*/
-                color: #cecece;
-                margin-bottom: 1em;
-                text-align: center;
-                font-style: italic;
-            }
+    & p {  /*Estilos para los parrafos dentro del contenedor*/
+        color: #cecece;
+        margin-bottom: 1em;
+        text-align: center;
+        font-style: italic;
+    }
 
-            .imagen { /* Estilos para las imagenes dentro del contenedor */
-                display: flex;
-                justify-content: center;
-                margin-top: auto;
-
-                img {  /* Estilos para el marco de las imagenes */
-                    max-width: 400px;
-                    height: auto;
-                    border: solid 2px #ffffff;
-                    padding: 1em;
-                }
-            }
-
-            .textito {  /* Estilos para el texto pequeño del primer subtitulo */
-                font-size: 0.7em;
-                font-weight: normal;
-                opacity: 0.8;
-            }
-
-            .negrita {  /* Estilos para el texto en verde del tercer parrafo */
-                font-weight: bold;
-                color: #6da67a;
-            }
-        }
-
-        .botones {    /* Estilos para los botones */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 3em;
-
-            .bloqueingreso {    /* Estilo para los bloques */
-                background-color: var(--verde-manu);
-                padding: clamp(15px, 3vw, 20px);
-                width: clamp(120px, 20vw, 180px);
-                height: 90px;
-                font-size: clamp(0.9em, 2vw, 1.2em);
-                transition: all 0.3s ease;
-                border-radius: 10px;
-                color: #ffffff;
-                text-decoration: none;
-                text-align: center;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-weight: 600;
-            }
+    .imagen { /* Estilos para las imagenes dentro del contenedor */
+        justify-content: center;
+        margin-top: auto;
                 
-            .bloqueingreso:hover {   /* Estilos para los bloques al pasar el cursor */
-                    background-color: var(--verde-manu-hover);
-                    color: var(--azul-oscuro-manu);      
-            }
+
+        img {  /* Estilos para el marco de las imagenes */
+            max-width: 400px;
+            height: auto;
+            border: solid 2px #ffffff;
+            padding: 1em;
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
         }
     }
 }
 
-.contenedores-grid {    /* Estilos para el contenedor de grid */
+.contenedores-grid { /* Contenedor en grid para los bloques de información */
     display: grid;
     grid-template-columns: 1fr;
     gap: 2em;
     width: 100%;
     max-width: 1100px;
+    margin-top: 4em;
 }
 
-@media screen and (min-width: 900px) {  /* Ajustes para pantallas grandes para que quede mejor ordenado lado a lado */
-    .contenedores-grid {
-        grid-template-columns: 1fr 1fr;
-        align-items: stretch;
+.bloques{  /* Estilos para los bloques de información */
+    margin: 20px;
+    padding: 1.2rem;
+    width: min(90%, 460px);
+    max-width: 460px;
+    height: 260px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    gap: 0.6rem; 
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    transition: all 0.5s ease;
+    border-radius: 10px;
+    color: #ffffff;
+    text-decoration: none;
+    text-align: center;
+    box-sizing: border-box;
+    position: relative;
+    line-height: 1.1;
+    padding-bottom: 8px;
+}
+
+.botones { /* Estilos para los botones de ingreso */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 3em;
+    width: 100%;
+    max-width: 700px;
+}
+
+.bloqueingreso {    /* Estilo para los bloques */
+    background-color: var(--verde-manu);
+    padding: clamp(15px, 3vw, 20px);
+    width: clamp(120px, 20vw, 180px);
+    height: 90px;
+    font-size: clamp(0.9em, 2vw, 1.2em);
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    color: #ffffff;
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+.bloqueingreso:hover {  /* Efecto hover para los bloques */
+    background-color: var(--verde-oscuro-manu);
+    color: var(--azul-oscuro-manu);
+}
+
+.bloques h1 { /* Estilos para los títulos dentro de los bloques */
+    margin: 10px;
+    padding: 0;
+    line-height: 1.1;
+}
+
+.bloques h1::after {
+    content: "";
+    display: block;
+    width: 60%;
+    height: 2px;
+    background-color: white;
+    margin: 8px auto 0;
+}
+
+.bloques p {  /* Estilos para los párrafos dentro de los bloques */
+    margin: 0px;
+    padding: 5px 0.6rem;
+}
+
+
+@media (min-width: 700px) { 
+    /* Ajustes para el cuerpo principal en pantallas grandes */
+    .fondo-general main {   
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    /* Ajustes para los bloques en pantallas grandes */
+    .bloques {  
+        flex: 0 1 calc(50% - 40px);
+        width: calc(50% - 40px);
+        max-width: 460px;
+        height: 260px;
     }
 }
 
-/* ESTILOS PARA EL FOOTER */
-footer{ 
-  background-color: var(--azul-oscuro-manu);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 3em 0;
+@media (min-width: 900px) {
+    .contenedores-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }

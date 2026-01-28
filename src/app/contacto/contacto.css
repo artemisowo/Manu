@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Inter', sans-serifng ;
 }
 
 /*Estilos para el cuerpo de la página*/
@@ -81,6 +82,7 @@
                     display: grid;
                     grid-template-columns: repeat(2, 1fr);
                     gap: 10px;
+                
                     .seccion-formulario{
                         display: flex;
                         flex-direction: column;
@@ -163,5 +165,30 @@
                 width: 40px;
             }
         }
+    }
+}
+
+/*Media Queries para adaptabilidad de los botones de las redes*/
+
+@media screen and (max-width: 768px) {  /*Estilo pantallas Medianas */
+    .fondo-general main .contenedor .redes .botones {
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+}
+
+@media screen and (max-width: 480px) { /*Estilo pantallas Pequeñas */
+    .fondo-general main .contenedor .redes .botones {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+/*Media Queries para adaptabilidad de ingreso de datos*/
+
+@media screen and (max-width: 768px) {
+    .fondo-general main .contenedor .formulario .fila-top {
+        grid-template-columns: 1fr;
     }
 }

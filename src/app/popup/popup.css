@@ -1,3 +1,11 @@
+/*Estilos generales*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
 /* Backdrop oscuro que cubre todo el mapa */
 .backdrop {
   position: fixed;

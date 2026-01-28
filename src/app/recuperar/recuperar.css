@@ -1,6 +1,14 @@
+/*Estilos generales*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
 .fondo {  /*Estilos para el fondo de la página*/
     min-height: 100vh;
-    background-color: #1B1F2B;
+    background-color: var(--azul-oscuro-manu);
     z-index: -1;
     display: flex;
     flex-direction: column;
@@ -44,7 +52,7 @@ input:not(.btn) { width: 100%; margin-top: 10px; padding: 10px; }
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #6da67a;
+    background-color: var(--verde-manu);
     color: #fff;
     padding: clamp(12px, 3vw, 20px);
     font-size: clamp(0.85em, 2.5vw, 1.1em);
@@ -63,8 +71,8 @@ input:not(.btn) { width: 100%; margin-top: 10px; padding: 10px; }
 }
 
 .btn:hover { /* Estilos para los botones al pasar el cursor por encima */
-    color: #1b1f2b !important;
-    background-color: #497253 !important;
+    color: var(--azul-oscuro-manu) ;
+    background-color: var(--verde-manu-hover) ;
 }
 
 .btn:active { /* Estilos para los botones al hacer clic */
@@ -72,7 +80,7 @@ input:not(.btn) { width: 100%; margin-top: 10px; padding: 10px; }
 }
 
 .btn:disabled {  /* Estilos para los botones deshabilitados */
-    background-color: #4a5f52;
+    background-color: var(--verde-manu);
     cursor: not-allowed;
     opacity: 0.7;
 }
@@ -91,7 +99,7 @@ input:not(.btn) { width: 100%; margin-top: 10px; padding: 10px; }
     width: 100%;
     border: 1px solid #666;
     border-radius: 5px;
-    background-color: #2a2f3f;
+    background-color: var(--azul-oscuro-manu);
     color: #fff;
     font-size: 1em;
     box-sizing: border-box;
@@ -101,8 +109,8 @@ input:not(.btn) { width: 100%; margin-top: 10px; padding: 10px; }
 
 .formulario input:focus {  /* Estilos para los campos de entrada cuando están enfocados */
     outline: none;
-    border-color: #6da67a;
-    background-color: #333844;
+    border-color: var(--verde-manu);
+    background-color: var(--azul-oscuro-manu);
 }
 
 .formulario input::placeholder {  /* Estilos para el texto placeholder dentro de los campos de entrada */
