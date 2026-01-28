@@ -6,69 +6,9 @@
 }
 
 /*Estilos para el fondo*/
-.fondo {
-    background-color: #1b1f2b;
-    width: 100%;
-    min-height: 100vh;
-
-    /*Estilos para el header*/
-    header {
-        padding: 12em 6.25em;
-        color: #ffffff;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        height: 230px;
-        background-image: url('https://i.postimg.cc/BQwbtWsZ/foto-1-Picsart-Ai-Image-Enhancer.png');
-        background-size: cover;
-        background-position: center;
-
-        @media screen and (max-width: 535px) {  /* Ajustes para pantallas pequeñas */
-            & {
-                padding: 10em 6.25em;
-                nav {
-                    margin-top: -130px;
-                }
-            }
-        }
-    }
-
-    /* Estilos para el texto del header */
-    .header-text {
-        font-size: clamp(3em, 5vw, 3.44em);
-        color: white;
-        position: relative;
-        text-align: center;
-
-        @media screen and (max-width: 1000px){  /* Estilos para el header en pantallas pequeñas */
-            & {
-                padding-bottom: 15em;
-            }
-        }
-
-        @media screen and (max-width: 768px){  /* Estilos para el header en pantallas muy pequeñas */
-            & {
-            display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
-        @media screen and (max-width: 460px){  /* Estilos para el header en pantallas muy muypequeñas */
-            & {
-            padding-bottom: 2em;
-            a {
-                font-size: 14px;
-            }
-            h1 {
-                font-size: 2em;
-            } 
-            }
-        }
-    }
+.fondo-general {
 
     main {  /* Estilos para el contenido principal */
-        background-color: #1b1f2b;
         padding: 20px;
         color: white;
         text-align: center;
