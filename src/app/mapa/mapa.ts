@@ -1,4 +1,13 @@
-import { HostListener, Component, AfterViewInit, OnDestroy, NgZone, ViewContainerRef, ViewChild, ElementRef } from '@angular/core';
+import {
+  HostListener,
+  Component,
+  AfterViewInit,
+  OnDestroy,
+  NgZone,
+  ViewContainerRef,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -22,7 +31,7 @@ export class mapa implements AfterViewInit, OnDestroy {
   private map: any;
   private Lref: any;
   private subAnimales?: Subscription;
-  private markersAnimales = new Map<string, { marker: any, componentRef: any }>();
+  private markersAnimales = new Map<string, { marker: any; componentRef: any }>();
 
   // ✅ bounds Viña del Mar
   private vinaBounds: any = null;
@@ -78,31 +87,16 @@ export class mapa implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     if (typeof window === 'undefined') return;
 
-import('leaflet').then((Leaflet) => {
-  const L = (Leaflet as any).default ?? Leaflet; // 👈 ESTA es la clave
-  this.Lref = L;
+    import('leaflet').then((Leaflet: any) => {
+      const L = Leaflet?.default ?? Leaflet;
+      this.Lref = L;
 
-  this.map = L.map('map', {
-    center: [-33.02, -71.55],
-    zoom: 15,
-    minZoom: 14,
-    maxZoom: 18,
-  });
-
-  this.iconoPersonalizado = L.divIcon({
-    className: 'icono-animal',
-    iconSize: [56, 69],
-    iconAnchor: [28, 69],
-    popupAnchor: [-10, -34.5],
-    html: '<img src="https://i.ibb.co/whYkM1BD/Icono-manu.png" alt="Icono de animal">',
-  });
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap',
-  }).addTo(this.map);
-
-
-
+      this.map = L.map('map', {
+        center: [-33.02, -71.55],
+        zoom: 15,
+        minZoom: 14,
+        maxZoom: 18,
+      });
 
       // ✅ Icono selección (tu imagen)
       this.iconoPersonalizado = L.divIcon({
@@ -113,15 +107,13 @@ import('leaflet').then((Leaflet) => {
         html: '<img src="https://i.ibb.co/whYkM1BD/Icono-manu.png" alt="Icono de animal">',
       });
 
+      // ✅ tiles https
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap',
       }).addTo(this.map);
 
       // ✅ Bounds Viña del Mar (propiedad, para validación)
-      this.vinaBounds = L.latLngBounds(
-        L.latLng(-33.07, -71.60),
-        L.latLng(-32.95, -71.45)
-      );
+      this.vinaBounds = L.latLngBounds(L.latLng(-33.07, -71.60), L.latLng(-32.95, -71.45));
 
       // ✅ Limitar mapa a Viña
       this.map.setMaxBounds(this.vinaBounds);
@@ -191,11 +183,19 @@ import('leaflet').then((Leaflet) => {
       // Cargar animales
       this.subAnimales = this.animalService.obtenerAnimales().subscribe({
         next: (animales: Animal[]) => {
-          this.animalesCache = animales;
+          const lista = Array.isArray(animales) ? animales : [];
+          this.animalesCache = lista;
           this.refrescarVista();
         },
         error: (err) => console.error('Error leyendo animales:', err),
       });
+
+      // ✅ si el contenedor cambia de tamaño al entrar, fuerza render
+      setTimeout(() => {
+        try {
+          this.map.invalidateSize();
+        } catch {}
+      }, 0);
     });
   }
 
@@ -235,14 +235,14 @@ import('leaflet').then((Leaflet) => {
 
     if (min !== null && !Number.isNaN(min)) {
       lista = lista.filter((a: any) => {
-        const e = this.obtenerEdadNumero(a?.edad);
+        const e = this.obtenerEdadNumero((a as any)?.edad);
         return e === null ? false : e >= min;
       });
     }
 
     if (max !== null && !Number.isNaN(max)) {
       lista = lista.filter((a: any) => {
-        const e = this.obtenerEdadNumero(a?.edad);
+        const e = this.obtenerEdadNumero((a as any)?.edad);
         return e === null ? false : e <= max;
       });
     }
@@ -333,9 +333,9 @@ import('leaflet').then((Leaflet) => {
     this.modopopup = 'editar';
     this.animalparaeditar = a ? { ...a } : { id };
 
-    if (a?.lat != null && a?.lng != null) {
-      this.selectedLat = a.lat;
-      this.selectedLng = a.lng;
+    if ((a as any)?.lat != null && (a as any)?.lng != null) {
+      this.selectedLat = (a as any).lat;
+      this.selectedLng = (a as any).lng;
 
       if (this.markerSeleccion && this.Lref) {
         this.markerSeleccion.setLatLng([this.selectedLat, this.selectedLng]);
@@ -406,7 +406,7 @@ import('leaflet').then((Leaflet) => {
 
       const descripcion =
         payload.datos?.estado === 'Signos de Enfermedades/Lesiones'
-          ? (payload.datos.lesiones?.toString().trim() || '')
+          ? payload.datos.lesiones?.toString().trim() || ''
           : '';
 
       const animal: Animal = {
