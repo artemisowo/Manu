@@ -78,15 +78,31 @@ export class mapa implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     if (typeof window === 'undefined') return;
 
-    import('leaflet').then((L) => {
-      this.Lref = L;
+import('leaflet').then((Leaflet) => {
+  const L = (Leaflet as any).default ?? Leaflet; // 👈 ESTA es la clave
+  this.Lref = L;
 
-      this.map = L.map('map', {
-        center: [-33.02, -71.55],
-        zoom: 15,
-        minZoom: 14,
-        maxZoom: 18,
-      });
+  this.map = L.map('map', {
+    center: [-33.02, -71.55],
+    zoom: 15,
+    minZoom: 14,
+    maxZoom: 18,
+  });
+
+  this.iconoPersonalizado = L.divIcon({
+    className: 'icono-animal',
+    iconSize: [56, 69],
+    iconAnchor: [28, 69],
+    popupAnchor: [-10, -34.5],
+    html: '<img src="https://i.ibb.co/whYkM1BD/Icono-manu.png" alt="Icono de animal">',
+  });
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap',
+  }).addTo(this.map);
+
+
+
 
       // ✅ Icono selección (tu imagen)
       this.iconoPersonalizado = L.divIcon({
