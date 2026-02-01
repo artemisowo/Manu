@@ -105,6 +105,8 @@
     .icono {
       z-index: 4;
       display: flex;
+      position: absolute;
+      top: 85vh;
       align-self: center;
       width: 50px;
       padding-bottom: 20px;
