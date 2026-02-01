@@ -17,8 +17,6 @@ export class Inicio {
     private auth: Auth
   ) {}
 
-  
-
   // Función para hacer scroll al llamar
   autoScroll(): void {
     this.contenidoPrincipal.nativeElement.scrollIntoView({
@@ -26,7 +24,15 @@ export class Inicio {
       block: 'start'
     });
 
-    console.log('click')
+    this.contenidoPrincipal.nativeElement.addEventListener('touchstart', (e: TouchEvent) => {
+      const element = this.contenidoPrincipal.nativeElement;
+      const topOffset = element.getBoundingClientRect().top + window.pageYOffset;
+
+      window.scrollTo({
+        top: topOffset,
+        behavior: 'smooth'
+      });
+    });
   }
 
   // Click en imagen del mapa: Login o Mapa según sesión
