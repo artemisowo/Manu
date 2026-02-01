@@ -30,6 +30,17 @@
     text-align: center;
     width: 100%;
 
+    .textito{
+        color: #b0b0b0;
+        font-size: 0.75em;
+        display: inline-block;
+        margin-left: 4px;
+    }
+
+    .negrita{
+        color: var(--verde-manu)
+    }
+
     & h2 {   /*Estilos para los subtitulos dentro del contenedor*/
         text-align: center;
         margin-bottom: 1em;
