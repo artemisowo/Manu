@@ -17,12 +17,16 @@ export class Inicio {
     private auth: Auth
   ) {}
 
+  
+
   // Función para hacer scroll al llamar
   autoScroll(): void {
     this.contenidoPrincipal.nativeElement.scrollIntoView({
       behavior: 'smooth',
       block: 'start'
     });
+
+    console.log('click')
   }
 
   // Click en imagen del mapa: Login o Mapa según sesión
